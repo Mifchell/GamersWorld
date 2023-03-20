@@ -3,33 +3,33 @@ package com.project.gamersworld;
 import java.util.*;
 
 public class Event {
-    private String eventId;
+    private int eventId;
     private Date date;
     private String location;
+    private Game game;
+    private PlayLevel playLevel;
     private String description;
-    private Games game;
-    private String playLevel;
-    private List<User> attendeeList;
+    private List<String> comments;
 
     public Event() {
     }
 
-    public Event(String eventId, Date date, String location, String description, Games game, String playLevel,
-            List<User> attendeeList) {
+    public Event(int eventId, Date date, String location, String description, Game game, PlayLevel playLevel,
+            List<String> comments) {
         this.eventId = eventId;
         this.date = date;
         this.location = location;
         this.description = description;
         this.game = game;
         this.playLevel = playLevel;
-        this.attendeeList = attendeeList;
+        this.comments = comments;
     }
 
-    public String getEventId() {
+    public int getEventId() {
         return eventId;
     }
 
-    public void setEventId(String eventId) {
+    public void setEventId(int eventId) {
         this.eventId = eventId;
     }
 
@@ -57,37 +57,27 @@ public class Event {
         this.description = description;
     }
 
-    public Games getGame() {
+    public Game getGame() {
         return game;
     }
 
-    public void setGame(Games game) {
+    public void setGame(Game game) {
         this.game = game;
     }
 
-    public String getPlayLevel() {
+    public PlayLevel getPlayLevel() {
         return playLevel;
     }
 
-    public void setPlayLevel(String playLevel) {
+    public void setPlayLevel(PlayLevel playLevel) {
         this.playLevel = playLevel;
     }
 
-    public List<User> getAttendeeList() {
-        return attendeeList;
+    public List<String> getComments() {
+        return comments;
     }
 
-    public void setAttendeeList(List<User> attendeeList) {
-        this.attendeeList = attendeeList;
-    }
-
-    public void searchEvent(Date date, String location, Games game, String playLevel) {
-        // search for event by date, location, game, play level?
-
-    }
-
-    public void filterEvent(Date date, String location, Games game, String playLevel) {
-        // filter event by date, location, game, play level?
+    public void commentEvent(String message) {
 
     }
 }
