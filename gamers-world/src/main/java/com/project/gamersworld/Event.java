@@ -1,10 +1,10 @@
 package com.project.gamersworld;
 
-import java.util.List;
+import java.util.*;
 
 public class Event {
     private String eventId;
-    private String date;
+    private Date date;
     private String location;
     private String description;
     private Games game;
@@ -14,7 +14,7 @@ public class Event {
     public Event() {
     }
 
-    public Event(String eventId, String date, String location, String description, Games game, String playLevel,
+    public Event(String eventId, Date date, String location, String description, Games game, String playLevel,
             List<User> attendeeList) {
         this.eventId = eventId;
         this.date = date;
@@ -33,11 +33,11 @@ public class Event {
         this.eventId = eventId;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -81,12 +81,12 @@ public class Event {
         this.attendeeList = attendeeList;
     }
 
-    public void searchEvent(String date, String location, Games game, String playLevel) {
+    public void searchEvent(Date date, String location, Games game, String playLevel) {
         // search for event by date, location, game, play level?
 
     }
 
-    public void filterEvent(String date, String location, Games game, String playLevel) {
+    public void filterEvent(Date date, String location, Games game, String playLevel) {
         // filter event by date, location, game, play level?
 
     }
