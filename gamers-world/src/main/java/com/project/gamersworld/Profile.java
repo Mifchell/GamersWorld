@@ -13,27 +13,19 @@ public class Profile {
     public Profile() {
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void updatePassword(String password) {
         this.password = password;
     }
 
-    public String getEmailAddress() {
+    public String getEmail() {
         return emailAddress;
     }
 
-    public void setEmailAddress(String emailAddress) {
+    public void updateEmail(String emailAddress) {
         this.emailAddress = emailAddress;
     }
 
@@ -41,23 +33,23 @@ public class Profile {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void updateDescription(String description) {
         this.description = description;
     }
 
-    public EnumMap<Games, PlayLevel> getPreferences() {
+    public EnumMap<Games, PlayLevel> getPreference() {
         return preferences;
     }
 
-    public void setPreferences(EnumMap<Games, PlayLevel> preferences) {
+    public void updatePreference(EnumMap<Games, PlayLevel> preferences) {
         this.preferences = preferences;
     }
 
-    public String getPreferredTime() {
+    public String getTime() {
         return preferredTime;
     }
 
-    public void setPreferredTime(String preferredTime) {
+    public void updateTime(String preferredTime) {
         this.preferredTime = preferredTime;
     }
 
