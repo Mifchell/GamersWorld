@@ -68,7 +68,7 @@ public class User {
         // create the group
     }
 
-    void cerateEvent() {
+    void createEvent() {
         // create the Event
     }
 }
