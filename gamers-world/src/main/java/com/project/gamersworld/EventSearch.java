@@ -14,7 +14,7 @@ public class EventSearch {
     }
 
     /*
-     * Does a group search based on user preference
+     * Does a event search based on user preference
      */
     public void eventSearch(User user) {
 
