@@ -77,6 +77,10 @@ public class Event {
         return comments;
     }
 
+    /*
+     * @param the comment to be added to the eventList
+     * add comment to the list and display new comment list
+     */
     public void commentEvent(String message) {
 
     }

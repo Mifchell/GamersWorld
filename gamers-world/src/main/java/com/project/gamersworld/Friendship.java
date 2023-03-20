@@ -20,7 +20,7 @@ public class Friendship {
      * Add the given user to the friendList
      */
     public void addFriend(User userToAdd) {
-
+        user.friendsList.add(userToAdd);
     }
 
     /*
@@ -28,16 +28,18 @@ public class Friendship {
      * Remove the given user from the friendList
      */
     public void removeFriend(User userToRemove) {
-
+        user.friendsList.remove(userToRemove);
     }
 
     /*
      * @param the user to remove from the friendList
      * Add the given user to the BlockedList,
-     * The User won't receive any more messages from that Blocked-User
+     * The User won't receive any more mess
      */
     public void blockUser(User userToBlock) {
-
+        if (user.friendsList.contains(userToBlock))
+            user.friendsList.remove(userToBlock);
+        user.blockedUsers.add(userToBlock);
     }
 
 }
