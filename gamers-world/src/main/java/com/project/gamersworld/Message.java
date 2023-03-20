@@ -3,8 +3,8 @@ package com.project.gamersworld;
 
 abstract class Message{
     private int messageID;
-    //date : Date
-    //sender : Reciever
+    Date date;
+    User sender;
     List<User> reciever;
     public void send();
     public void delete();
