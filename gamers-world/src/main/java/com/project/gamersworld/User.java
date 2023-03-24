@@ -1,6 +1,5 @@
 package com.project.gamersworld;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -12,27 +11,64 @@ public class User {
     List<User> blockedUsers;
     List<Event> eventList;
 
-    void User()
-    {
-        this.userID = 0000;//place holder
-        //what approch to gen new user ID?
-    }
-    void addFriend(User newFriend)
-    {
-        friendsList.add(newFriend);
+    public User() {
+        this.userID = 0000;// place holder
+        // what approch to gen new user ID?
     }
 
-    //create group and event belong here?
-    void removeFriend(User toBeRemoved)
-    {
-        friendsList.remove(toBeRemoved);
+    public int getUserID() {
+        return this.userID;
     }
 
-    void block(User toBeBlocked)
-    {
-        if(friendsList.contains(toBeBlocked))
-            friendsList.remove(toBeBlocked);
-        blockedUsers.add(toBeBlocked);
+    public Profile getProfile() {
+        return this.profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public List<User> getFriendList() {
+        return this.friendsList;
+    }
+
+    public void setFriendList(List<User> friendList) {
+        this.friendsList = friendList;
+    }
+
+    public List<Group> getGroupList() {
+        return this.groupList;
+    }
+
+    public void setGroupList(List<Group> groupList) {
+        this.groupList = groupList;
+    }
+
+    public List<User> getBlockedUsers() {
+        return this.blockedUsers;
+    }
+
+    public void setBlockedUsers(List<User> blockedUsers) {
+        this.blockedUsers = blockedUsers;
+    }
+
+    public List<Event> getEventList() {
+        return this.eventList;
+    }
+
+    public void setEventList(List<Event> eventList) {
+        this.eventList = eventList;
+    }
+
+    // removed the addFriend, removeFriend and blockUser as they are in the
+    // firendship class now
+
+    // create group and event belong here?
+    void createGroup() {
+        // create the group
+    }
+
+    void createEvent() {
+        // create the Event
     }
 }
-

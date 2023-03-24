@@ -17,7 +17,7 @@ public class Profile {
         return password;
     }
 
-    public void updatePassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -25,7 +25,7 @@ public class Profile {
         return emailAddress;
     }
 
-    public void updateEmail(String emailAddress) {
+    public void setEmail(String emailAddress) {
         this.emailAddress = emailAddress;
     }
 
@@ -33,7 +33,7 @@ public class Profile {
         return description;
     }
 
-    public void updateDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -41,7 +41,7 @@ public class Profile {
         return preferences;
     }
 
-    public void updatePreference(EnumMap<Games, PlayLevel> preferences) {
+    public void setPreferences(EnumMap<Games, PlayLevel> preferences) {
         this.preferences = preferences;
     }
 
@@ -49,9 +49,48 @@ public class Profile {
         return preferredTime;
     }
 
-    public void updateTime(String preferredTime) {
+    public void setTime(String preferredTime) {
         this.preferredTime = preferredTime;
     }
 
-    
+    /*
+     * This function handle the process of getting the new password
+     * Not a setter*
+     */
+    public void updatePassword() {
+
+    }
+
+    /*
+     * This function handle the process of getting the new emailAdress
+     * Not a setter*
+     */
+    public void updateEmail() {
+
+    }
+
+    /*
+     * This function handle the process of getting the new description
+     * Not a setter*
+     */
+    public void updateDescription() {
+
+    }
+
+    /*
+     * This function handle the process of getting the new preferences
+     * Not a setter*
+     */
+    public void updatePreference() {
+
+    }
+
+    /*
+     * This function handle the process of getting the new preferred time
+     * Not a setter*
+     */
+    public void updateTime() {
+
+    }
+
 }
