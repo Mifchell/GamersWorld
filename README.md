@@ -5,7 +5,7 @@ IT 326 Project
 Tab:
 - sign up
 - login
-- Delete comment
+- display trends
 - Search post
 - filter post
 
@@ -18,7 +18,7 @@ Justin
 
 Josh
 - Create Post
-- ccomment post
+- comment post
 - edit post
 - delete post
 - RSVP event
@@ -29,12 +29,11 @@ Mitch:
 - remove friend
 - send message
 - block gamer
-- delete groupe
 
 Emma: 
 - Create group
 - search group
-- filter group
+- (filter group)
 - manage group
 - join group
 - leave group
@@ -42,6 +41,6 @@ Emma:
 Nick: 
 - filter gamer
 - recommend gamer
-- display trends
+- delete group
 - edit message
 - delete message
