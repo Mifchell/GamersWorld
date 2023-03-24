@@ -1,4 +1,5 @@
 package com.project.gamersworld;
+
 import java.util.ArrayList;
 
 public class Group {
@@ -8,28 +9,69 @@ public class Group {
     User creator;
     String description;
 
-    public Group()
-    {
+    public Group() {
 
     }
 
-    public boolean addMember()
-    {
+    public int getGroupID() {
+        return this.groupID;
+    }
+
+    public ArrayList<User> getMembers() {
+        return this.members;
+    }
+
+    public void setMembers(ArrayList<User> members) {
+        this.members = members;
+    }
+
+    public User getCreator() {
+        return this.creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /*
+     * @param the User to add
+     * add the given User to the member List
+     */
+    public boolean addMember() {
         return false;
     }
 
-    public boolean removeMember()
-    {
+    /*
+     * @param the User to remove
+     * Remove the given User from the member List
+     */
+    public boolean removeMember() {
         return false;
     }
 
-    public boolean join()
-    {
+    /*
+     * @param the User joining
+     * 
+     * think of deleting this? kinda the same as add member? or putting it in
+     * another class to call addMethod
+     */
+    public boolean join() {
         return false;
     }
 
-    public boolean deleteGroup()
-    {
+    /*
+     * @param the group to delete
+     * delete the group from the DB
+     */
+    public boolean deleteGroup() {
         return false;
     }
 
