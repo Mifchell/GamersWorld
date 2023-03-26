@@ -1,38 +1,35 @@
 body {
     background-color: black;
   }
-
-  /* Style the header */
-  .header {
-    background-color: #23b8bf;
-    background-image: url("../images/Pose.jpg");
-    background-size: 50px;
-    color: rgb(255, 255, 255);
-    padding: 20px;
-    text-align: center;
-  }
   
-  .nav {
+  nav {
+    display: flex;
+    list-style-type: none;
+    justify-content:space-between;
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    top: 0;
+    left: 0;
+    float: none;
     overflow: hidden;
     background-color: #23b8bf;
   }
   
-  .nav a {
-    float: left;
+  a {
+    font-size: 30px;
+    float: none;
     display: block;
-    color: #000000;
+    color: white;
     text-align: center;
-    padding: 14px 100px;
+    padding: 14px 16px;
+    width: 33%;
     text-decoration: none;
   }
   
-  .nav a:hover {
+  a:hover {
     background-color: #747474;
-    color: rgb(255, 255, 255);
-  }
-
-  .whitetext {
-    color: rgb(255, 255, 255);
   }
   
   img {
@@ -64,5 +61,13 @@ body {
   }
 
   .active {
-    background-color: #2ae2eb;
+    background-color: #04AA6D;
+  }
+
+  h1{
+    text-align:center;
+  }
+
+  form{
+    color:white;
   }
