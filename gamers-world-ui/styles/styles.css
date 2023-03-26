@@ -67,10 +67,19 @@ button:hover {
 
 h1{
   text-align:center;
-  color: white;
 }
 
-.container{
+form{
   color:white;
-  text-align: center;
+}
+
+#eventborder{
+  border: 5px solid #1c4f52;
+  color: white;
+  padding: 25px;
+  background-color:black;
+}
+
+p.tab{
+  tab-size: 10px;
 }
