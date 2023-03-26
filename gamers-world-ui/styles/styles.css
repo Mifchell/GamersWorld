@@ -15,10 +15,10 @@ body {
   .nav {
     overflow: hidden;
     background-color: #23b8bf;
-    float: left;
   }
   
   .nav a {
+    float: left;
     display: block;
     color: #000000;
     text-align: center;
