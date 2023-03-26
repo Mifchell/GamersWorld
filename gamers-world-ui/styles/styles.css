@@ -72,3 +72,14 @@ body {
   form{
     color:white;
   }
+
+  #eventborder{
+    border: 5px solid #1c4f52;
+    color: white;
+    padding: 25px;
+    background-color:black;
+  }
+
+  p.tab{
+    tab-size: 4px;
+  }
