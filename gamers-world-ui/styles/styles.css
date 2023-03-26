@@ -1,73 +1,76 @@
 body {
-    background-color: black;
-  }
-  
-  nav {
-    display: flex;
-    list-style-type: none;
-    justify-content:space-between;
-    position: fixed;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    top: 0;
-    left: 0;
-    float: none;
-    overflow: hidden;
-    background-color: #23b8bf;
-  }
-  
-  a {
-    font-size: 30px;
-    float: none;
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    width: 33%;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    background-color: #747474;
-  }
-  
-  img {
-    display: block;
-    height: auto;
-    width: 60%;
-    margin: 10px;
-  }
-  
-  img.wrap {
-    float: left;
-  }
-  
-  button {
-    background-color: #ffffff;
-    border: none;
-    color: black;
-    padding: 15px 25px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 4px;
-    display: block;
-  }
-  
-  button:hover {
-    background-color: #9c9c9c;
-  }
+  background-color: black;
+}
 
-  .active {
-    background-color: #04AA6D;
-  }
+/* Style the header */
+.banner {
+  background-color: #000000;
+  background-image: url("../images/GWlogo.png");
+  background-repeat: no-repeat;
+  padding: 50px;
+}
 
-  h1{
-    text-align:center;
-  }
+.nav {
+  overflow: hidden;
+  background-color: #23b8bf;
+}
 
-  form{
-    color:white;
-  }
+.nav a {
+  float: left;
+  display: block;
+  color: #000000;
+  text-align: center;
+  padding: 14px 100px;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  background-color: #747474;
+  color: rgb(255, 255, 255);
+}
+
+.whitetext {
+  color: rgb(255, 255, 255);
+}
+
+img {
+  display: block;
+  height: auto;
+  width: 60%;
+  margin: 10px;
+}
+
+img.wrap {
+  float: left;
+}
+
+button {
+  background-color: #ffffff;
+  border: none;
+  color: black;
+  padding: 15px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+  display: block;
+}
+
+button:hover {
+  background-color: #9c9c9c;
+}
+
+.active {
+  background-color: #77968b;
+}
+
+h1{
+  text-align:center;
+  color: white;
+}
+
+.container{
+  color:white;
+  text-align: center;
+}
