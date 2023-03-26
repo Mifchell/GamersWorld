@@ -1,35 +1,36 @@
 body {
     background-color: black;
   }
-  
-  nav {
-    display: flex;
-    list-style-type: none;
-    justify-content:space-between;
-    position: fixed;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    top: 0;
-    left: 0;
-    float: none;
+
+  /* Style the header */
+  .banner {
+    background-color: #000000;
+    background-image: url("../images/GWlogo.png");
+    background-repeat: no-repeat;
+    padding: 50px;
+  }
+
+  .nav {
     overflow: hidden;
     background-color: #23b8bf;
   }
   
-  a {
-    font-size: 30px;
-    float: none;
+  .nav a {
+    float: left;
     display: block;
-    color: white;
+    color: #000000;
     text-align: center;
-    padding: 14px 16px;
-    width: 33%;
+    padding: 14px 100px;
     text-decoration: none;
   }
   
-  a:hover {
+  .nav a:hover {
     background-color: #747474;
+    color: rgb(255, 255, 255);
+  }
+
+  .whitetext {
+    color: rgb(255, 255, 255);
   }
   
   img {
@@ -61,7 +62,7 @@ body {
   }
 
   .active {
-    background-color: #04AA6D;
+    background-color: #77968b;
   }
 
   h1{
