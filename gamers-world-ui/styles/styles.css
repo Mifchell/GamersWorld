@@ -29,7 +29,7 @@ body {
   }
   
   a:hover {
-    background-color: #747474;
+    background-color: #146c70;
   }
   
   img {
@@ -61,5 +61,5 @@ body {
   }
 
   .active {
-    background-color: #04AA6D;
+    background-color: #2ae2eb;
   }
