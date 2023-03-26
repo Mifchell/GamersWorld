@@ -2,7 +2,7 @@ body {
     background-color: black;
   }
   
-  nav {
+  .nav {
     display: flex;
     list-style-type: none;
     justify-content:space-between;
@@ -17,7 +17,7 @@ body {
     background-color: #23b8bf;
   }
   
-  a {
+  .a {
     font-size: 30px;
     float: none;
     display: block;
