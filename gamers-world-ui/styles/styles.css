@@ -30,6 +30,10 @@ body {
     background-color: #747474;
     color: rgb(255, 255, 255);
   }
+
+  .whitetext {
+    color: rgb(255, 255, 255);
+  }
   
   img {
     display: block;
