@@ -81,5 +81,7 @@ body {
   }
 
   p.tab{
-    tab-size: 10px;
+    display: inline-block;
+    margin-left: 40px;
   }
+
