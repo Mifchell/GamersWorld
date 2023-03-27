@@ -67,6 +67,7 @@ body {
 
   h1{
     text-align:center;
+    color:white;
   }
 
   form{
@@ -83,3 +84,5 @@ body {
   p.tab{
     tab-size: 10px;
   }
+
+ 
