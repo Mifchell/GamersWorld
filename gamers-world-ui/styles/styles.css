@@ -6,7 +6,7 @@ body {
   }
 
   /* Style the header */
-  .banner {
+  #banner {
     background-color: #000000;
     background-image: url("../images/GWlogo.png");
     background-repeat: no-repeat;
@@ -15,7 +15,7 @@ body {
 
   .nav {
     overflow: hidden;
-    background-color: #23b8bf;
+    background-color: #6dcbc5;
   }
   
   .nav a {
@@ -28,7 +28,7 @@ body {
   }
   
   .nav a:hover {
-    background-color: #747474;
+    background-color: #a4dfdb;
     color: rgb(255, 255, 255);
   }
   
@@ -49,7 +49,7 @@ body {
     display: inline-block;
     padding: 8px;
     color: white;
-    background-color: #168a8a;
+    background-color: #b749be;
     text-align: center;
     cursor: pointer;
     width: 100%;
@@ -60,16 +60,18 @@ body {
     opacity: 0.7;
   }
 
-  .active {
-    background-color: #77968b;
-  }
-
   h1{
     text-align:center;
   }
 
-  form{
-    color:white;
+  .container {
+    padding: 40px;
+    background-color: #242424;
+  }
+
+  .sub{
+    padding: 20px;
+    text-align: center;
   }
 
   p.tab{
@@ -81,4 +83,16 @@ body {
     color:rgb(255, 255, 255);
     font-weight: bolder;
     text-decoration: none;
+  }
+
+  /** why is there 2 a's*/
+  a{
+    color: #b749be
+    /**
+    other colors: 
+    #be4950
+    #b749be
+    #beb749
+    #8abe49
+    */
   }

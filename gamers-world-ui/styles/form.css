@@ -1,7 +1,7 @@
 /* Full-width input fields */
 input[type=text], input[type=password] {
   width: 100%;
-  padding: 15px;
+  padding: 15px 0px;
   margin: 5px 0 22px 0;
   display: inline-block;
   border: none;
@@ -13,6 +13,18 @@ input[type=text]:focus, input[type=password]:focus {
   outline: none;
 }
 
-a {
-  color: rgb(20, 161, 161);
+button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 16px 20px;
+  color: white;
+  background-color: #b749be;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+  border-radius: 12px;
 }
+
+
