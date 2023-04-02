@@ -1,5 +1,8 @@
+h1{
+  text-align: left;
+}
+
 .profile {
-    border: 5px solid #506e6b;
     width: 300px;
     height: 525px;
     margin: auto;
@@ -10,6 +13,7 @@
   .title {
     color: grey;
     font-size: 18px;
+    text-align: center;
   }
   
 

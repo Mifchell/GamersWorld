@@ -47,14 +47,16 @@ body {
     border: none;
     outline: 0;
     display: inline-block;
-    padding: 8px;
+    padding: 16px 20px;
     color: white;
     background-color: #b749be;
     text-align: center;
     cursor: pointer;
     width: 100%;
     font-size: 18px;
+    border-radius: 12px;
   }
+  
   
   button:hover, a:hover {
     opacity: 0.7;
