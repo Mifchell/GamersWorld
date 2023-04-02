@@ -1,14 +1,22 @@
-h1{
-  text-align: left;
-}
-
 .profile {
-    width: 300px;
+    width: 350px;
     height: 525px;
     margin: auto;
     text-align: center;
     font-family: 'Titillium Web', sans-serif;
+    background-color: #373737;
   }
+
+  .profile h1 {
+    text-align: center;
+  }
+
+  img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
   
   .title {
     color: grey;
