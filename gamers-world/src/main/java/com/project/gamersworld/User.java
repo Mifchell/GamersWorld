@@ -4,13 +4,15 @@ package com.project.gamersworld;
 // import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "user")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     int uid;
 
     @Embedded
@@ -46,7 +48,7 @@ public class User {
     }
 
     public User(Profile profile) {
-        this.uid = 001;
+
         this.profile = profile;
         // this.friendsList = new ArrayList<User>();
         // this.groupList = new ArrayList<Group>();
