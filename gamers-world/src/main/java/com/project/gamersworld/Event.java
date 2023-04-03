@@ -2,13 +2,13 @@ package com.project.gamersworld;
 
 import java.util.*;
 
-import javax.persistence.*;
+//import javax.persistence.*;
 
-@Entity
+//@Entity
 public class Event {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.AUTO)
     private int eventId;
 
     private Date date;

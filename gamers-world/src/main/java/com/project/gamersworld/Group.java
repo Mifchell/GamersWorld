@@ -2,12 +2,12 @@ package com.project.gamersworld;
 
 import java.util.ArrayList;
 
-import javax.persistence.*;
+// import javax.persistence.*;
 
-@Entity
+//@Entity
 public class Group {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.AUTO)
     private int groupID;
 
     // @ManyToMany(mappedBy = "groupList")

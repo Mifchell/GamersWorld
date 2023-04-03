@@ -46,6 +46,7 @@ public class User {
     }
 
     public User(Profile profile) {
+        this.uid = 001;
         this.profile = profile;
         // this.friendsList = new ArrayList<User>();
         // this.groupList = new ArrayList<Group>();
