@@ -1,7 +1,7 @@
 package com.project.gamersworld;
 
-import java.util.ArrayList;
-import java.util.List;
+// import java.util.ArrayList;
+// import java.util.List;
 
 import javax.persistence.*;
 
@@ -17,15 +17,16 @@ public class User {
     Profile profile;
 
     // /*
-    //  * do we need this? or should we just have databases representing them? Like
-    //  * eventRegistration class
-    //  */
+    // * do we need this? or should we just have databases representing them? Like
+    // * eventRegistration class
+    // */
     // @ElementCollection(fetch = FetchType.EAGER)
     // @CollectionTable(name = "friends", joinColumns = @JoinColumn(name = "uid"))
     // List<User> friendsList;
 
     // @ManyToMany
-    // @JoinTable(name = "group_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "groupID"))
+    // @JoinTable(name = "group_registration", joinColumns = @JoinColumn(name =
+    // "uid"), inverseJoinColumns = @JoinColumn(name = "groupID"))
     // List<Group> groupList;
 
     // @ElementCollection(fetch = FetchType.EAGER)
@@ -33,7 +34,8 @@ public class User {
     // List<User> blockedUsers;
 
     // @ManyToMany
-    // @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "userID"))
+    // @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name =
+    // "uid"), inverseJoinColumns = @JoinColumn(name = "userID"))
     // List<Event> eventList;
 
     public User() {
@@ -64,35 +66,35 @@ public class User {
     }
 
     // public List<User> getFriendList() {
-    //     return this.friendsList;
+    // return this.friendsList;
     // }
 
     // public void setFriendList(List<User> friendList) {
-    //     this.friendsList = friendList;
+    // this.friendsList = friendList;
     // }
 
     // public List<Group> getGroupList() {
-    //     return this.groupList;
+    // return this.groupList;
     // }
 
     // public void setGroupList(List<Group> groupList) {
-    //     this.groupList = groupList;
+    // this.groupList = groupList;
     // }
 
     // public List<User> getBlockedUsers() {
-    //     return this.blockedUsers;
+    // return this.blockedUsers;
     // }
 
     // public void setBlockedUsers(List<User> blockedUsers) {
-    //     this.blockedUsers = blockedUsers;
+    // this.blockedUsers = blockedUsers;
     // }
 
     // public List<Event> getEventList() {
-    //     return this.eventList;
+    // return this.eventList;
     // }
 
     // public void setEventList(List<Event> eventList) {
-    //     this.eventList = eventList;
+    // this.eventList = eventList;
     // }
 
     // removed the addFriend, removeFriend and blockUser as they are in the
