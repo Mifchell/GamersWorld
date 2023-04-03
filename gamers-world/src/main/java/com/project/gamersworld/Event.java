@@ -23,7 +23,7 @@ public class Event {
 
     private List<String> comments;
 
-    @ManyToMany(mappedBy = "eventList")
+    // @ManyToMany(mappedBy = "eventList")
     private List<User> attendeeList;
 
     public Event() {

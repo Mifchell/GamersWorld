@@ -16,39 +16,39 @@ public class User {
     @Embedded
     Profile profile;
 
-    /*
-     * do we need this? or should we just have databases representing them? Like
-     * eventRegistration class
-     */
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "friends", joinColumns = @JoinColumn(name = "uid"))
-    List<User> friendsList;
+    // /*
+    //  * do we need this? or should we just have databases representing them? Like
+    //  * eventRegistration class
+    //  */
+    // @ElementCollection(fetch = FetchType.EAGER)
+    // @CollectionTable(name = "friends", joinColumns = @JoinColumn(name = "uid"))
+    // List<User> friendsList;
 
-    @ManyToMany
-    @JoinTable(name = "group_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "groupID"))
-    List<Group> groupList;
+    // @ManyToMany
+    // @JoinTable(name = "group_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "groupID"))
+    // List<Group> groupList;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "Blocked", joinColumns = @JoinColumn(name = "uid"))
-    List<User> blockedUsers;
+    // @ElementCollection(fetch = FetchType.EAGER)
+    // @CollectionTable(name = "Blocked", joinColumns = @JoinColumn(name = "uid"))
+    // List<User> blockedUsers;
 
-    @ManyToMany
-    @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "userID"))
-    List<Event> eventList;
+    // @ManyToMany
+    // @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "userID"))
+    // List<Event> eventList;
 
     public User() {
-        this.friendsList = new ArrayList<User>();
-        this.groupList = new ArrayList<Group>();
-        this.blockedUsers = new ArrayList<User>();
-        this.eventList = new ArrayList<Event>();
+        // this.friendsList = new ArrayList<User>();
+        // this.groupList = new ArrayList<Group>();
+        // this.blockedUsers = new ArrayList<User>();
+        // this.eventList = new ArrayList<Event>();
     }
 
     public User(Profile profile) {
         this.profile = profile;
-        this.friendsList = new ArrayList<User>();
-        this.groupList = new ArrayList<Group>();
-        this.blockedUsers = new ArrayList<User>();
-        this.eventList = new ArrayList<Event>();
+        // this.friendsList = new ArrayList<User>();
+        // this.groupList = new ArrayList<Group>();
+        // this.blockedUsers = new ArrayList<User>();
+        // this.eventList = new ArrayList<Event>();
     }
 
     public int getUserID() {
@@ -63,37 +63,37 @@ public class User {
         this.profile = profile;
     }
 
-    public List<User> getFriendList() {
-        return this.friendsList;
-    }
+    // public List<User> getFriendList() {
+    //     return this.friendsList;
+    // }
 
-    public void setFriendList(List<User> friendList) {
-        this.friendsList = friendList;
-    }
+    // public void setFriendList(List<User> friendList) {
+    //     this.friendsList = friendList;
+    // }
 
-    public List<Group> getGroupList() {
-        return this.groupList;
-    }
+    // public List<Group> getGroupList() {
+    //     return this.groupList;
+    // }
 
-    public void setGroupList(List<Group> groupList) {
-        this.groupList = groupList;
-    }
+    // public void setGroupList(List<Group> groupList) {
+    //     this.groupList = groupList;
+    // }
 
-    public List<User> getBlockedUsers() {
-        return this.blockedUsers;
-    }
+    // public List<User> getBlockedUsers() {
+    //     return this.blockedUsers;
+    // }
 
-    public void setBlockedUsers(List<User> blockedUsers) {
-        this.blockedUsers = blockedUsers;
-    }
+    // public void setBlockedUsers(List<User> blockedUsers) {
+    //     this.blockedUsers = blockedUsers;
+    // }
 
-    public List<Event> getEventList() {
-        return this.eventList;
-    }
+    // public List<Event> getEventList() {
+    //     return this.eventList;
+    // }
 
-    public void setEventList(List<Event> eventList) {
-        this.eventList = eventList;
-    }
+    // public void setEventList(List<Event> eventList) {
+    //     this.eventList = eventList;
+    // }
 
     // removed the addFriend, removeFriend and blockUser as they are in the
     // firendship class now

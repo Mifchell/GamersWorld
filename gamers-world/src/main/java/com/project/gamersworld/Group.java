@@ -10,7 +10,7 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int groupID;
 
-    @ManyToMany(mappedBy = "groupList")
+    // @ManyToMany(mappedBy = "groupList")
     ArrayList<User> members;
     User creator;
     String description;
