@@ -1,16 +1,39 @@
 package com.project.gamersworld;
 
-import java.util.*;
+//import java.util.*;
+import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 
+@Embeddable
 public class Profile {
+    @NotNull
     private String username;
+    @NotNull
     private String password;
+    @NotNull
     private String emailAddress;
     private String description;
-    private EnumMap<Games, PlayLevel> preferences = new EnumMap<>(Games.class);
+    // private EnumMap<Game, PlayLevel> preferences = new EnumMap<>(Game.class);
     private String preferredTime;
 
     public Profile() {
+    }
+
+    Profile(String username, String password, String emailAdress, String description, String preferredTime) {
+        this.username = username;
+        this.password = password;
+        this.emailAddress = emailAdress;
+        this.description = description;
+        // this.preferences = preferences;
+        this.preferredTime = preferredTime;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -37,13 +60,13 @@ public class Profile {
         this.description = description;
     }
 
-    public EnumMap<Games, PlayLevel> getPreference() {
-        return preferences;
-    }
+    // public EnumMap<Game, PlayLevel> getPreference() {
+    // return preferences;
+    // }
 
-    public void setPreferences(EnumMap<Games, PlayLevel> preferences) {
-        this.preferences = preferences;
-    }
+    // public void setPreferences(EnumMap<Game, PlayLevel> preferences) {
+    // this.preferences = preferences;
+    // }
 
     public String getTime() {
         return preferredTime;

@@ -1,23 +1,58 @@
 package com.project.gamersworld;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "user")
 public class User {
 
-    int userID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    int uid;
+
+    @Embedded
     Profile profile;
+
+    /*
+     * do we need this? or should we just have databases representing them? Like
+     * eventRegistration class
+     */
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "friends", joinColumns = @JoinColumn(name = "uid"))
     List<User> friendsList;
+
+    @ManyToMany
+    @JoinTable(name = "group_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "groupID"))
     List<Group> groupList;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "Blocked", joinColumns = @JoinColumn(name = "uid"))
     List<User> blockedUsers;
+
+    @ManyToMany
+    @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "userID"))
     List<Event> eventList;
 
     public User() {
-        this.userID = 0000;// place holder
-        // what approch to gen new user ID?
+        this.friendsList = new ArrayList<User>();
+        this.groupList = new ArrayList<Group>();
+        this.blockedUsers = new ArrayList<User>();
+        this.eventList = new ArrayList<Event>();
+    }
+
+    public User(Profile profile) {
+        this.profile = profile;
+        this.friendsList = new ArrayList<User>();
+        this.groupList = new ArrayList<Group>();
+        this.blockedUsers = new ArrayList<User>();
+        this.eventList = new ArrayList<Event>();
     }
 
     public int getUserID() {
-        return this.userID;
+        return this.uid;
     }
 
     public Profile getProfile() {
@@ -70,5 +105,9 @@ public class User {
 
     void createEvent() {
         // create the Event
+    }
+
+    public String toString() {
+        return "username: " + this.profile.getUsername();
     }
 }

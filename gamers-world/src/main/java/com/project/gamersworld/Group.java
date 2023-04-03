@@ -2,9 +2,15 @@ package com.project.gamersworld;
 
 import java.util.ArrayList;
 
-public class Group {
+import javax.persistence.*;
 
+@Entity
+public class Group {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int groupID;
+
+    @ManyToMany(mappedBy = "groupList")
     ArrayList<User> members;
     User creator;
     String description;

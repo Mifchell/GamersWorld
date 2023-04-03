@@ -2,20 +2,35 @@ package com.project.gamersworld;
 
 import java.util.*;
 
+import javax.persistence.*;
+
+@Entity
 public class Event {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int eventId;
+
     private Date date;
+
     private String location;
+
     private Game game;
+
     private PlayLevel playLevel;
+
     private String description;
+
     private List<String> comments;
+
+    @ManyToMany(mappedBy = "eventList")
+    private List<User> attendeeList;
 
     public Event() {
     }
 
     public Event(int eventId, Date date, String location, String description, Game game, PlayLevel playLevel,
-            List<String> comments) {
+            List<String> comments, List<User> attendeeList) {
         this.eventId = eventId;
         this.date = date;
         this.location = location;
@@ -23,6 +38,7 @@ public class Event {
         this.game = game;
         this.playLevel = playLevel;
         this.comments = comments;
+        this.attendeeList = attendeeList;
     }
 
     public int getEventId() {
@@ -67,6 +83,14 @@ public class Event {
 
     public PlayLevel getPlayLevel() {
         return playLevel;
+    }
+
+    public void setAttendeeList(List<User> attendeeList) {
+        this.attendeeList = attendeeList;
+    }
+
+    public List<User> getAttendeeList() {
+        return attendeeList;
     }
 
     public void setPlayLevel(PlayLevel playLevel) {
