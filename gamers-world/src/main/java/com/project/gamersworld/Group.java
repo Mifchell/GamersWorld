@@ -1,42 +1,70 @@
 package com.project.gamersworld;
 
 import java.util.ArrayList;
+import java.util.List;
 
-// import javax.persistence.*;
+import javax.persistence.*;
 
-//@Entity
+@Entity
+@Table(name = "groupes")
 public class Group {
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private int groupID;
 
-    // @ManyToMany(mappedBy = "groupList")
-    ArrayList<User> members;
-    User creator;
+    private String name;
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "groupList")
+    List<User> members;
+    int creatorID;
     String description;
 
     public Group() {
 
     }
 
+    public Group(String name, User creator, String description) {
+        this.name = name;
+        this.members = new ArrayList<User>();
+        this.members.add(creator);
+        this.creatorID = creator.getUserID();
+        this.description = description;
+    }
+
+    public Group(Group group) {
+        this.groupID = group.getGroupID();
+        this.name = group.getName();
+        this.members = group.getMembers();
+        this.creatorID = group.getCreatorID();
+        this.description = group.getDescription();
+    }
+
     public int getGroupID() {
         return this.groupID;
     }
 
-    public ArrayList<User> getMembers() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<User> getMembers() {
         return this.members;
     }
 
-    public void setMembers(ArrayList<User> members) {
+    public void setMembers(List<User> members) {
         this.members = members;
     }
 
-    public User getCreator() {
-        return this.creator;
+    public int getCreatorID() {
+        return this.creatorID;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
+    public void setCreator(int creatorID) {
+        this.creatorID = creatorID;
     }
 
     public String getDescription() {
