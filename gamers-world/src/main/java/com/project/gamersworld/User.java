@@ -1,23 +1,72 @@
 package com.project.gamersworld;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Table(name = "user")
 public class User {
 
-    int userID;
+    @Id
+    @NotNull
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    int uid;
+
+    @Embedded
     Profile profile;
+
+    /*
+     * do we need this? or should we just have databases representing them? Like
+     * eventRegistration class
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "user_friend_uid"))
     List<User> friendsList;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "group_registration", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns = {
+            @JoinColumn(name = "groupID") })
     List<Group> groupList;
-    List<User> blockedUsers;
+
+    // @ManyToMany(fetch = FetchType.EAGER)
+    // @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "user_uid"),
+    // inverseJoinColumns = @JoinColumn(name = "blocked_friend_uid"))
+    // List<User> blockedUsers;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "eventID"))
     List<Event> eventList;
 
     public User() {
-        this.userID = 0000;// place holder
-        // what approch to gen new user ID?
+        this.friendsList = new ArrayList<User>();
+        this.groupList = new ArrayList<Group>();
+        // this.blockedUsers = new ArrayList<User>();
+        this.eventList = new ArrayList<Event>();
+    }
+
+    public User(User user) {
+        this.uid = user.getUserID();
+        this.profile = user.getProfile();
+        this.friendsList = user.getFriendList();
+        // this.blockedUsers = user.getBlockedUsers();
+        this.groupList = user.getGroupList();
+        this.eventList = user.getEventList();
+    }
+
+    public User(Profile profile) {
+
+        this.profile = profile;
+        this.friendsList = new ArrayList<User>();
+        this.groupList = new ArrayList<Group>();
+        // this.blockedUsers = new ArrayList<User>();
+        this.eventList = new ArrayList<Event>();
     }
 
     public int getUserID() {
-        return this.userID;
+        return this.uid;
     }
 
     public Profile getProfile() {
@@ -32,7 +81,7 @@ public class User {
         return this.friendsList;
     }
 
-    public void setFriendList(List<User> friendList) {
+    public void setFriendList(ArrayList<User> friendList) {
         this.friendsList = friendList;
     }
 
@@ -44,13 +93,13 @@ public class User {
         this.groupList = groupList;
     }
 
-    public List<User> getBlockedUsers() {
-        return this.blockedUsers;
-    }
+    // public List<User> getBlockedUsers() {
+    // return this.blockedUsers;
+    // }
 
-    public void setBlockedUsers(List<User> blockedUsers) {
-        this.blockedUsers = blockedUsers;
-    }
+    // public void setBlockedUsers(ArrayList<User> blockedUsers) {
+    // this.blockedUsers = blockedUsers;
+    // }
 
     public List<Event> getEventList() {
         return this.eventList;
@@ -70,5 +119,9 @@ public class User {
 
     void createEvent() {
         // create the Event
+    }
+
+    public String toString() {
+        return "username: " + this.profile.getUsername() + " ID: " + getUserID();
     }
 }

@@ -1,16 +1,51 @@
 package com.project.gamersworld;
 
-import java.util.*;
+//import java.util.*;
+import javax.persistence.Embeddable;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@Embeddable
 public class Profile {
+    @NotNull
     private String username;
+    @NotNull
     private String password;
+    @NotNull
     private String emailAddress;
     private String description;
-    private EnumMap<Games, PlayLevel> preferences = new EnumMap<>(Games.class);
+    // private EnumMap<Game, PlayLevel> preferences = new EnumMap<>(Game.class);
+
+    @ElementCollection(targetClass = Game.class, fetch = FetchType.LAZY)
+    @CollectionTable(name = "Games", joinColumns = @JoinColumn(name = "uid"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "game_name")
+    private List<Game> games;
+
     private String preferredTime;
 
     public Profile() {
+    }
+
+    Profile(String username, String password, String emailAdress, String description, String preferredTime) {
+        this.username = username;
+        this.password = password;
+        this.emailAddress = emailAdress;
+        this.description = description;
+        this.games = new ArrayList<Game>();
+        this.preferredTime = preferredTime;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -37,12 +72,12 @@ public class Profile {
         this.description = description;
     }
 
-    public EnumMap<Games, PlayLevel> getPreference() {
-        return preferences;
+    public List<Game> getGames() {
+        return this.games;
     }
 
-    public void setPreferences(EnumMap<Games, PlayLevel> preferences) {
-        this.preferences = preferences;
+    public void setGames(List<Game> games) {
+        this.games = games;
     }
 
     public String getTime() {
