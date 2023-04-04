@@ -44,8 +44,8 @@ public class GamersWorldApplication implements CommandLineRunner {
 		// userRepository.save(user3);
 		// userRepository.save(user4);
 
-		// // friendship creation
-		// // user1 frinds with user 2 and 3
+		// // // friendship creation
+		// // // user1 frinds with user 2 and 3
 
 		User user1 = new User(userRepository.findByProfileEmailAddress("test1@test.com"));
 		User user2 = new User(userRepository.findByProfileEmailAddress("test2@test.com"));
@@ -83,8 +83,10 @@ public class GamersWorldApplication implements CommandLineRunner {
 		// userRepository.save(user1);
 		// userRepository.save(user2);
 
-		// user1 creates a group
+		// //user1 creates a group
 		// Group group = new Group("group1", user1, "");
+
+		// user1.groupList.add(group)
 
 		// groupRepository.save(group);
 
@@ -92,9 +94,15 @@ public class GamersWorldApplication implements CommandLineRunner {
 		// group = new Group(group);
 		// group.members.add(user2);
 
+		// user2 = new User(userRepository.findByProfileEmailAddress("test2@test.com"));
+		// user2.groupList.add(group);
+
+		// userRepository.save(user2);
+
 		// groupRepository.save(group);
 
 		// // user3 and user 2 cerate an event
+
 		// PlayLevel playLevel = PlayLevel.CASUAL;
 		// Game game = Game.MINECRAFT;
 
