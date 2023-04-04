@@ -42,33 +42,35 @@ public class GamersWorldApplication implements CommandLineRunner {
 		// userRepository.save(user3);
 		// userRepository.save(user4);
 
-		// // friendship creation
-		// // user1 frinds with user 2 and 3
+		// // // friendship creation
+		// // // user1 frinds with user 2 and 3
 
-		User user1 = new User(userRepository.findByProfileEmailAddress("test1@test.com"));
-		User user2 = new User(userRepository.findByProfileEmailAddress("test2@test.com"));
-		User user3 = new User(userRepository.findByProfileEmailAddress("test3@test.com"));
-		User user4 = new User(userRepository.findByProfileEmailAddress("test4@test.com"));
+		// user1 = new User(userRepository.findByProfileEmailAddress("test1@test.com"));
+		// user2 = new User(userRepository.findByProfileEmailAddress("test2@test.com"));
+		// user3 = new User(userRepository.findByProfileEmailAddress("test3@test.com"));
+		// user4 = new User(userRepository.findByProfileEmailAddress("test4@test.com"));
 
-		// user1.friendsList.add(user2);
-		// user1.friendsList.add(user3);
-		// user2.friendsList.add(user1);
-		user3.friendsList.add(user1);
+		// // user1.friendsList.add(user2);
+		// // user1.friendsList.add(user3);
+		// // user2.friendsList.add(user1);
+		// //user3.friendsList.add(user1);
 
-		userRepository.save(user1);
-		userRepository.save(user2);
-		userRepository.save(user3);
+		// userRepository.save(user1);
+		// userRepository.save(user2);
+		// userRepository.save(user3);
 
-		// user4 is blocked by user 1
-		user1 = new User(userRepository.findByProfileEmailAddress("test1@test.com"));
-		user2 = new User(userRepository.findByProfileEmailAddress("test2@test.com"));
-		user1.blockedUsers.add(user4);
-		user2.blockedUsers.add(user4);
+		// // // user4 is blocked by user 1
+		// // user1 = new User(userRepository.findByProfileEmailAddress("test1@test.com"));
+		// // user2 = new User(userRepository.findByProfileEmailAddress("test2@test.com"));
+		// // user1.blockedUsers.add(user4);
+		// // user2.blockedUsers.add(user4);
 
-		userRepository.save(user1);
+		// userRepository.save(user1);
 
-		// user1 creates a group
+		// //user1 creates a group
 		// Group group = new Group("group1", user1, "");
+
+		// user1.groupList.add(group)
 
 		// groupRepository.save(group);
 
@@ -76,9 +78,17 @@ public class GamersWorldApplication implements CommandLineRunner {
 		// group = new Group(group);
 		// group.members.add(user2);
 
+		// user2 = new User(userRepository.findByProfileEmailAddress("test2@test.com"));
+		// user2.groupList.add(group);
+
+		// userRepository.save(user2);
+		
+
 		// groupRepository.save(group);
 
 		// // user3 and user 2 cerate an event
+		
+
 		// PlayLevel playLevel = PlayLevel.CASUAL;
 		// Game game = Game.MINECRAFT;
 
@@ -93,6 +103,12 @@ public class GamersWorldApplication implements CommandLineRunner {
 		// List<User> attenList = event1.getAttendeeList();
 		// attenList.add(user2);
 		// event1.setAttendeeList(attenList);
+
+		List<User> userList= userRepository.findByProfilePreferredTimeContains("Monday");
+
+		for(User user:userList){
+			System.out.println(user);
+		}
 
 	}
 

@@ -10,6 +10,10 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
     public User findByUid(int uid);
 
+    public List<User> findByProfilePreferredTimeContains(String preferredTime);
+    
+
+    //list of other users that blocked the user
     public List<User> findAllByBlockedUsers(User user);
 
 }
