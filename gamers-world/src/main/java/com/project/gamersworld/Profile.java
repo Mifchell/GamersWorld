@@ -2,6 +2,11 @@ package com.project.gamersworld;
 
 //import java.util.*;
 import javax.persistence.Embeddable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Embeddable
@@ -14,6 +19,13 @@ public class Profile {
     private String emailAddress;
     private String description;
     // private EnumMap<Game, PlayLevel> preferences = new EnumMap<>(Game.class);
+
+    @ElementCollection(targetClass = Game.class, fetch = FetchType.LAZY)
+    @CollectionTable(name = "Games", joinColumns = @JoinColumn(name = "uid"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "game_name")
+    private List<Game> games;
+
     private String preferredTime;
 
     public Profile() {
@@ -24,7 +36,7 @@ public class Profile {
         this.password = password;
         this.emailAddress = emailAdress;
         this.description = description;
-        // this.preferences = preferences;
+        this.games = new ArrayList<Game>();
         this.preferredTime = preferredTime;
     }
 
@@ -60,13 +72,13 @@ public class Profile {
         this.description = description;
     }
 
-    // public EnumMap<Game, PlayLevel> getPreference() {
-    // return preferences;
-    // }
+    public List<Game> getGames() {
+        return this.games;
+    }
 
-    // public void setPreferences(EnumMap<Game, PlayLevel> preferences) {
-    // this.preferences = preferences;
-    // }
+    public void setGames(List<Game> games) {
+        this.games = games;
+    }
 
     public String getTime() {
         return preferredTime;

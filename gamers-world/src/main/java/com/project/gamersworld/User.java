@@ -22,27 +22,28 @@ public class User {
      * do we need this? or should we just have databases representing them? Like
      * eventRegistration class
      */
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "friends", joinColumns = @JoinColumn(name = "uid"), uniqueConstraints = @UniqueConstraint(columnNames = {}))
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "user_friend_uid"))
     List<User> friendsList;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "group_registration", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns = {
             @JoinColumn(name = "groupID") })
     List<Group> groupList;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "blocked", joinColumns = @JoinColumn(name = "uid"))
-    List<User> blockedUsers;
+    // @ManyToMany(fetch = FetchType.EAGER)
+    // @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "user_uid"),
+    // inverseJoinColumns = @JoinColumn(name = "blocked_friend_uid"))
+    // List<User> blockedUsers;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "eventID"))
     List<Event> eventList;
 
     public User() {
         this.friendsList = new ArrayList<User>();
         this.groupList = new ArrayList<Group>();
-        this.blockedUsers = new ArrayList<User>();
+        // this.blockedUsers = new ArrayList<User>();
         this.eventList = new ArrayList<Event>();
     }
 
@@ -50,7 +51,7 @@ public class User {
         this.uid = user.getUserID();
         this.profile = user.getProfile();
         this.friendsList = user.getFriendList();
-        this.blockedUsers = user.getBlockedUsers();
+        // this.blockedUsers = user.getBlockedUsers();
         this.groupList = user.getGroupList();
         this.eventList = user.getEventList();
     }
@@ -60,7 +61,7 @@ public class User {
         this.profile = profile;
         this.friendsList = new ArrayList<User>();
         this.groupList = new ArrayList<Group>();
-        this.blockedUsers = new ArrayList<User>();
+        // this.blockedUsers = new ArrayList<User>();
         this.eventList = new ArrayList<Event>();
     }
 
@@ -92,13 +93,13 @@ public class User {
         this.groupList = groupList;
     }
 
-    public List<User> getBlockedUsers() {
-        return this.blockedUsers;
-    }
+    // public List<User> getBlockedUsers() {
+    // return this.blockedUsers;
+    // }
 
-    public void setBlockedUsers(ArrayList<User> blockedUsers) {
-        this.blockedUsers = blockedUsers;
-    }
+    // public void setBlockedUsers(ArrayList<User> blockedUsers) {
+    // this.blockedUsers = blockedUsers;
+    // }
 
     public List<Event> getEventList() {
         return this.eventList;

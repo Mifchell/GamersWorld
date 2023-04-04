@@ -4,7 +4,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.List;
+import java.util.ArrayList;
+
+// import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,11 +15,11 @@ public class GamersWorldApplication implements CommandLineRunner {
 	@Autowired
 	private UserRepo userRepository;
 
-	@Autowired
-	private GroupRepo groupRepository;
+	// @Autowired
+	// private GroupRepo groupRepository;
 
-	@Autowired
-	EventRepo eventRepository;
+	// @Autowired
+	// private EventRepo eventRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(GamersWorldApplication.class, args);
@@ -50,22 +52,36 @@ public class GamersWorldApplication implements CommandLineRunner {
 		User user3 = new User(userRepository.findByProfileEmailAddress("test3@test.com"));
 		User user4 = new User(userRepository.findByProfileEmailAddress("test4@test.com"));
 
-		// user1.friendsList.add(user2);
-		// user1.friendsList.add(user3);
-		// user2.friendsList.add(user1);
+		user1.profile.setGames(new ArrayList<Game>());
+		user2.profile.setGames(new ArrayList<Game>());
+		user3.profile.setGames(new ArrayList<Game>());
+		user4.profile.setGames(new ArrayList<Game>());
+
+		ArrayList<Game> games = (ArrayList<Game>) user1.profile.getGames();
+		games.add(Game.FORTNITE);
+		games.add(Game.MINECRAFT);
+
+		user1.profile.setGames(games);
+		user2.profile.setGames(games);
+
+		user1.friendsList.add(user2);
+		user1.friendsList.add(user3);
+		user2.friendsList.add(user1);
 		user3.friendsList.add(user1);
 
 		userRepository.save(user1);
 		userRepository.save(user2);
 		userRepository.save(user3);
+		userRepository.save(user4);
 
 		// user4 is blocked by user 1
-		user1 = new User(userRepository.findByProfileEmailAddress("test1@test.com"));
-		user2 = new User(userRepository.findByProfileEmailAddress("test2@test.com"));
-		user1.blockedUsers.add(user4);
-		user2.blockedUsers.add(user4);
+		// user1 = new User(userRepository.findByProfileEmailAddress("test1@test.com"));
+		// user2 = new User(userRepository.findByProfileEmailAddress("test2@test.com"));
+		// user1.blockedUsers.add(user4);
+		// user2.blockedUsers.add(user4);
 
-		userRepository.save(user1);
+		// userRepository.save(user1);
+		// userRepository.save(user2);
 
 		// user1 creates a group
 		// Group group = new Group("group1", user1, "");
