@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Gamer's World</title>
     <link rel="stylesheet" href="styles/styles.css">
@@ -11,7 +11,7 @@
     <br>
 
     <div class="container">
-    <form action="/action_page.php">
+    <form th:action="@{/login}" method="post">
         <h1>Log in</h1>
       
         <label for="email"><b>Email</b></label>
