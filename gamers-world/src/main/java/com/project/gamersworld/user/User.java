@@ -1,5 +1,7 @@
-package com.project.gamersworld;
-
+package com.project.gamersworld.user;
+import com.project.gamersworld.profile.*;
+import com.project.gamersworld.group.*;
+import com.project.gamersworld.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class User {
     int uid;
 
     @Embedded
+    public
     Profile profile;
 
     /*
@@ -24,6 +27,7 @@ public class User {
      */
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "user_friend_uid"))
+    public
     List<User> friendsList;
 
     @ManyToMany(fetch = FetchType.LAZY)

@@ -1,4 +1,4 @@
-package com.project.gamersworld;
+package com.project.gamersworld.profile;
 
 //import java.util.*;
 import javax.persistence.Embeddable;

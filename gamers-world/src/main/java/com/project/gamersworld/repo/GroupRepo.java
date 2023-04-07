@@ -1,5 +1,5 @@
-package com.project.gamersworld;
-
+package com.project.gamersworld.repo;
+import com.project.gamersworld.group.*;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
