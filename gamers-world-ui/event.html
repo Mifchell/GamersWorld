@@ -7,7 +7,10 @@
   </head>
 
   <body>
-    <a href="index.html"><div id="banner"></div></a>
+    <a href="index.html"><div id="banner">
+      <p><a href=""><button>Logout</button></p></a>
+    </div></a>
+    
 
     <!--Navigation Menu-->
     <div class="nav">
@@ -19,31 +22,49 @@
     <br>
 
     <div class="container">
-
         <div class="post">
             <h2>4/26/23 | 6pm</h2>
             <h1>Meetup at the Esports center.</h1>
+            <img src="images/tabprofile.jpg" alt="ProfilePic">
             <p>Let's meetup this Saturday to play Valorant!</p>
             <h5>Post by <a href="profile.html"><b>Gamer</b></a> on 26 March 2023</h5>
+
         </div>
 
         <br>
 
         <div class="post">
+            <img src="images/tabprofile.jpg" alt="ProfilePic">
             <p>Sounds like a plan!</p>
             <h5>Post by <a href="profile.html"><b>Gamer2</b></a> on 26 March 2023</h5>
+          
+          <!-- drop down menu button-->
+          <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">Options</button>
+            <div id="myDropdown" class="dropdown-content">
+              <a href="">Reply</a>
+              <a href="">React</a>
+              <a href="">Delete</a>
+            </div>
+
+        </div>
         </div>
 
         <br>
 
         <div class="post">
+            <img src="images/tabprofile.jpg" alt="ProfilePic">
             <p>Can't wait!</p>
             <h5>Post by <a href="profile.html"><b>Gamer3</b></a> on 26 March 2023</h5>
         </div>
 
+        <p><a href=""><button>Reply event</button></p></a>
+        <p><a href=""><button>Edit event</button></p></a>
+        <p><a href=""><button>Delete event</button></p></a>
 
     </div>
 
+    <script src="js/event.js"></script>
 
     <footer>
       <!--Copyright information-->
