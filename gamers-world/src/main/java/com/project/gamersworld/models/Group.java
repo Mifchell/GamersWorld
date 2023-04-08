@@ -75,38 +75,7 @@ public class Group {
         this.description = description;
     }
 
-    /*
-     * @param the User to add
-     * add the given User to the member List
-     */
-    public boolean addMember() {
-        return false;
+    public String toString() {
+        return "groupName: " + this.name;
     }
-
-    /*
-     * @param the User to remove
-     * Remove the given User from the member List
-     */
-    public boolean removeMember() {
-        return false;
-    }
-
-    /*
-     * @param the User joining
-     * 
-     * think of deleting this? kinda the same as add member? or putting it in
-     * another class to call addMethod
-     */
-    public boolean join() {
-        return false;
-    }
-
-    /*
-     * @param the group to delete
-     * delete the group from the DB
-     */
-    public boolean deleteGroup() {
-        return false;
-    }
-
 }

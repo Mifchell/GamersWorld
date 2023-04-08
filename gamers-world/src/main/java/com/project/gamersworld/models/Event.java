@@ -141,4 +141,8 @@ public class Event {
     public void commentEvent(String message) {
 
     }
+
+    public String toString() {
+        return "EventName: " + this.eventName;
+    }
 }
