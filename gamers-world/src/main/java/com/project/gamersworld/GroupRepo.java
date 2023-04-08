@@ -7,4 +7,6 @@ public interface GroupRepo extends JpaRepository<Group, Long> {
 
     public List<Group> findByGroupID(int groupID);
 
+    public List<Group> findByDescriptionContaining(String description);
+
 }
