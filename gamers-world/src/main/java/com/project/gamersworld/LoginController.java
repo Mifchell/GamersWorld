@@ -17,7 +17,13 @@ public class LoginController {
     public String login(@RequestParam String email, @RequestParam String password) {
         // Authenticate user
 
-        return "redirect:/dashboard";
+        return "redirect:/index.html";
+    }
+
+    //necessary?
+    @GetMapping("/")
+    public String showHomePage() {
+        return "redirect:/index.html";
     }
 
 }

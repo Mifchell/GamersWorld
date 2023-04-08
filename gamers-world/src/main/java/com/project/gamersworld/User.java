@@ -93,17 +93,6 @@ public class User {
         this.groupList = groupList;
     }
 
-    // i had to add these 2 following methods for the login use case
-    //not sure if we should just move these variables over to User class - tab
-    public String getEmail(User user)
-    {
-        return user.profile.getEmail();
-    }
-
-    public String getPassword(User user)
-    {
-        return user.profile.getPassword();
-    }
     // public List<User> getBlockedUsers() {
     // return this.blockedUsers;
     // }

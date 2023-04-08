@@ -47,32 +47,32 @@ public class GamersWorldApplication implements CommandLineRunner {
 		// // // friendship creation
 		// // // user1 frinds with user 2 and 3
 
-		User user1 = new User(userRepository.findByProfileEmailAddress("test1@test.com"));
-		User user2 = new User(userRepository.findByProfileEmailAddress("test2@test.com"));
-		User user3 = new User(userRepository.findByProfileEmailAddress("test3@test.com"));
-		User user4 = new User(userRepository.findByProfileEmailAddress("test4@test.com"));
+		// User user1 = new User(userRepository.findByProfileEmailAddress("test1@test.com"));
+		// User user2 = new User(userRepository.findByProfileEmailAddress("test2@test.com"));
+		// User user3 = new User(userRepository.findByProfileEmailAddress("test3@test.com"));
+		// User user4 = new User(userRepository.findByProfileEmailAddress("test4@test.com"));
 
-		user1.profile.setGames(new ArrayList<Game>());
-		user2.profile.setGames(new ArrayList<Game>());
-		user3.profile.setGames(new ArrayList<Game>());
-		user4.profile.setGames(new ArrayList<Game>());
+		// user1.profile.setGames(new ArrayList<Game>());
+		// user2.profile.setGames(new ArrayList<Game>());
+		// user3.profile.setGames(new ArrayList<Game>());
+		// user4.profile.setGames(new ArrayList<Game>());
 
-		ArrayList<Game> games = (ArrayList<Game>) user1.profile.getGames();
-		games.add(Game.FORTNITE);
-		games.add(Game.MINECRAFT);
+		// ArrayList<Game> games = (ArrayList<Game>) user1.profile.getGames();
+		// games.add(Game.FORTNITE);
+		// games.add(Game.MINECRAFT);
 
-		user1.profile.setGames(games);
-		user2.profile.setGames(games);
+		// user1.profile.setGames(games);
+		// user2.profile.setGames(games);
 
-		user1.friendsList.add(user2);
-		user1.friendsList.add(user3);
-		user2.friendsList.add(user1);
-		user3.friendsList.add(user1);
+		// user1.friendsList.add(user2);
+		// user1.friendsList.add(user3);
+		// user2.friendsList.add(user1);
+		// user3.friendsList.add(user1);
 
-		userRepository.save(user1);
-		userRepository.save(user2);
-		userRepository.save(user3);
-		userRepository.save(user4);
+		// userRepository.save(user1);
+		// userRepository.save(user2);
+		// userRepository.save(user3);
+		// userRepository.save(user4);
 
 		// user4 is blocked by user 1
 		// user1 = new User(userRepository.findByProfileEmailAddress("test1@test.com"));
@@ -117,6 +117,12 @@ public class GamersWorldApplication implements CommandLineRunner {
 		// List<User> attenList = event1.getAttendeeList();
 		// attenList.add(user2);
 		// event1.setAttendeeList(attenList);
+
+		// user logs in test
+		User user1 = new User(userRepository.findByProfileEmailAddress("test1@test.com"));
+		user1.getProfile().setPassword("password");
+		//userRepository.save(user1);
+
 
 	}
 
