@@ -1,4 +1,5 @@
-package com.project.gamersworld;
+package com.project.gamersworld.group;
+import com.project.gamersworld.user.*;
 
 import java.util.ArrayList;
 import java.util.List;

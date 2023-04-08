@@ -5,4 +5,61 @@ h1{
 .post{
     padding: 20px;
     background-color: #373737;
+    border-radius: 8px;
 }
+
+.post img{
+    float: left;
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin-top: auto;
+}
+
+.container button{
+    margin-top: 10px;
+    width: 300px;
+  }
+
+/** drop down styles below*/
+.dropbtn {
+    background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    
+  }
+  
+  .dropdown a:hover {
+    background-color: #ddd;
+    
+    }
+  
+  .show {
+    display: block;
+    
+    }

@@ -1,5 +1,6 @@
-package com.project.gamersworld;
-
+package com.project.gamersworld.event;
+import com.project.gamersworld.user.*;
+import com.project.gamersworld.profile.*;
 import java.util.*;
 
 import javax.persistence.*;

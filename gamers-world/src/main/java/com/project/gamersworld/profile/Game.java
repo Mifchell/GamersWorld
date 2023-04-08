@@ -1,4 +1,4 @@
-package com.project.gamersworld;
+package com.project.gamersworld.profile;
 
 public enum Game {
     COUNTER_STRIKE_GLOBAL_OFFENSIVE,

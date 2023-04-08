@@ -1,5 +1,5 @@
-package com.project.gamersworld;
-
+package com.project.gamersworld.profile;
+import com.project.gamersworld.user.*;
 import java.util.List;
 
 abstract class Message {

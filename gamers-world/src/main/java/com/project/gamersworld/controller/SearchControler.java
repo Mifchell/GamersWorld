@@ -1,4 +1,4 @@
-package com.project.gamersworld;
+package com.project.gamersworld.controller;
 
 import org.springframework.stereotype.Controller;
 
