@@ -1,13 +1,14 @@
-package com.project.gamersworld.event;
-import com.project.gamersworld.user.*;
-import com.project.gamersworld.group.*;
+package com.project.gamersworld.handlers;
+
+import com.project.gamersworld.models.Group;
+import com.project.gamersworld.models.User;
 
 import java.util.List;
 
-public class EventSearch {
+public class EventHandler {
     private List<Group> eventRepository;
 
-    public EventSearch() {
+    public EventHandler() {
 
     }
 
