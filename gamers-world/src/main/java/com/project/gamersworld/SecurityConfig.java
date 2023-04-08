@@ -33,10 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
+    // @Autowired
+    // public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    //     auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    // }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
