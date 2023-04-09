@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // import java.util.List;
@@ -16,14 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringBootApplication
 public class GamersWorldApplication implements CommandLineRunner {
-	@Autowired
-	private UserRepo userRepository;
+	// @Autowired
+	// private UserRepo userRepository;
 
 	// @Autowired
 	// private GroupRepo groupRepository;
 
-	// @Autowired
-	// private EventRepo eventRepository;
+	@Autowired
+	private EventRepo eventRepository;
 
 	@Autowired
 	EventHandler eventHandler;
@@ -37,18 +38,15 @@ public class GamersWorldApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		User user1 = userRepository.findByProfileEmailAddress("test1@test.com");
 
-		List<Event> events = eventHandler.eventSearch(user1);
+		Event event1 = new Event(eventRepository.findByEventId(7));
 
-		for (Event event : events) {
-			System.out.println(event);
-		}
+		List<String> comments = event1.getComments();
+		comments.add("agdftef");
+		event1.setComments(comments);
 
-		List<Group> groups = groupHandler.groupSearch("");
-		for (Group group : groups) {
-			System.out.println(group);
-		}
+		eventRepository.save(event1);
+
 	}
 
 }
