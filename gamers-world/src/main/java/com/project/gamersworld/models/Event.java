@@ -60,18 +60,7 @@ public class Event {
         attendeeList.add(creator);
         this.playLevel = playLevel;
         this.game = game;
-    }
-
-    public Event(String date, String location, String description, Game game, PlayLevel playLevel,
-            List<String> comments, List<User> attendeeList) {
-        // this.eventId = eventId;
-        this.date = date;
-        this.location = location;
-        this.description = description;
-        this.game = game;
-        this.playLevel = playLevel;
-        this.comments = comments;
-        this.attendeeList = attendeeList;
+        this.comments = new ArrayList<String>();
     }
 
     public int getEventId() {
