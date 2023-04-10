@@ -1,8 +1,11 @@
-package com.project.gamersworld;
+package com.project.gamersworld.models;
 
 import java.util.*;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 public class Event {
@@ -23,7 +26,11 @@ public class Event {
 
     private String description;
 
-    // private List<String> comments;
+    @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @CollectionTable(name = "event_comments", joinColumns = @JoinColumn(name = "eventID"))
+    @Column(name = "comments")
+    private List<String> comments;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "eventList")
     private List<User> attendeeList;
@@ -40,6 +47,7 @@ public class Event {
         this.playLevel = event.getPlayLevel();
         this.description = event.getDescription();
         this.attendeeList = event.getAttendeeList();
+        this.comments = event.getComments();
     }
 
     public Event(String name, String date, String location, String description, Game game, PlayLevel playLevel,
@@ -52,18 +60,7 @@ public class Event {
         attendeeList.add(creator);
         this.playLevel = playLevel;
         this.game = game;
-    }
-
-    public Event(String date, String location, String description, Game game, PlayLevel playLevel,
-            List<String> comments, List<User> attendeeList) {
-        // this.eventId = eventId;
-        this.date = date;
-        this.location = location;
-        this.description = description;
-        this.game = game;
-        this.playLevel = playLevel;
-        // this.comments = comments;
-        this.attendeeList = attendeeList;
+        this.comments = new ArrayList<String>();
     }
 
     public int getEventId() {
@@ -130,15 +127,15 @@ public class Event {
         this.playLevel = playLevel;
     }
 
-    // public List<String> getComments() {
-    // return comments;
-    // }
+    public List<String> getComments() {
+        return comments;
+    }
 
-    /*
-     * @param the comment to be added to the eventList
-     * add comment to the list and display new comment list
-     */
-    public void commentEvent(String message) {
+    public void setComments(List<String> comments) {
+        this.comments = comments;
+    }
 
+    public String toString() {
+        return "EventName: " + this.eventName;
     }
 }

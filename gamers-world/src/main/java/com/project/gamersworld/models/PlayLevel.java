@@ -1,4 +1,4 @@
-package com.project.gamersworld;
+package com.project.gamersworld.models;
 
 public enum PlayLevel {
     DEBUTANT("Debutant"),
