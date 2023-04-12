@@ -57,7 +57,7 @@ public class Event {
         this.location = location;
         this.description = description;
         this.attendeeList = new ArrayList<User>();
-        attendeeList.add(creator);
+        this.attendeeList.add(creator);
         this.playLevel = playLevel;
         this.game = game;
         this.comments = new ArrayList<String>();
