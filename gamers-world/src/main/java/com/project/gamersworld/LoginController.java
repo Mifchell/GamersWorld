@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-    @GetMapping("/login")
+    @GetMapping(value = "/login")
     public String showLoginForm() {
         return "login";
     }   
@@ -17,13 +17,13 @@ public class LoginController {
     public String login(@RequestParam String email, @RequestParam String password) {
         // Authenticate user
 
-        return "redirect:/index.html";
+        return "redirect:/index";
     }
 
     //necessary?
     @GetMapping("/")
     public String showHomePage() {
-        return "redirect:/index.html";
+        return "redirect:/index";
     }
 
 }
