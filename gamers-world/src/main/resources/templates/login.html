@@ -11,13 +11,13 @@
     <br>
     
     <div class="container">
-    <form th:action="@{/login}" method="post">
+    <form action="#" th:action="@{/login}" method="post">
         <h1>Log in</h1>
       
         <label for="email"><b>Email</b></label>
         <input type="text" placeholder="Enter Email" name="email" id="email" required>
       
-        <label for="psw"><b>Password</b></label>
+        <label for="password"><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
     
         <button type="submit">Log in</button>
@@ -25,7 +25,7 @@
         <br>
 
         <div class="container sub">
-        <h2>Don't have an account? <a href="signup.html">Sign up</a>.</h2>
+        <h2>Don't have an account? <a th:href="@{/signup}">Sign up</a>.</h2>
         </div>
         
       </form>
