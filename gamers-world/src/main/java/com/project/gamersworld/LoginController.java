@@ -24,6 +24,8 @@ public class LoginController {
     @GetMapping("/login")
     public String showLoginForm(Model model) {
         List<User> users = userRepo.findAll();
+        for(User u:users)
+        System.out.println(u.getProfile().getEmail());
         model.addAttribute("user", users);
         return "login";
     }
@@ -32,11 +34,11 @@ public class LoginController {
     public String login(@ModelAttribute User user) {
       // authenticate user
       // traverse the list!
-      if ("email".equals(users.get(i)) && "password".equals(user.getProfile().getPassword())) {
-        return "redirect:/index";
-      } else {
+      // if ("email".equals(users.get(i)) && "password".equals(user.getProfile().getPassword())) {
+      //   return "redirect:/index";
+      // } else {
         return "redirect:/login?error";
-      }
+      // }
     }
 
 
