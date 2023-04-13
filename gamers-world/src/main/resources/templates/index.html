@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <!--Webpage made by Tabitha Ristoff, Justin Turziak, Joshua Lecik-->
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Gamer's World</title>
-    <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="styles/event.css">
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+    <link rel="stylesheet" th:href="@{/css/event.css}" href="../css/event.css"> 
     <meta name="description" content="Welcome to Gamer's World.">
   </head>
 
   <body>
-    <a href="index.html"><div id="banner"></div></a>
+    <a th:href="index.html"><div id="banner"></div></a>
 
     <!--Navigation Menu-->
     <div class="nav">

@@ -7,45 +7,18 @@ import com.project.gamersworld.repo.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
-import java.util.ArrayList;
-import java.util.List;
 
-// import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-@SpringBootApplication
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class GamersWorldApplication implements CommandLineRunner {
-	// @Autowired
-	// private UserRepo userRepository;
-
-	// @Autowired
-	// private GroupRepo groupRepository;
-
-	@Autowired
-	private EventRepo eventRepository;
-
-	@Autowired
-	EventHandler eventHandler;
-
-	@Autowired
-	GroupHandler groupHandler;
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(GamersWorldApplication.class, args);
 	}
 
 	@Override
-	public void run(String... args) {
-
-		Event event1 = new Event(eventRepository.findByEventId(7));
-
-		List<String> comments = event1.getComments();
-		comments.add("agdftef");
-		event1.setComments(comments);
-
-		eventRepository.save(event1);
+	public void run(String... args){
 
 	}
 
