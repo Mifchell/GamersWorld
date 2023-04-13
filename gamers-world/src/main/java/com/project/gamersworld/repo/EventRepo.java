@@ -1,4 +1,7 @@
-package com.project.gamersworld;
+package com.project.gamersworld.repo;
+
+import com.project.gamersworld.models.Event;
+import com.project.gamersworld.models.User;
 
 import java.util.List;
 

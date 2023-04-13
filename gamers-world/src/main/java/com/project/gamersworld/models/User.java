@@ -1,4 +1,4 @@
-package com.project.gamersworld;
+package com.project.gamersworld.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class User {
     int uid;
 
     @Embedded
-    Profile profile;
+    public Profile profile;
 
     /*
      * do we need this? or should we just have databases representing them? Like
@@ -24,7 +24,7 @@ public class User {
      */
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "user_friend_uid"))
-    List<User> friendsList;
+    public List<User> friendsList;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "group_registration", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns = {
