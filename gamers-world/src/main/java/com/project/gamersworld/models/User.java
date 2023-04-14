@@ -36,6 +36,7 @@ public class User {
     // inverseJoinColumns = @JoinColumn(name = "blocked_friend_uid"))
     // List<User> blockedUsers;
 
+    // It did not like this NOT being Eager
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "eventID"))
     List<Event> eventList;

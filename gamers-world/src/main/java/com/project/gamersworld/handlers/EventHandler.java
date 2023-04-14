@@ -104,7 +104,7 @@ public class EventHandler {
     /*
      * Delete event from database
      */
-    @Transactional
+    @Transactional // Don't remember why this was needed, but it stopped errors from occuring
     public void deleteEvent(int ID) {
         Event event = new Event(eventRepo.findByEventId(ID));
         for(User attendee: event.getAttendeeList()) {
