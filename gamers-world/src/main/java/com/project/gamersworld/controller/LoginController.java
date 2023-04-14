@@ -56,10 +56,10 @@ public class LoginController {
     @PostMapping("/signup")
     public String processSignUp(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password)
     {
-        if(userHandler.signUp())
-        {
-            return "editprofile";
-        }
+        // if(userHandler.signUp())
+        // {
+        //     return "editprofile";
+        // }
 
         return "redirect:/signup?error";
     }

@@ -23,12 +23,12 @@ public class UserHandler {
         return check;
     }
 
-    public boolean signup(String email, String password)
+    public boolean signUp(String email, String password)
     {
         // check if there is already an existing email
         boolean check = false;
 
-        if (userRepo.findByProfileEmailAddress(email) != null)
+        if (userRepo.findByProfileEmailAddress(email) != null){}
 
         // create new profile - pass in email and password ""
         //rofile(String username, String password, String emailAdress, String description, String preferredTime)
