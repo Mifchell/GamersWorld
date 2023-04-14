@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Gamer's World</title>
-    <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="styles/event.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+    <link rel="stylesheet" th:href="@{/css/event.css}" href="../css/event.css">
   </head>
 
   <body>
-    <a href="index.html"><div id="banner">
+    <a th:href="@{/index}"><div id="banner"></div></a>
       <p><a href=""><button>Logout</button></p></a>
     </div></a>
     
 
     <!--Navigation Menu-->
     <div class="nav">
-      <a href="index.html">Home</a>
-      <a href="search.html">Search</a>
-      <a href="profile.html">Profile</a>
+      <a th:href="@{/index}">Home</a>
+      <a th:href="@{/search}">Search</a>
+      <a th:href="@{/profile}">Profile</a>
     </div>
 
     <br>

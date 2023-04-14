@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Gamer's World</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+    <link rel="stylesheet" th:href="@{/css/profile.css}" href="../css/profile.css">
+  </head>
+
+  <body>
+    <a th:href="@{/index}"><div id="banner"></div></a>
+
+    <!--Navigation Menu-->
+    <div class="nav">
+      <a th:href="@{/index}">Home</a>
+      <a th:href="@{/search}">Search</a>
+      <a th:href="@{/profile}">Profile</a>
+    </div>
+
+    <br>
+
+  <div class="container">
+
+    <h1>Profile</h1>
+    <div class="profile">
+        <br>
+        <img src="images/tabprofile.jpg" alt="ProfilePic" style="width: 90%">
+        <h1>tabatron2000</h1>
+        <p>Preferred game: Valorant</p>
+        <p><a th:href="@{/edit_profile}"><button>Edit profile</button></p></a>
+      </div>
+  </div>
+
+  </div>
+  
+    <footer>
+      <!--Copyright information-->
+      <br>
+      <p>&copy; 2023 All rights reserved</p>
+    </footer>
+
+  </body>
+</html>

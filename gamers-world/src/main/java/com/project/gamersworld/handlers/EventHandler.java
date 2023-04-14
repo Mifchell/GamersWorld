@@ -52,7 +52,7 @@ public class EventHandler {
 
         }
 
-        return events;
+        return returnEvents;
     }
 
     /*
