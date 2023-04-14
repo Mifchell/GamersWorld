@@ -36,13 +36,14 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password){
       // authenticate user
-     
       if(userHandler.login(email, password))
       {
         return "index";
       }
       
-        return "redirect:/login?error";
+      // show error message
+       // return "redirect:/login";
+         return "redirect:/login?error";
     }
 
 
@@ -54,12 +55,13 @@ public class LoginController {
     }
 
     @PostMapping("/signup")
-    public String processSignUp(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password)
-    {
-        // if(userHandler.signUp())
-        // {
-        //     return "editprofile";
-        // }
+    public String signUp(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password)
+    {   
+        // if sign up works, then take them to create profile, else show them error
+        if(userHandler.signUp(email, password))
+        {
+            return "editprofile";
+        }
 
         return "redirect:/signup?error";
     }

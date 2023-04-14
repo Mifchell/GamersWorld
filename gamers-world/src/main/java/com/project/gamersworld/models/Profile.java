@@ -31,7 +31,7 @@ public class Profile {
     public Profile() {
     }
 
-    Profile(String username, String password, String emailAdress, String description, String preferredTime) {
+    public Profile(String username, String password, String emailAdress, String description, String preferredTime) {
         this.username = username;
         this.password = password;
         this.emailAddress = emailAdress;
