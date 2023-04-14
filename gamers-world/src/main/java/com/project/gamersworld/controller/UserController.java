@@ -1,30 +1,43 @@
 package com.project.gamersworld.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.gamersworld.handlers.UserHandler;
-import com.project.gamersworld.repo.UserRepo;
 
 @Controller
-public class LoginController {
-
-    @Autowired
-    private UserRepo userRepo;
+public class UserController {
 
     @Autowired
     UserHandler userHandler;
 
-    @GetMapping("")
-    public String viewHomePage(){
+    // show pages
+    @GetMapping("/index")
+    public String viewHome(){
         return "index";
+    }
+
+    @GetMapping("/search")
+    public String viewSearch(){
+        return "search";
+    }
+
+    @GetMapping("/profile")
+    public String viewProfile(){
+        return "profile";
+    }
+
+    @GetMapping("/edit_profile")
+    public String viewEditProfile(){
+        return "editprofile";
+    }
+
+    @GetMapping("/event")
+    public String viewEvent(){
+        return "event";
     }
 
     // log in
