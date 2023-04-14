@@ -46,14 +46,21 @@ public class GamersWorldApplication implements CommandLineRunner {
 
 		// eventRepository.save(event1);
 
-
+		//New Event
 		int newEventId = eventHandler.createEvent("event3", "today", "here", "yes", "minecraft", "expert", 2);
 		Event eventTest = new Event(eventRepository.findByEventId(newEventId));
 		System.out.println(eventTest);
 		System.out.println(eventTest.getDate());
 		System.out.println(eventTest.getAttendeeList());
 
-		eventHandler.editEvent(newEventId, "event4", eventTest.getDate(), eventTest.getLocation(), eventTest.getDescription(), eventTest.getGame().toString(), eventTest.getPlayLevel().toString(), eventTest.getComments(), eventTest.getAttendeeList());
+		//Adds another user to attendeeList
+		User user = new User(userRepository.findByUid(1));
+		eventHandler.RSVPEvent(user.getUserID(), newEventId);
+		Event eventTest2 = new Event(eventRepository.findByEventId(newEventId));
+		System.out.println(eventTest2.getAttendeeList());
+
+		//Tests EditEvent...
+		eventHandler.editEvent(newEventId, "event4", eventTest.getDate(), eventTest.getLocation(), eventTest.getDescription(), eventTest.getGame().toString(), eventTest.getPlayLevel().toString());
 		Event eventTest3 = new Event(eventRepository.findByEventId(newEventId));
 		System.out.println(eventTest3);
 		System.out.println(eventTest3.getDate());
@@ -69,12 +76,7 @@ public class GamersWorldApplication implements CommandLineRunner {
 		// System.out.println(random2.getDate());
 		// //System.out.println(random2.getAttendeeList().get(0));
 
-		// User user = new User(userRepository.findByUid(1));
-		// eventHandler.RSVPEvent(user.getUserID(), eventTest.getEventId());
-		// Event eventTest2 = new Event(eventRepository.findByEventId(eventTest.getEventId()));
-		// for(User attendee: eventTest2.getAttendeeList()) {
-		// 	System.out.println(attendee);
-		// }
+		
 	}
 
 }
