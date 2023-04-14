@@ -38,14 +38,6 @@ public class GamersWorldApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 
-		// Event event1 = new Event(eventRepository.findByEventId(7));
-
-		// List<String> comments = event1.getComments();
-		// comments.add("agdftef");
-		// event1.setComments(comments);
-
-		// eventRepository.save(event1);
-
 		//New Event
 		int newEventId = eventHandler.createEvent("event3", "today", "here", "yes", "minecraft", "expert", 2);
 		Event eventTest = new Event(eventRepository.findByEventId(newEventId));
@@ -66,17 +58,11 @@ public class GamersWorldApplication implements CommandLineRunner {
 		System.out.println(eventTest3.getDate());
 		System.out.println(eventTest3.getAttendeeList());
 
-		// Event random = new Event("idk","yesterday", "bed", "idfk", Game.MINECRAFT, PlayLevel.CASUAL, userRepository.findByUid(2));
-		// System.out.println(random);
-		// System.out.println(random.getDate());
-		// System.out.println(random.getAttendeeList().get(0));
-		// eventRepository.save(random);
-		// Event random2 = new Event(eventRepository.findByEventName("idk"));
-		// System.out.println(random2);
-		// System.out.println(random2.getDate());
-		// //System.out.println(random2.getAttendeeList().get(0));
-
-		
+		// // Delete event from database and hope attendeelist dies with it
+		// // Obviously don't have this running at the same time as the above code, this deletes events, and if they ran at the same time, you wouldn't even see any changes to the database
+		// // Also, since we can't run above code and delete at same time, we can't keep track of the eventId without manually checking each time a new event is created
+		// // You have to manually change this id for deleteEvent each time :(
+		// eventHandler.deleteEvent(25);
 	}
 
 }

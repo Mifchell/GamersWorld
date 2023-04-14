@@ -106,6 +106,16 @@ public class EventHandler {
      */
     @Transactional
     public void deleteEvent(int ID) {
+        Event event = new Event(eventRepo.findByEventId(ID));
+        for(User attendee: event.getAttendeeList()) {
+            for(int i = 0; i < attendee.getEventList().size(); i++) {
+                if(attendee.getEventList().get(i).getEventId() == ID){
+                    attendee.getEventList().remove(i);
+                    break;
+                }
+            }
+            userRepo.save(attendee);
+        }
         eventRepo.deleteByEventId(ID);
     }
 
@@ -122,5 +132,12 @@ public class EventHandler {
         user.getEventList().add(event);
         userRepo.save(user);
         eventRepo.save(event);
+    }
+
+    /*
+     * User leaves a comment on the post
+     */
+    public void commentEvent(String comment){
+        // I'm not coding this today, I'll leave this for later me
     }
 }
