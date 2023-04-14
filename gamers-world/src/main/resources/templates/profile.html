@@ -24,7 +24,8 @@
     <div class="profile">
         <br>
         <img src="images/tabprofile.jpg" alt="ProfilePic" style="width: 90%">
-        <h1>tabatron2000</h1>
+        <h1><span th:text="${profile.username}"></span></h1>
+        <p>Bio: Hi my name's Tab</p>
         <p>Preferred game: Valorant</p>
         <p><a th:href="@{/edit_profile}"><button>Edit profile</button></p></a>
       </div>

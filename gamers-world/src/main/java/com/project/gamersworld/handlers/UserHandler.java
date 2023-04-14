@@ -2,6 +2,7 @@ package com.project.gamersworld.handlers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.project.gamersworld.models.Profile;
 import com.project.gamersworld.models.User;
@@ -12,7 +13,7 @@ public class UserHandler {
     @Autowired
     private UserRepo userRepo;
 
-    public boolean login(String email, String password)
+    public boolean login(String email, String password, Model model)
     {
         boolean check = false;
 
@@ -20,6 +21,9 @@ public class UserHandler {
         if (userRepo.findByProfileEmailAddress(email) != null){
             User user = new User(userRepo.findByProfileEmailAddress(email));
             check = user.getProfile().getPassword().equals(password);
+
+            // add Model attribute so we can use the user's profile for thymeleaf template
+            model.addAttribute("profile", user.getProfile());
         }
 
         return check;
