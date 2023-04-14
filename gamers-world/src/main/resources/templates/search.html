@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<title>Search</title>
         <meta charset="UTF-8">
-		<link rel="stylesheet" href="styles/styles.css">
+		<link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
 		<style>
 			.accordion {
 			  cursor: pointer;
@@ -49,12 +49,12 @@
 
 	<body>
 
-		<a href="index.html"><div id="banner"></div></a>
+		<a th:href="@{/index}"><div id="banner"></div></a>
 		<header>
 			<div class="nav">
-				<a href="index.html">Home</a>
-				<a href="search.html">Search</a>
-				<a href="profile.html">Profile</a>
+				<a th:href="@{/index}">Home</a>
+				<a th:href="@{/search}">Search</a>
+				<a th:href="@{/profile}">Profile</a>
 			</div>
 		</header>
 

@@ -3,6 +3,7 @@ package com.project.gamersworld.handlers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.gamersworld.models.Profile;
 import com.project.gamersworld.models.User;
 import com.project.gamersworld.repo.UserRepo;
 
@@ -15,6 +16,7 @@ public class UserHandler {
     {
         boolean check = false;
 
+        // if user exists, check if password matches saved password
         if (userRepo.findByProfileEmailAddress(email) != null){
             User user = new User(userRepo.findByProfileEmailAddress(email));
             check = user.getProfile().getPassword().equals(password);
@@ -23,15 +25,22 @@ public class UserHandler {
         return check;
     }
 
-    public boolean signup(String email, String password)
+    public boolean signUp(String email, String password)
     {
-        // check if there is already an existing email
+        
         boolean check = false;
 
-        if (userRepo.findByProfileEmailAddress(email) != null)
-
-        // create new profile - pass in email and password ""
-        //rofile(String username, String password, String emailAdress, String description, String preferredTime)
-        return false;
+        // check if there is already an existing email
+        if (userRepo.findByProfileEmailAddress(email) != null){
+            return check;
+        }
+        else{
+            // create new profile and user
+            Profile profile = new Profile("", password, email, "", "");
+            User user = new User(profile);
+            userRepo.save(user);
+            
+            return true;
+        }
     }
 }

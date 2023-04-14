@@ -3,20 +3,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Gamer's World</title>
-    <link rel="stylesheet" href="">
     <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
     <link rel="stylesheet" th:href="@{/css/event.css}" href="../css/event.css"> 
     <meta name="description" content="Welcome to Gamer's World.">
   </head>
 
   <body>
-    <a th:href="index.html"><div id="banner"></div></a>
+    <a th:href="@{/index}"><div id="banner"></div></a>
 
     <!--Navigation Menu-->
     <div class="nav">
-      <a href="index.html">Home</a>
-      <a href="search.html">Search</a>
-      <a href="profile.html">Profile</a>
+      <a th:href="@{/index}">Home</a>
+      <a th:href="@{/search}">Search</a>
+      <a th:href="@{/profile}">Profile</a>
     </div>
 
     <br>
@@ -26,9 +25,9 @@
       <h1>Events</h1>
       <div class = "post">
       <h2>4/26/23 | 6pm</h2>
-      <h2><a href="event.html">Meetup at the Esports center.</a></h2>
+      <h2><a th:href="@{/event}">Meetup at the Esports center.</a></h2>
       <p class="tab">Let's meetup this Saturday to play Valorant!</p>
-      <p>Post by <a href="profile.html"><b>Gamer</b></a> on 26 March 2023</p>
+      <p>Post by <a th:href="@{/profile}"><b>Gamer</b></a> on 26 March 2023</p>
     </div>
 
     <br>
