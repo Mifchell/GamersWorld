@@ -20,7 +20,7 @@ public class Profile {
     private String description;
     // private EnumMap<Game, PlayLevel> preferences = new EnumMap<>(Game.class);
 
-    @ElementCollection(targetClass = Game.class, fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = Game.class, fetch = FetchType.LAZY)
     @CollectionTable(name = "Games", joinColumns = @JoinColumn(name = "uid"))
     @Enumerated(EnumType.STRING)
     @Column(name = "game_name")

@@ -65,14 +65,19 @@ public class EventHandler {
     /*
      * Create an event
      */
-    public int createEvent(String name, String date, String location, String description, String game, String playLevel) {
+    public int createEvent(String name, String date, String location, String description, String game, String playLevel, int user) {
         //Retreive Game and PlayLevel objects
         Game gameObject = Game.valueOf(game.toUpperCase());
         PlayLevel playLevelObject = PlayLevel.valueOf(playLevel.toUpperCase());
         //find active user info: id, name, object, idc
-        User creator = new User(userRepo.findByUid(2));
+        User creator = new User(userRepo.findByUid(user));
+        List<User> attendeeList1 = new ArrayList<User>();
+        attendeeList1.add(creator);
         Event event = new Event(name, date, location, description, gameObject, playLevelObject, creator);
+        event.setAttendeeList(attendeeList1);
+        creator.getEventList().add(event);
         eventRepo.save(event);
+        userRepo.save(creator);
         return event.getEventId();
     }
 
