@@ -17,20 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringBootApplication
 public class GamersWorldApplication implements CommandLineRunner {
-	// @Autowired
-	// private UserRepo userRepository;
-
-	// @Autowired
-	// private GroupRepo groupRepository;
-
 	@Autowired
-	private EventRepo eventRepository;
+	private UserRepo userRepository;
 
-	@Autowired
-	EventHandler eventHandler;
-
-	@Autowired
-	GroupHandler groupHandler;
 
 	public static void main(String[] args) {
 		SpringApplication.run(GamersWorldApplication.class, args);
@@ -39,13 +28,11 @@ public class GamersWorldApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 
-		Event event1 = new Event(eventRepository.findByEventId(7));
 
-		List<String> comments = event1.getComments();
-		comments.add("agdftef");
-		event1.setComments(comments);
-
-		eventRepository.save(event1);
+		User user = userRepository.findByUid(1);
+		
+		for(User u:user.getFriendList())
+			System.out.println(u);
 
 	}
 
