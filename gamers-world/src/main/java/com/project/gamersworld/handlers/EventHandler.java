@@ -39,10 +39,11 @@ public class EventHandler {
         if (!user.getProfile().getGames().isEmpty()) {
             // retrieve events with matching user preferences
             for (int i = 0; i < events.size(); i++) {
-                for (int j = 0; j < user.getProfile().getGames().size(); j++) {
+                for (int j = 0; j < user.getProfile().getGames().size()-1; j++) {
                     if (events.get(i).getGame().equals(user.getProfile().getGames().get(i))) {
-                        // store event in return list
-                        returnEvents.add(events.get(i));
+                        // store event in return list if not there
+                        if (!returnEvents.contains(events.get(i)))
+                            returnEvents.add(events.get(i));
                     }
                 }
             }
