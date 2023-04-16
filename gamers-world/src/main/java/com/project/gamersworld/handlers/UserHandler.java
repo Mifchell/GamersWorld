@@ -17,11 +17,11 @@ public class UserHandler {
     @Autowired
     private UserRepo userRepo;
 
-    public User login(String email, String password, User user)
+    public User login(String email, String password)
     {
         // if user exists, check if password matches saved password
         if (userRepo.findByProfileEmailAddress(email) != null){
-            user = new User(userRepo.findByProfileEmailAddress(email));
+            User user = new User(userRepo.findByProfileEmailAddress(email));
             if(user.getProfile().getPassword().equals(password))
             {
                 return user;
@@ -60,5 +60,10 @@ public class UserHandler {
 
         // save all
         userRepo.save(user);
+    }
+
+    public UserRepo getUserRepo()
+    {
+        return userRepo;
     }
 }
