@@ -6,6 +6,9 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name = "user")
 public class User {
@@ -36,7 +39,9 @@ public class User {
     // inverseJoinColumns = @JoinColumn(name = "blocked_friend_uid"))
     // List<User> blockedUsers;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    // It did not like this NOT being Eager
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SELECT)
     @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "eventID"))
     List<Event> eventList;
 

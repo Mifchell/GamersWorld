@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gamer's World</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+    <link rel="stylesheet" th:href="@{/css/form.css}" href="../css/form.css">
+
+</head>
+<body>
+
+    <a th:href="@{/index}"><div id="banner"></div></a>
+
+    <!--Navigation Menu-->
+    <div class="nav">
+        <a th:href="@{/index}">Home</a>
+        <a th:href="@{/search}">Search</a>
+        <a th:href="@{/profile}">Profile</a>
+      </div>
+
+    <br>
+
+<div class="container">
+<h1>Edit Profile</h1>
+
+<div class="inputform">
+<form action="/action_page.php">
+  
+      <label for="email"><b>Email</b></label>
+      <input type="text" placeholder="Enter Email" name="email" id="email" required>
+
+      <label for="password"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+
+      <label for="game"><b>Preferred Game</b></label>
+      <input type="text" placeholder="Enter Game" name="game" id="game" required>
+
+      <label for="description"><b>Bio Description</b></label>
+      <input type="text" placeholder="Enter Description" name="description" id="description" required>
+  
+      <button type="submit">Save</button>
+  </form>
+</div>
+</div>
+
+    <footer>
+      <!--Copyright information-->
+      <br>
+      <p>&copy; 2023 All rights reserved</p>
+    </footer>
+
+</body>
+</html>
+
+
+
+

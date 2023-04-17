@@ -9,6 +9,9 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Embeddable
 public class Profile {
     @NotNull
@@ -20,6 +23,7 @@ public class Profile {
     private String description;
     // private EnumMap<Game, PlayLevel> preferences = new EnumMap<>(Game.class);
 
+    @Fetch(value = FetchMode.SELECT)
     @ElementCollection(targetClass = Game.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "Games", joinColumns = @JoinColumn(name = "uid"))
     @Enumerated(EnumType.STRING)
