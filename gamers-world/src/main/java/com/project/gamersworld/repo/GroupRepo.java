@@ -11,4 +11,6 @@ public interface GroupRepo extends JpaRepository<Group, Long> {
 
     public List<Group> findByDescriptionContaining(String description);
 
+    public List<Group> findByNameContaining(String name);
+
 }

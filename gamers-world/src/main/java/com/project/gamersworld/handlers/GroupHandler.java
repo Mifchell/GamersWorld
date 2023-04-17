@@ -14,12 +14,19 @@ public class GroupHandler {
     @Autowired
     private GroupRepo groupRepository;
 
+    @Autowired
+    UserRepo userRepo;
+
+    public GroupHandler(GroupRepo groupRepository) {
+        this.groupRepository = groupRepository;
+    }
+
     public GroupRepo getGroupRepository() {
         return this.groupRepository;
     }
 
     /*
-     * Does a group search based on description containing a filter
+     * Does a group search based on description or name containing a filter
      */
     public List<Group> groupSearch(String filter) {
 
@@ -29,12 +36,27 @@ public class GroupHandler {
             returnList = (ArrayList<Group>) groupRepository.findAll();
         } else {
             returnList = (ArrayList<Group>) groupRepository.findByDescriptionContaining(filter);
+            returnList.addAll(groupRepository.findByNameContaining(filter));
+        }
+
+        if (returnList.isEmpty()) {
+            // do something
         }
 
         return returnList;
     }
 
-    public void createGroup() {
+    public void createGroup(String name, String description, int creatorID) {
+
+        try {
+
+            Group group = new Group(name, userRepo.findByUid(creatorID), description);
+
+            groupRepository.save(group);
+
+        } catch (Exception e) {
+            e.toString();
+        }
 
     }
 
