@@ -2,10 +2,36 @@ h1{
     text-align: left;
 }
 
-.post{
+.comment{
     padding: 20px;
     background-color: #373737;
     border-radius: 8px;
+}
+
+.eventpost{
+  padding: 20px;
+  flex-basis: 70%;
+  background-color: #373737;
+  border-radius: 8px;
+  margin-right: 16px;
+  margin-bottom: 16px;
+}
+
+.grouppost{
+  padding: 20px;
+  flex-basis: 30%;
+  background-color:  #4d4d4d;
+  border-radius: 8px;
+  float: right;
+  margin-bottom: 16px;
+}
+
+.userpost{
+  padding: 20px;
+  flex-basis: 100%;
+  background-color:  #666666;
+  border-radius: 8px;
+  float: right;
 }
 
 .post img{
