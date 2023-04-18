@@ -28,6 +28,7 @@ public class UserController {
     // show pages
     @GetMapping("/index")
     public String viewHome(Model model, HttpServletRequest request){
+        // add group and user column here
         model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
         return "index";
     }

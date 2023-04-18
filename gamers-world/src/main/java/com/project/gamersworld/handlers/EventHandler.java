@@ -3,7 +3,11 @@ package com.project.gamersworld.handlers;
 import com.project.gamersworld.models.*;
 import com.project.gamersworld.repo.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,13 +51,18 @@ public class EventHandler {
                     }
                 }
             }
-        } else {
-            // retrieve all events sorted chronologically
-            returnEvents = events;
-
         }
 
-        return returnEvents;
+        // check if there are matched events, sort, then return
+        if (!returnEvents.isEmpty())
+        {
+            return sortEvents(returnEvents);
+        }
+        else{
+            // return all events sorted chronologically
+            return sortEvents(events);
+        }
+
     }
 
     /*
@@ -140,5 +149,14 @@ public class EventHandler {
      */
     public void commentEvent(String comment){
         // I'm not coding this today, I'll leave this for later me
+    }
+
+    private List<Event> sortEvents(List<Event> events)
+    {
+        Comparator<Event> dateComparator = Comparator.comparing(Event::getDate);
+
+        Collections.sort(events, dateComparator);
+
+        return events;
     }
 }
