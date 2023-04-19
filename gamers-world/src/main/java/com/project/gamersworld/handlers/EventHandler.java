@@ -137,13 +137,7 @@ public class EventHandler {
     /*
      * User leaves a comment on the post
      */
-    public void commentEvent(String comment, int eventID){
-        // Retreive existing comment list
-        Event event = new Event(eventRepo.findByEventId(eventID));
-		List<String> comments = event.getComments();
-        // Add comment to list and save
-		comments.add(comment);
-		event.setComments(comments);
-		eventRepo.save(event);
+    public void commentEvent(String comment){
+        // I'm not coding this today, I'll leave this for later me
     }
 }
