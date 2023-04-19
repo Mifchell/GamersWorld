@@ -1,4 +1,4 @@
-body {
+ body {
     background-color: black;
     font-size:14px;
     font-family: 'Titillium Web', sans-serif;
@@ -68,6 +68,11 @@ body {
 
   .container {
     padding: 40px;
+    background-color: #242424;
+  }
+
+  .indexcontainer {
+    padding: 40px;
     display: flex;
     height: 100vh;
     background-color: #242424;
@@ -95,7 +100,7 @@ body {
   }
 
   /** why is there 2 a's*/
-  .container a{
+  .indexcontainer a{
     color: #b749be;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     
