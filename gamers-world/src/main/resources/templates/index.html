@@ -14,25 +14,23 @@
     <!--Navigation Menu-->
     <div class="nav">
       <a th:href="@{/index}">Home</a>
-      <a th:href="@{/search}">Search</a>
+      <a th:href="@{/events}">Events</a>
+      <a th:href="@{/groups}">Groups</a>
+      <a th:href="@{/messages}">Messages</a>
       <a th:href="@{/profile}">Profile</a>
     </div>
 
-<br>
     <div class = "indexcontainer">
-
-    <!--Event forum-->
     <div class="box-group">
-      <div class = "trends">
-        <h1>Trends</h1>
-        <div class = "trends post">
-          <h2>4/26/23 | 6pm</h2>
-          <h2><a href="event.html">Meetup at the Esports center.</a></h2>
-          <p class="tab">Let's meetup this Saturday to play Valorant!</p>
-          <p>Post by <a href="profile.html"><b>Gamer</b></a> on 26 March 2023</p>
+      <div class = "groups">
+        <h1>Groups</h1>
+        <div class = "groups post">
+          <h2>Group Name</h2>
+          <p class="tab">Description</p>
         </div>
     </div>
    
+    <!-- Events -->
     <div class = "events">
       <h1>Events</h1>
       <tr th:each="event : ${events}">
@@ -47,17 +45,27 @@
     </tr>
     </div>
 
-    <div class = "groups">
-      <h1>Groups</h1>
-      <div class = "groups post">
-        <h2>4/26/23 | 6pm</h2>
-        <h2><a href="event.html">Meetup at the Esports center.</a></h2>
-        <p class="tab">Let's meetup this Saturday to play Valorant!</p>
-        <p>Post by <a href="profile.html"><b>Gamer</b></a> on 26 March 2023</p>
-      </div>
-  </div>
+    <!-- Groups-->
+    <div class="box-group2">
+      <!-- Trends -->
+      <div class = "trends">
+        <h1>Trends</h1>
+        <div class = "trends post">
+          <h2>Trend Name</h2>
+          <p class="tab">Description</p>
+        </div>
+    </div>      
 
-    <br>
+  <div class="users">
+    <h1>Users</h1>
+    <div class = "users post">
+      <h2><a href="">Reccomend Username</a></h2>
+      <p class="tab">User bio</p>
+      <p>Games: </p>
+    </div>
+  </div>
+</div>
+
   </div>
 
 </div>
