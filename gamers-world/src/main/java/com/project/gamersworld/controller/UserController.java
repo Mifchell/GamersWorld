@@ -1,7 +1,5 @@
 package com.project.gamersworld.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -28,14 +26,24 @@ public class UserController {
     // show pages
     @GetMapping("/index")
     public String viewHome(Model model, HttpServletRequest request){
-        // add group and user column here
         model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
         return "index";
     }
 
-    @GetMapping("/search")
-    public String viewSearch(){
-        return "search";
+    @GetMapping("/events")
+    public String viewEvents(Model model, HttpServletRequest request){
+        model.addAttribute("events", eventHandler.getEventsSorted());
+        return "events";
+    }
+
+    @GetMapping("/groups")
+    public String viewGroups(Model model, HttpServletRequest request){
+        return "groups";
+    }
+
+    @GetMapping("/messages")
+    public String viewMessages(Model model, HttpServletRequest request){
+        return "messages";
     }
 
     @GetMapping("/profile")

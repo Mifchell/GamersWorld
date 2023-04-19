@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Events</title>
+        <meta charset="UTF-8">
+		<link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+		<style>
+			.accordion {
+			  cursor: pointer;
+			  width: 100%;
+			  text-align: left;
+			  outline: none;
+			  font-size: 15px;
+			  transition: 0.4s;
+			}
+			
+			.active, .accordion:hover {
+			  background-color: #706f6f !important; 
+			}
+			
+			.panel {
+			  border: 5px solid #1c4f52;
+    		  color: white;
+    		  padding: 5px 60px;
+    		  background-color:black;
+			  display: none;
+			  overflow: hidden;
+			}
+
+			.search {
+				padding: 10px 10px;
+				float: left;
+				border: none;
+				margin-top: 10px;
+				margin-right: 16px;
+				font-size: 17px;
+			}
+
+			button {
+				font-size: 17px;
+				padding: 10px;
+			}
+
+			input[type=text] {
+				font-size: 20px;
+			}
+			</style>
+	</head>
+
+	<body>
+		<a th:href="@{/index}"><div id="banner"></div></a>
+		<header>
+            <div class="nav">
+                <a th:href="@{/index}">Home</a>
+                <a th:href="@{/events}">Events</a>
+                <a th:href="@{/groups}">Groups</a>
+                <a th:href="@{/messages}">Messages</a>
+                <a th:href="@{/profile}">Profile</a>
+              </div>
+		</header>
+
+        <div class = "container">
+
+            <div class="search">
+                <form action="#">
+                    <div style="display: flex">
+                        <input type="text" placeholder="Filter Events" name="search">
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+            <tr th:each="event : ${events}">
+                <button class="accordion" id="eventborder" style="font-size: large; font-weight: bold"><u><a href="event.html"><span th:text="${event.eventName}"></span> | <span th:text="${event.date}"></span> | <span th:text="${event.location}"></span></a></u></button>
+                <div class="panel">
+                    <p><span th:text="${event.description}"></span></p>
+                </div>
+            </tr>
+
+        </div>
+
+		<script src="js/index.js"></script>
+
+		<footer>
+			<!--Copyright information-->
+			<br>
+			<p class="whitetext">&copy; 2023 All rights reserved</p>
+		  </footer>
+
+	</body>
+</html>

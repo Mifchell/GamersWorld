@@ -151,11 +151,19 @@ public class EventHandler {
         // I'm not coding this today, I'll leave this for later me
     }
 
+
+    public List<Event> getEventsSorted()
+    {
+        List<Event> events = eventRepo.findAll();
+        return sortEvents(events);
+    }
+
     private List<Event> sortEvents(List<Event> events)
     {
         Comparator<Event> dateComparator = Comparator.comparing(Event::getDate);
 
         Collections.sort(events, dateComparator);
+        Collections.reverse(events);
 
         return events;
     }
