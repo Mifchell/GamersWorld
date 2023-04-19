@@ -68,13 +68,14 @@ body {
 
   .container {
     padding: 40px;
-    background-color: #242424;
     display: flex;
-    flex-direction: column;
+    height: 100vh;
+    background-color: #242424;
   }
 
-  .box-group {
-    display: flex;
+  .box-group{
+    flex-direction: column;
+    width: 70%;
   }
 
   .sub{
@@ -94,8 +95,10 @@ body {
   }
 
   /** why is there 2 a's*/
-  a{
-    color: #b749be
+  .container a{
+    color: #b749be;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    
     /**
     other colors: 
     #be4950
