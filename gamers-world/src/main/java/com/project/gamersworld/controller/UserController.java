@@ -41,6 +41,11 @@ public class UserController {
         return "groups";
     }
 
+    @GetMapping("/gamers")
+    public String viewGamers(Model model, HttpServletRequest request){
+        return "gamers";
+    }
+
     @GetMapping("/messages")
     public String viewMessages(Model model, HttpServletRequest request){
         return "messages";

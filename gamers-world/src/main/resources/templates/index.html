@@ -14,16 +14,15 @@
     <!--Navigation Menu-->
     <div class="nav">
       <a th:href="@{/index}">Home</a>
-      <a th:href="@{/events}">Events</a>
-      <a th:href="@{/groups}">Groups</a>
       <a th:href="@{/messages}">Messages</a>
       <a th:href="@{/profile}">Profile</a>
     </div>
 
     <div class = "indexcontainer">
     <div class="box-group">
+      <!-- Groups -->
       <div class = "groups">
-        <h1>Groups</h1>
+        <h1><a th:href="@{/groups}">Groups</a></h1>
         <div class = "groups post">
           <h2>Group Name</h2>
           <p class="tab">Description</p>
@@ -32,8 +31,9 @@
    
     <!-- Events -->
     <div class = "events">
-      <h1>Events</h1>
-      <tr th:each="event : ${events}">
+      <h1><a th:href="@{/events}">Events</a></h1>
+      <!-- show only first 5 -->
+      <tr th:each="event, iterStat : ${events}" th:if="${iterStat.index} lt 5">
       <div class = "events post">
         <h2><span th:text="${event.date}"></span> | <span th:text="${event.location}"></span></h2>
         <h2><a href="event.html"><span th:text="${event.eventName}"></span></a></h2>
@@ -42,10 +42,9 @@
         <p>Play Level: <span th:text="${event.playLevel}"></span></p>
       </div>
   </div>
-    </tr>
+      </tr>
     </div>
 
-    <!-- Groups-->
     <div class="box-group2">
       <!-- Trends -->
       <div class = "trends">
@@ -56,9 +55,10 @@
         </div>
     </div>      
 
-  <div class="users">
-    <h1>Users</h1>
-    <div class = "users post">
+    <!-- Gamers -->
+  <div class="gamers">
+    <h1><a th:href="@{/gamers}">Gamers</a></h1>
+    <div class = "gamers post">
       <h2><a href="">Reccomend Username</a></h2>
       <p class="tab">User bio</p>
       <p>Games: </p>
