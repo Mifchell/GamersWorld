@@ -18,30 +18,6 @@
       <a th:href="@{/profile}">Profile</a>
     </div>
 
-<!-- style this later using the commented out comment -->
-  <table>
-    <thead>
-        <tr>
-            <th>Event Name</th>
-            <th>Date</th>
-            <th>Location</th>
-            <th>Game</th>
-            <th>PlayLevel</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-  <tr th:each="event : ${events}">
-    <td th:text="${event.eventName}"></td>
-    <td th:text="${event.date}"></td>
-    <td th:text="${event.location}"></td>
-    <td th:text="${event.game}"></td>
-    <td th:text="${event.playLevel}"></td>
-    <td th:text="${event.description}"></td>
-  </tr>
-  </tbody>
-</table>
-
 <br>
     <div class = "indexcontainer">
 
@@ -57,15 +33,20 @@
         </div>
     </div>
 
+
+   
     <div class = "events">
       <h1>Events</h1>
+      <tr th:each="event : ${events}">
       <div class = "events post">
-        <h2>4/26/23 | 6pm</h2>
-        <h2><a href="event.html">Meetup at the Esports center.</a></h2>
-        <p class="tab">Let's meetup this Saturday to play Valorant!</p>
-        <p>Post by <a href="profile.html"><b>Gamer</b></a> on 26 March 2023</p>
+        <h2><span th:text="${event.date}"></span> | <span th:text="${event.location}"></span></h2>
+        <h2><a href="event.html"><span th:text="${event.eventName}"></span></a></h2>
+        <p class="tab"><span th:text="${event.description}"></span></p>
+        <p>Game: <span th:text="${event.game}"></span></p>
+        <p>Play Level: <span th:text="${event.playLevel}"></span></p>
       </div>
   </div>
+    </tr>
     </div>
 
     <div class = "groups">
