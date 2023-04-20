@@ -68,8 +68,17 @@ public class EventHandler {
     /*
      * do a filter search on the repositary
      */
-    public void filterEvent() {
+    public List<Event> filterEvent(String filter) {
+        List<Event> returnList = new ArrayList<Event>();
 
+        if (filter.equals("")) {
+            returnList = eventRepo.findAll();
+        } else {
+            returnList.addAll(eventRepo.findByDescriptionContaining(filter));
+            returnList.add(eventRepo.findByEventName(filter));
+        }
+
+        return returnList;
     }
 
     /*

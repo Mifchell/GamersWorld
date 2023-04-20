@@ -36,6 +36,13 @@ public class UserController {
         return "events";
     }
 
+    @PostMapping("/events")
+    public String showfilterEvents(@RequestParam(value = "filter") String filter, Model model, HttpServletRequest request)
+    {   
+        model.addAttribute("events", eventHandler.filterEvent(filter));
+        return "events";
+    }
+
     @GetMapping("/groups")
     public String viewGroups(Model model, HttpServletRequest request){
         return "groups";
