@@ -160,10 +160,10 @@ public class EventHandler {
 
     private List<Event> sortEvents(List<Event> events)
     {
-        Comparator<Event> dateComparator = Comparator.comparing(Event::getDate);
-
-        Collections.sort(events, dateComparator);
-        Collections.reverse(events);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        
+        Comparator<Event> byDate = Comparator.comparing(event -> LocalDate.parse(event.getDate(), formatter));
+        Collections.sort(events, byDate.reversed());
 
         return events;
     }
