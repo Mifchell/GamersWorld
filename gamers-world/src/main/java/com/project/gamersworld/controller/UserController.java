@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping("/events")
-    public String showfilterEvents(@RequestParam(value = "filter") String filter, Model model, HttpServletRequest request)
+    public String filterEvents(@RequestParam(value = "filter") String filter, Model model, HttpServletRequest request)
     {   
         model.addAttribute("events", eventHandler.filterEvent(filter));
         return "events";

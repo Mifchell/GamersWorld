@@ -78,7 +78,7 @@ public class EventHandler {
             returnList.add(eventRepo.findByEventName(filter));
         }
 
-        return returnList;
+        return sortEvents(returnList);
     }
 
     /*
