@@ -29,19 +29,19 @@ public class GamersWorldApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args){
 
-		// // // test with user1
-		//  User user = new User(userRepo.findByProfileEmailAddress("fortniteuser@gmail.com"));
+		// // test with user1
+		 User user = new User(userRepo.findByProfileEmailAddress("fortniteuser@gmail.com"));
 
-		//  List<Event> events = eventHandler.eventSearch(user);
+		 List<Event> events = eventHandler.eventSearch(user);
 
 
-		//  int i = 1;
-		// for (Event event : events)
-		//  {
-		// 	System.out.println("Event #" + i);
-		//  	System.out.println("Date: " + event.getDate());
-		// 	i++;
-		//  }
+		 int i = 1;
+		for (Event event : events)
+		 {
+			System.out.println("Event #" + i);
+		 	System.out.println("Date: " + event.getDate());
+			i++;
+		 }
 
 	}
 

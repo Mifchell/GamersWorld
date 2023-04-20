@@ -161,9 +161,8 @@ public class EventHandler {
     private List<Event> sortEvents(List<Event> events)
     {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        
         Comparator<Event> byDate = Comparator.comparing(event -> LocalDate.parse(event.getDate(), formatter));
-        Collections.sort(events, byDate.reversed());
+        Collections.sort(events, byDate);
 
         return events;
     }
