@@ -1,6 +1,7 @@
 package com.project.gamersworld.handlers;
 
 import com.project.gamersworld.models.Group;
+import com.project.gamersworld.models.User;
 import com.project.gamersworld.repo.*;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GroupHandler {
+
     @Autowired
     private GroupRepo groupRepository;
 
@@ -46,17 +48,29 @@ public class GroupHandler {
         return returnList;
     }
 
-    public void createGroup(String name, String description, int creatorID) {
+    public String createGroup(String name, String description, int creatorID) {
 
         try {
 
-            Group group = new Group(name, userRepo.findByUid(creatorID), description);
+            User creator = new User(userRepo.findByUid(creatorID));
 
+            if (groupRepository.findByName(name) != null) {
+                return null;
+            }
+
+            Group group = new Group(name, creator, description);
+
+            ArrayList<Group> groupList = (ArrayList<Group>) creator.getGroupList();
+            groupList.add(group);
+
+            userRepo.save(creator);
             groupRepository.save(group);
 
         } catch (Exception e) {
             e.toString();
         }
+
+        return name;
 
     }
 
@@ -92,6 +106,23 @@ public class GroupHandler {
      */
     public boolean deleteGroup() {
         return false;
+    }
+
+    public User leaveGroup(User user, int groupID) {
+
+        Group group = new Group(groupRepository.findByGroupID(groupID));
+        List<User> memberList = group.getMembers();
+        if (memberList.contains(user)) {
+            memberList.remove(user);
+            List<Group> groupList = user.getGroupList();
+            groupList.remove(group);
+            user.setGroupList(groupList);
+            userRepo.save(user);
+            groupRepository.save(group);
+            return user;
+        }
+        return null;
+
     }
 
 }

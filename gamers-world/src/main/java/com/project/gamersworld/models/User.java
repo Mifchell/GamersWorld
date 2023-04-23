@@ -129,4 +129,8 @@ public class User {
     public String toString() {
         return "username: " + this.profile.getUsername() + " ID: " + getUserID();
     }
+
+    public Object thenReturn(User user1) {
+        return null;
+    }
 }
