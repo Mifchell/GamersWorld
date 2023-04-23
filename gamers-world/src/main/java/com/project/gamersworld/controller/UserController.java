@@ -1,9 +1,13 @@
 package com.project.gamersworld.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -130,6 +134,34 @@ public class UserController {
         }
 
         return "redirect:/signup?error";
+    }
+
+    //log out
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request)
+    {
+        HttpSession session = request.getSession();
+        session.removeAttribute("userID");
+        
+        return "redirect:/login?logout"; //go back to login page after log out
+
+    }
+
+    //delect account
+    @PostMapping("/delete")
+    public String deleteAccount(HttpServletRequest request) // must enter password to delete account
+    { 
+        //if password matches then delete
+        if(userHandler.deleteAccount(retrieveCurrentUser(request)))
+        {
+            HttpSession session = request.getSession();
+            session.removeAttribute("userID");
+            return "redirect:/login";
+            
+        }
+       
+        return "redirect:/profile"; 
+
     }
 
     // create profile

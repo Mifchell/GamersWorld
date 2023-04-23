@@ -50,6 +50,19 @@ public class UserHandler {
             return user;
         }
     }
+
+    public boolean deleteAccount(User user)
+    {
+        if (user != null)
+        {
+            userRepo.delete(user);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     public List<User> userSearch(String[] filters) {
         ArrayList<User> returnList = new ArrayList<User>();
         // make sure no duplicate users are added
