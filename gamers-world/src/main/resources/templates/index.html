@@ -14,48 +14,63 @@
     <!--Navigation Menu-->
     <div class="nav">
       <a th:href="@{/index}">Home</a>
-      <a th:href="@{/search}">Search</a>
+      <a th:href="@{/messages}">Messages</a>
       <a th:href="@{/profile}">Profile</a>
     </div>
 
-    <br>
-
-    <!--Event forum-->
-
-<!-- style this later using the commented out comment -->
-  <table>
-    <thead>
-        <tr>
-            <th>Event Name</th>
-            <th>Date</th>
-            <th>Location</th>
-            <th>Game</th>
-            <th>PlayLevel</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-  <tr th:each="event : ${events}">
-    <td th:text="${event.eventName}"></td>
-    <td th:text="${event.date}"></td>
-    <td th:text="${event.location}"></td>
-    <td th:text="${event.game}"></td>
-    <td th:text="${event.playLevel}"></td>
-    <td th:text="${event.description}"></td>
-  </tr>
-  </tbody>
-</table>
-
-    <!-- <div class = "container">
-      <h1>Events</h1>
-      <div class = "post">
-      <h2>4/26/23 | 6pm</h2>
-      <h2><a th:href="@{/event}">Meetup at the Esports center.</a></h2>
-      <p class="tab">Let's meetup this Saturday to play Valorant!</p>
-      <p>Post by <a th:href="@{/profile}"><b>Gamer</b></a> on 26 March 2023</p>
+    <div class = "indexcontainer">
+    <div class="box-group">
+      <!-- Groups -->
+      <div class = "groups">
+        <h1><a th:href="@{/groups}">Groups</a></h1>
+        <tr th:each="group, iterStat : ${groups}" th:if="${iterStat.index} lt 3">
+        <div class = "groups post">
+          <h2><span th:text="${group.name}"></span></h2>
+          <p class="tab"><span th:text="${group.description}"></span></p>
+        </div>
     </div>
-    <br>
-  </div> -->
+  </tr>
+   
+    <!-- Events -->
+    <div class = "events">
+      <h1><a th:href="@{/events}">Events</a></h1>
+      <!-- show only first 5 -->
+      <tr th:each="event, iterStat : ${events}" th:if="${iterStat.index} lt 3">
+      <div class = "events post">
+        <h2><span th:text="${event.date}"></span> | <span th:text="${event.location}"></span></h2>
+        <h2><a href="event.html"><span th:text="${event.eventName}"></span></a></h2>
+        <p class="tab"><span th:text="${event.description}"></span></p>
+        <p>Game: <span th:text="${event.game}"></span></p>
+        <p>Play Level: <span th:text="${event.playLevel}"></span></p>
+      </div>
+  </div>
+      </tr>
+    </div>
+
+    <div class="box-group2">
+      <!-- Trends -->
+      <div class = "trends">
+        <h1>Trends</h1>
+        <div class = "trends post">
+          <h2>Trend Name</h2>
+          <p class="tab">Description</p>
+        </div>
+    </div>      
+
+    <!-- Gamers -->
+  <div class="gamers">
+    <h1><a th:href="@{/gamers}">Gamers</a></h1>
+    <div class = "gamers post">
+      <h2><a href="">Reccomend Username</a></h2>
+      <p class="tab">User bio</p>
+      <p>Games: </p>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+</div>
 
     <footer>
       <!--Copyright information-->

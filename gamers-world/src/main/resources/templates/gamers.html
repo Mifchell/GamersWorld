@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Gamers</title>
+        <meta charset="UTF-8">
+		<link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+		<style>
+			.accordion {
+			  cursor: pointer;
+			  width: 100%;
+			  text-align: left;
+			  outline: none;
+			  font-size: 15px;
+			  transition: 0.4s;
+			}
+			
+			.active, .accordion:hover {
+			  background-color: #706f6f !important; 
+			}
+			
+			.panel {
+			  border: 5px solid #1c4f52;
+    		  color: white;
+    		  padding: 5px 60px;
+    		  background-color:black;
+			  display: none;
+			  overflow: hidden;
+			}
+
+			.search {
+				padding: 10px 10px;
+				float: left;
+				border: none;
+				margin-top: 10px;
+				margin-right: 16px;
+				font-size: 17px;
+			}
+
+			button {
+				font-size: 17px;
+				padding: 10px;
+			}
+
+			input[type=text] {
+				font-size: 20px;
+			}
+			</style>
+	</head>
+
+	<body>
+		<a th:href="@{/index}"><div id="banner"></div></a>
+		<header>
+            <div class="nav">
+                <a th:href="@{/index}">Home</a>
+                <a th:href="@{/messages}">Messages</a>
+                <a th:href="@{/profile}">Profile</a>
+              </div>
+		</header>
+
+        <div class = "container">
+		<h1>Gamers</h1>
+
+            <div class="search">
+                <form action="#">
+                    <div style="display: flex">
+                        <input type="text" placeholder="Filter Gamers" name="search">
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+    
+            <button class="accordion" id="eventborder" style="font-size: large; font-weight: bold"><u>Meetup at the Esports center.</u></button>
+            <div class="panel">
+                <p class="whitetext">Let's meetup this Saturday to play Valorant!</p>
+            </div>
+    
+            <button class="accordion" id="eventborder" style="font-size: large; font-weight: bold"><u>Looking for people to play CSGO!</u></button>
+            <div class="panel">
+                <p class="whitetext">Hmu. Snap: gamer123 Discord: noob#4859</p>
+            </div>
+    
+            <button class="accordion" id="eventborder" style="font-size: large; font-weight: bold"><u>Smash Bros tournament 4/3 @ 6 pm</u></button>
+            <div class="panel">
+                <p class="whitetext">Located at Esports center</p>
+            </div>
+
+        </div>
+
+		<script src="js/index.js"></script>
+
+		<footer>
+			<!--Copyright information-->
+			<br>
+			<p class="whitetext">&copy; 2023 All rights reserved</p>
+		  </footer>
+
+	</body>
+</html>
