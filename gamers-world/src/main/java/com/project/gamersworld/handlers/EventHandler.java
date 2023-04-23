@@ -70,12 +70,12 @@ public class EventHandler {
      */
     public List<Event> filterEvent(String filter) {
         List<Event> returnList = new ArrayList<Event>();
-
+        
         if (filter.equals("")) {
             returnList = eventRepo.findAll();
         } else {
             returnList.addAll(eventRepo.findByDescriptionContaining(filter));
-            returnList.add(eventRepo.findByEventName(filter));
+            returnList.addAll(eventRepo.findByEventNameContaining(filter));
         }
 
         return sortEvents(returnList);

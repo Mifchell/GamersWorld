@@ -15,6 +15,8 @@ public interface EventRepo extends JpaRepository<Event, Long> {
 
     public List<Event> findByDescriptionContaining(String description);
 
+    public List<Event> findByEventNameContaining(String name);
+
     List<Event> findByAttendeeList(User user);
 
     public void deleteByEventId(int eventId);
