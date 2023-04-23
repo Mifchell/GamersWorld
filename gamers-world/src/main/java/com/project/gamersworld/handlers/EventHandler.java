@@ -3,7 +3,11 @@ package com.project.gamersworld.handlers;
 import com.project.gamersworld.models.*;
 import com.project.gamersworld.repo.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,26 +44,41 @@ public class EventHandler {
             // retrieve events with matching user preferences
             for (int i = 0; i < events.size(); i++) {
                 for (int j = 0; j < user.getProfile().getGames().size(); j++) {
-                    if (events.get(i).getGame().equals(user.getProfile().getGames().get(i))) {
-                        // store event in return list
-                        returnEvents.add(events.get(i));
+                    if (events.get(i).getGame() != null && events.get(i).getGame().equals(user.getProfile().getGames().get(j))) {
+                        // store event in return list if not there
+                        if (!returnEvents.contains(events.get(i)))
+                            returnEvents.add(events.get(i));
                     }
                 }
             }
-        } else {
-            // retrieve all events sorted chronologically
-            returnEvents = events;
-
         }
 
-        return returnEvents;
+        // check if there are matched events, sort, then return
+        if (!returnEvents.isEmpty())
+        {
+            return sortEvents(returnEvents);
+        }
+        else{
+            // return all events sorted chronologically
+            return sortEvents(events);
+        }
+
     }
 
     /*
      * do a filter search on the repositary
      */
-    public void filterEvent() {
+    public List<Event> filterEvent(String filter) {
+        List<Event> returnList = new ArrayList<Event>();
+        
+        if (filter.equals("")) {
+            returnList = eventRepo.findAll();
+        } else {
+            returnList.addAll(eventRepo.findByDescriptionContaining(filter));
+            returnList.addAll(eventRepo.findByEventNameContaining(filter));
+        }
 
+        return sortEvents(returnList);
     }
 
     /*
@@ -108,9 +127,9 @@ public class EventHandler {
     public void deleteEvent(int ID) {
         Event event = new Event(eventRepo.findByEventId(ID));
         for(User attendee: event.getAttendeeList()) {
-            for(int i = 0; i < attendee.getEventList().size(); i++) {
-                if(attendee.getEventList().get(i).getEventId() == ID){
-                    attendee.getEventList().remove(i);
+            for(Event event2: attendee.getEventList()) {
+                if(event2.getEventId() == ID){
+                    attendee.getEventList().remove(ID);
                     break;
                 }
             }
@@ -137,7 +156,29 @@ public class EventHandler {
     /*
      * User leaves a comment on the post
      */
-    public void commentEvent(String comment){
-        // I'm not coding this today, I'll leave this for later me
+    public void commentEvent(String comment, int eventID){
+        // Retreive existing comment list
+        Event event = new Event(eventRepo.findByEventId(eventID));
+		List<String> comments = event.getComments();
+        // Add comment to list and save
+		comments.add(comment);
+		event.setComments(comments);
+		eventRepo.save(event);
+    }
+
+
+    public List<Event> getEventsSorted()
+    {
+        List<Event> events = eventRepo.findAll();
+        return sortEvents(events);
+    }
+
+    private List<Event> sortEvents(List<Event> events)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        Comparator<Event> byDate = Comparator.comparing(event -> LocalDate.parse(event.getDate(), formatter));
+        Collections.sort(events, byDate);
+
+        return events;
     }
 }

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Messages</title>
+        <meta charset="UTF-8">
+		<link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+	</head>
+
+	<body>
+		<a th:href="@{/index}"><div id="banner"></div></a>
+		<header>
+            <div class="nav">
+                <a th:href="@{/index}">Home</a>
+                <a th:href="@{/messages}">Messages</a>
+                <a th:href="@{/profile}">Profile</a>
+              </div>
+		</header>
+
+        <div class = "container">
+
+		<!-- put messages here -->
+
+        </div>
+
+		<script src="js/index.js"></script>
+
+		<footer>
+			<!--Copyright information-->
+			<br>
+			<p class="whitetext">&copy; 2023 All rights reserved</p>
+		  </footer>
+
+	</body>
+</html>

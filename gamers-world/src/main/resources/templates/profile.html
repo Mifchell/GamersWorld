@@ -19,11 +19,9 @@
     <!--Navigation Menu-->
     <div class="nav">
       <a th:href="@{/index}">Home</a>
-      <a th:href="@{/search}">Search</a>
+      <a th:href="@{/messages}">Messages</a>
       <a th:href="@{/profile}">Profile</a>
     </div>
-
-    <br>
 
   <div class="container">
 
@@ -31,8 +29,12 @@
     <div class="profile">
         <br>
         <img src="images/tabprofile.jpg" alt="ProfilePic" style="width: 90%">
-        <h1>tabatron2000</h1>
-        <p>Preferred game: Valorant</p>
+        <h1><span th:text="${profile.username}"></span></h1>
+        <p><span th:text="${profile.description}"></span></p>
+        <p>Games: </p>
+        <div th:each="game : ${profile.games}">
+          <p th:text="${game}"></p>
+        </div>
         <p><a th:href="@{/edit_profile}"><button>Edit profile</button></p></a>
       </div>
   </div>
