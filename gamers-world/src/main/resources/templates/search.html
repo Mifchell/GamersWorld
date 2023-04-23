@@ -4,6 +4,7 @@
 		<title>Search</title>
         <meta charset="UTF-8">
 		<link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+		
 		<style>
 			.accordion {
 			  cursor: pointer;
@@ -44,12 +45,24 @@
 			input[type=text] {
 				font-size: 20px;
 			}
-			</style>
+
+			.logout_button{
+				position:absolute;
+    			bottom:0;
+    			right:0;
+			}
+		</style>
 	</head>
 
 	<body>
 
 		<a th:href="@{/index}"><div id="banner"></div></a>
+
+		<!--Logout button-->
+		<form th:action="@{/logout}" method="post">
+			<button type = "submit" class="logout_button"> Logout</button>
+		</form>
+
 		<header>
 			<div class="nav">
 				<a th:href="@{/index}">Home</a>

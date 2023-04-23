@@ -10,8 +10,8 @@ Tab:
 - filter post
 
 Justin
-- Log out
-- Create profile
+- Log out 
+- display trends
 - edit profile
 - React message
 - delete account

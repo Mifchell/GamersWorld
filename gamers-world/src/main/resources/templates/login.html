@@ -6,7 +6,21 @@
     <link rel="stylesheet" th:href="@{/css/form.css}" href="../css/form.css">
   </head>
 
+  <style>
+    .delete_button{
+      position:absolute;
+    			bottom:0;
+    			right:0;
+    }
+  </style>
+
   <body>
+
+    <!--Delete account button, probably just need it in login page-->
+    <form th:action="@{/delete}" method="post">
+			<button type = "submit" class="delete_button"> Delete Account</button>
+		</form>
+
     <a th:href="@{/login}"><div id="banner"></div></a>
     <br>
     

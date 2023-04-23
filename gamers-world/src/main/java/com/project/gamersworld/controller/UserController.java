@@ -8,6 +8,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.gamersworld.handlers.UserHandler;
 
+import ch.qos.logback.core.joran.conditional.ElseAction;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+
+
 @Controller
 public class UserController {
 
@@ -77,6 +86,37 @@ public class UserController {
         }
 
         return "redirect:/signup?error";
+    }
+
+    //log out
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response)
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null)
+        {
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        }
+        
+        return "redirect:/login?logout"; //go back to login page after log out
+
+    }
+
+    //delect account
+    @PostMapping("/delete")
+    public String deleteAccount(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password) // must enter password to delete account
+    {
+
+        //if password matches then delete
+        if(userHandler.deleteAccount(email, password))
+        {
+            return "redirect:/signup";
+            
+        }
+        
+        
+        return "redirect:/login"; //delete account button in login page?
+
     }
 
 }

@@ -6,9 +6,15 @@
     <link rel="stylesheet" th:href="@{/css/form.css}" href="../css/form.css">
 
 </head>
+
 <body>
 
     <a th:href="@{/index}"><div id="banner"></div></a>
+
+    <!--Logout button-->
+    <form th:action="@{/logout}" method="post">
+      <button type = "submit"> Logout</button>
+    </form>
 
     <!--Navigation Menu-->
     <div class="nav">
@@ -18,7 +24,7 @@
       </div>
 
     <br>
-
+    
 <div class="container">
 <h1>Edit Profile</h1>
 

@@ -9,6 +9,9 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Embeddable
 public class Profile {
     @NotNull
@@ -21,7 +24,8 @@ public class Profile {
     // private EnumMap<Game, PlayLevel> preferences = new EnumMap<>(Game.class);
 
     // It didn't like two Eager types when using user so this became lazy
-    @ElementCollection(targetClass = Game.class, fetch = FetchType.LAZY)
+    @ElementCollection(targetClass = Game.class, fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SELECT)
     @CollectionTable(name = "Games", joinColumns = @JoinColumn(name = "uid"))
     @Enumerated(EnumType.STRING)
     @Column(name = "game_name")

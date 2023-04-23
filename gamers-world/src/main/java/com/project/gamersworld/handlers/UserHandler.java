@@ -43,4 +43,19 @@ public class UserHandler {
             return true;
         }
     }
+
+    public boolean deleteAccount(String email, String password)
+    {
+        
+        User user = new User(userRepo.findByProfileEmailAddress(email));
+        
+        if(userRepo.findByProfileEmailAddress(email) != null && user.getProfile().getPassword().equals(password)){
+            userRepo.delete(user);
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
 }
