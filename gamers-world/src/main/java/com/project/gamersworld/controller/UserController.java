@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.gamersworld.handlers.EventHandler;
+import com.project.gamersworld.handlers.GroupHandler;
 import com.project.gamersworld.handlers.UserHandler;
 import com.project.gamersworld.models.User;
 
@@ -22,11 +23,15 @@ public class UserController {
 
     @Autowired
     EventHandler eventHandler;
+
+    @Autowired
+    GroupHandler groupHandler;
     
     // show pages
     @GetMapping("/index")
     public String viewHome(Model model, HttpServletRequest request){
         model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
+        model.addAttribute("groups", groupHandler.groupSearch(""));
         return "index";
     }
 

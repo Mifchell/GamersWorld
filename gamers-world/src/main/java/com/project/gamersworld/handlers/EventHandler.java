@@ -70,12 +70,12 @@ public class EventHandler {
      */
     public List<Event> filterEvent(String filter) {
         List<Event> returnList = new ArrayList<Event>();
-
+        
         if (filter.equals("")) {
             returnList = eventRepo.findAll();
         } else {
             returnList.addAll(eventRepo.findByDescriptionContaining(filter));
-            returnList.add(eventRepo.findByEventName(filter));
+            returnList.addAll(eventRepo.findByEventNameContaining(filter));
         }
 
         return sortEvents(returnList);
@@ -127,9 +127,9 @@ public class EventHandler {
     public void deleteEvent(int ID) {
         Event event = new Event(eventRepo.findByEventId(ID));
         for(User attendee: event.getAttendeeList()) {
-            for(int i = 0; i < attendee.getEventList().size(); i++) {
-                if(attendee.getEventList().get(i).getEventId() == ID){
-                    attendee.getEventList().remove(i);
+            for(Event event2: attendee.getEventList()) {
+                if(event2.getEventId() == ID){
+                    attendee.getEventList().remove(ID);
                     break;
                 }
             }

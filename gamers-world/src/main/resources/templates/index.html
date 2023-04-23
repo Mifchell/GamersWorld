@@ -23,17 +23,19 @@
       <!-- Groups -->
       <div class = "groups">
         <h1><a th:href="@{/groups}">Groups</a></h1>
+        <tr th:each="group, iterStat : ${groups}" th:if="${iterStat.index} lt 3">
         <div class = "groups post">
-          <h2>Group Name</h2>
-          <p class="tab">Description</p>
+          <h2><span th:text="${group.name}"></span></h2>
+          <p class="tab"><span th:text="${group.description}"></span></p>
         </div>
     </div>
+  </tr>
    
     <!-- Events -->
     <div class = "events">
       <h1><a th:href="@{/events}">Events</a></h1>
       <!-- show only first 5 -->
-      <tr th:each="event, iterStat : ${events}" th:if="${iterStat.index} lt 5">
+      <tr th:each="event, iterStat : ${events}" th:if="${iterStat.index} lt 3">
       <div class = "events post">
         <h2><span th:text="${event.date}"></span> | <span th:text="${event.location}"></span></h2>
         <h2><a href="event.html"><span th:text="${event.eventName}"></span></a></h2>
