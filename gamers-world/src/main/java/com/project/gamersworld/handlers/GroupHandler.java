@@ -1,6 +1,6 @@
 package com.project.gamersworld.handlers;
 
-import com.project.gamersworld.models.Group;
+import com.project.gamersworld.models.*;
 import com.project.gamersworld.repo.*;
 
 import java.util.ArrayList;
@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 public class GroupHandler {
     @Autowired
     private GroupRepo groupRepository;
+
+    @Autowired
+    private UserRepo userRepository;
 
     public GroupRepo getGroupRepository() {
         return this.groupRepository;
@@ -56,7 +59,7 @@ public class GroupHandler {
 
     /*
      * @param the User joining
-     * 
+     *
      * think of deleting this? kinda the same as add member? or putting it in
      * another class to call addMethod
      */
@@ -68,8 +71,14 @@ public class GroupHandler {
      * @param the group to delete
      * delete the group from the DB
      */
-    public boolean deleteGroup() {
-        return false;
-    }
+    public void deleteGroup(int groupID) {
+        Group group = groupRepository.findByGroupID(groupID);
 
+        for (User member : group.getMembers()) {
+            member.getGroupList().remove(group);
+            userRepository.save(member);
+        }
+
+        groupRepository.delete(group);
+    }
 }

@@ -7,7 +7,7 @@ import com.project.gamersworld.models.Group;
 
 public interface GroupRepo extends JpaRepository<Group, Long> {
 
-    public List<Group> findByGroupID(int groupID);
+    public Group findByGroupID(int groupID);
 
     public List<Group> findByDescriptionContaining(String description);
 
