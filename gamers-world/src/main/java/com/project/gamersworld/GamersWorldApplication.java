@@ -29,13 +29,6 @@ public class GamersWorldApplication implements CommandLineRunner {
 	public void run(String... args) {
 
 
-		User user = userRepository.findByUid(1);
-
-		
-		for(User u:user.getFriendList())
-			System.out.println(u);
-
-
 	}
 
 }
