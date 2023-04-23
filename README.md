@@ -5,13 +5,13 @@ IT 326 Project
 Tab:
 - sign up
 - login
-- display trends
+- Create profile
 - Search post
 - filter post
 
 Justin
 - Log out
-- Create profile
+- display trends
 - edit profile
 - React message
 - delete account

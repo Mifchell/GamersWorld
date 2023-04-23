@@ -1,5 +1,8 @@
 package com.project.gamersworld.handlers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -8,6 +11,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import com.project.gamersworld.models.Game;
 import com.project.gamersworld.models.Profile;
 import com.project.gamersworld.models.User;
 import com.project.gamersworld.models.Game;
@@ -18,11 +22,14 @@ public class UserHandler {
     @Autowired
     private UserRepo userRepo;
 
-    public User login(String email, String password) {
+
+    public User login(String email, String password)
+    {
         // if user exists, check if password matches saved password
         if (userRepo.findByProfileEmailAddress(email) != null) {
             User user = new User(userRepo.findByProfileEmailAddress(email));
-            if (user.getProfile().getPassword().equals(password)) {
+            if(user.getProfile().getPassword().equals(password))
+            {
                 return user;
             }
         }
@@ -30,20 +37,20 @@ public class UserHandler {
         return null;
     }
 
-    public User signUp(String email, String password) {
+    public User signUp(String email, String password)
+    {
         // check if there is already an existing email
-        if (userRepo.findByProfileEmailAddress(email) != null) {
+        if (userRepo.findByProfileEmailAddress(email) != null){
             return null;
-        } else {
+        }
+        else{
             // create new profile and user
             Profile profile = new Profile("", password, email, "", "");
             User user = new User(profile);
             userRepo.save(user);
-
             return user;
         }
     }
-
     public List<User> userSearch(String[] filters) {
         ArrayList<User> returnList = new ArrayList<User>();
         // make sure no duplicate users are added
