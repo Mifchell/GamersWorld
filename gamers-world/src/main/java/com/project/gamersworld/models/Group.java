@@ -78,4 +78,8 @@ public class Group {
     public String toString() {
         return "groupName: " + this.name;
     }
+
+    public Object thenReturn(Object object) {
+        return null;
+    }
 }

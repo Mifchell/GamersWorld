@@ -13,8 +13,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
-
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class GamersWorldApplication implements CommandLineRunner {
 	@Autowired
 	EventHandler eventHandler;
@@ -27,8 +26,8 @@ public class GamersWorldApplication implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args){
+	public void run(String... args) {
 
-}
+	}
 
 }
