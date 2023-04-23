@@ -108,12 +108,16 @@ public class UserHandler {
     }
 
     public void createProfile(User user, String username, String description, String preferredTime, String game) {
-        user.getProfile().setUsername(username);
-        user.getProfile().setDescription(description);
+        
+        
+        user.getProfile().setUsername(username); // username has to be unique
+        user.getProfile().setDescription(description); 
         user.getProfile().setTime(preferredTime);
 
         // set one game for now
+        // drop down page for selecting more than one game
         List<Game> games = new ArrayList<Game>();
+        game.toUpperCase();
         games.add(Game.valueOf(game));
         user.getProfile().setGames(games);
 

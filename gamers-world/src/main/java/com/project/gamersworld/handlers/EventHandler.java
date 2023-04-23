@@ -34,6 +34,8 @@ public class EventHandler {
      * Does a event search based on user preference
      */
     public List<Event> eventSearch(User user) {
+        // make profile with astroneer- test if nullptr is thrown... if so handle error
+
         // all events
         List<Event> events = eventRepo.findAll();
         // create empty events list
