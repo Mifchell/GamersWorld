@@ -29,32 +29,6 @@ public class GamersWorldApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args){
 
-		// //  test with user1
-		//   User user = new User(userRepo.findByProfileEmailAddress("test1@test.com"));
-
-		//   List<Event> events = eventHandler.eventSearch(user);
-
-		// System.out.println("Reccomended events: ");
-		//   int i = 1;
-		//  for (Event event : events)
-		//   {
-		//  	System.out.println("Event #" + i);
-		//   	System.out.println("Date: " + event.getDate());
-		//  	i++;
-	 	// }
-
-		// 	 events = eventHandler.filterEvent("sea");
-
-
-		// 	  System.out.println("Filter events: ");
-		// 	  i = 1;
-		// 	 for (Event event : events)
-		// 	  {
-		// 		 System.out.println("Event #" + i);
-		// 		  System.out.println("Date: " + event.getDate());
-		// 		 i++;
-		// 		  }
-
-	}
+}
 
 }

@@ -127,9 +127,9 @@ public class EventHandler {
     public void deleteEvent(int ID) {
         Event event = new Event(eventRepo.findByEventId(ID));
         for(User attendee: event.getAttendeeList()) {
-            for(int i = 0; i < attendee.getEventList().size(); i++) {
-                if(attendee.getEventList().get(i).getEventId() == ID){
-                    attendee.getEventList().remove(i);
+            for(Event event2: attendee.getEventList()) {
+                if(event2.getEventId() == ID){
+                    attendee.getEventList().remove(ID);
                     break;
                 }
             }
@@ -156,8 +156,14 @@ public class EventHandler {
     /*
      * User leaves a comment on the post
      */
-    public void commentEvent(String comment){
-        // I'm not coding this today, I'll leave this for later me
+    public void commentEvent(String comment, int eventID){
+        // Retreive existing comment list
+        Event event = new Event(eventRepo.findByEventId(eventID));
+		List<String> comments = event.getComments();
+        // Add comment to list and save
+		comments.add(comment);
+		event.setComments(comments);
+		eventRepo.save(event);
     }
 
 
