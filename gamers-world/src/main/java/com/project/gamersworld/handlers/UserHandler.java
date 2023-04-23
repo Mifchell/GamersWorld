@@ -50,6 +50,20 @@ public class UserHandler {
             return user;
         }
     }
+
+    public boolean deleteAccount(String email, String password)
+    {
+        
+        User user = new User(userRepo.findByProfileEmailAddress(email));
+        
+        if(userRepo.findByProfileEmailAddress(email) != null && user.getProfile().getPassword().equals(password)){
+            userRepo.delete(user);
+            return true;
+        }
+        else{
+            return false;
+        }
+
     public List<User> userSearch(String[] filters) {
         ArrayList<User> returnList = new ArrayList<User>();
         // make sure no duplicate users are added
