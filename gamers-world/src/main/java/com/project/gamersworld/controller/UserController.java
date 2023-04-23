@@ -1,7 +1,5 @@
 package com.project.gamersworld.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -32,9 +30,32 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping("/search")
-    public String viewSearch(){
-        return "search";
+    @GetMapping("/events")
+    public String viewEvents(Model model, HttpServletRequest request){
+        model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
+        return "events";
+    }
+
+    @PostMapping("/events")
+    public String filterEvents(@RequestParam(value = "filter") String filter, Model model, HttpServletRequest request)
+    {   
+        model.addAttribute("events", eventHandler.filterEvent(filter));
+        return "events";
+    }
+
+    @GetMapping("/groups")
+    public String viewGroups(Model model, HttpServletRequest request){
+        return "groups";
+    }
+
+    @GetMapping("/gamers")
+    public String viewGamers(Model model, HttpServletRequest request){
+        return "gamers";
+    }
+
+    @GetMapping("/messages")
+    public String viewMessages(Model model, HttpServletRequest request){
+        return "messages";
     }
 
     @GetMapping("/profile")

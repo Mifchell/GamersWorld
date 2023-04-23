@@ -1,4 +1,4 @@
-body {
+ body {
     background-color: black;
     font-size:14px;
     font-family: 'Titillium Web', sans-serif;
@@ -71,6 +71,22 @@ body {
     background-color: #242424;
   }
 
+  .indexcontainer {
+    padding: 40px;
+    display: flex;
+    background-color: #242424;
+  }
+
+  .box-group{
+    flex-direction: column;
+    width: 70%;
+  }
+
+  .box-group2{
+    flex-direction: column;
+    width: 30%;
+  }
+
   .sub{
     padding: 20px;
     text-align: center;
@@ -88,8 +104,10 @@ body {
   }
 
   /** why is there 2 a's*/
-  a{
-    color: #b749be
+  .indexcontainer a{
+    color: #b749be;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    
     /**
     other colors: 
     #be4950

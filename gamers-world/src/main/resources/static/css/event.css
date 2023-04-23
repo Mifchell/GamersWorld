@@ -2,10 +2,70 @@ h1{
     text-align: left;
 }
 
-.post{
+.comment{
     padding: 20px;
     background-color: #373737;
     border-radius: 8px;
+}
+
+.trends{
+  padding: 20px;
+  background-color:  #373737;
+  border-radius: 8px;
+  margin-left: 16px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  margin-bottom: 16px;
+}
+
+.events.post{
+  background-color: #666666;
+  border-radius: 4px;
+  box-shadow: none;
+  margin-bottom: 16px;
+}
+
+.trends.post{
+  background-color: #666666;
+  border-radius: 4px;
+  box-shadow: none;
+  margin-bottom: 16px;
+}
+
+.groups.post{
+  background-color: #666666;
+  border-radius: 4px;
+  box-shadow: none;
+  margin-bottom: 16px;
+}
+
+.gamers.post{
+  background-color: #666666;
+  border-radius: 4px;
+  box-shadow: none;
+  margin-bottom: 16px;
+}
+
+.events{
+  padding: 20px;
+  background-color: #373737;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.groups{
+  padding: 20px;
+  background-color: #373737;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.gamers{
+  padding: 20px;
+  background-color:  #373737;
+  border-radius: 8px;
+  margin-left: 16px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .post img{
