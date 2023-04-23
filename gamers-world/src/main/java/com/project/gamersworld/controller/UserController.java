@@ -32,6 +32,8 @@ public class UserController {
     public String viewHome(Model model, HttpServletRequest request){
         model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
         model.addAttribute("groups", groupHandler.groupSearch(""));
+        model.addAttribute("gamers", userHandler.recommendGamer(retrieveCurrentUser(request).getUserID()));
+        
         return "index";
     }
 
