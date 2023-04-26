@@ -1,5 +1,7 @@
 package com.project.gamersworld.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.project.gamersworld.handlers.EventHandler;
 import com.project.gamersworld.handlers.GroupHandler;
 import com.project.gamersworld.handlers.UserHandler;
+import com.project.gamersworld.models.Game;
 import com.project.gamersworld.models.User;
 
 @Controller
@@ -171,12 +174,13 @@ public class UserController {
     }
 
     @PostMapping("/createprofile")
-    public String createProfile(@RequestParam(value = "username") String username, @RequestParam(value = "description") String description, @RequestParam(value = "preferredTime") String preferredTime, @RequestParam(value = "game") String game, HttpServletRequest request)
+    public String createProfile(@RequestParam(value = "username") String username, @RequestParam(value = "description") String description, @RequestParam(value = "preferredTime") String preferredTime, @RequestParam(name = "selectedGames", required = false) List<Game> selectedGames, HttpServletRequest request)
     {   
-        userHandler.createProfile(retrieveCurrentUser(request), username, description, preferredTime, game);
+        userHandler.createProfile(retrieveCurrentUser(request), username, description, preferredTime, selectedGames); 
         return "redirect:/profile";
     }
 
+    
 
     // helper method for this class to retrieve user for each page
     private User retrieveCurrentUser(HttpServletRequest request)

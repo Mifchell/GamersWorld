@@ -4,6 +4,7 @@
     <title>Gamer's World</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
     <link rel="stylesheet" th:href="@{/css/form.css}" href="../css/form.css">
+    <script src="js/createprofile.js"></script>
 
 </head>
 <body>
@@ -21,13 +22,18 @@
       <input type="text" placeholder="Enter Username" name="username" id="username" required>
 
       <label for="description"><b>Bio Description</b></label>
-      <input type="description" placeholder="Enter Description" name="description" id="description" required>
+      <input type="text" placeholder="Enter Description" name="description" id="description" required>
 
       <label for="preferredTime"><b>Preferred Time</b></label>
       <input type="text" placeholder="Enter Time" name="preferredTime" id="preferredTime" required>
 
-      <label for="game"><b>Fav Game</b></label>
-      <input type="text" placeholder="Enter Game" name="game" id="game" required>
+      <label for="games"><b>Select up to 5 games:</b></label>
+        <div th:each="game : ${T(com.project.gamersworld.models.Game).values()}">
+          <input type="checkbox" name="selectedGames" id="selectedGames" th:value="${game}" class="game-checkbox">
+          <label for="${game}" th:text="${game}"></label>
+        </div>
+
+        <p id="error-message" style="color: red; font-weight: bold; display: none;">You can only select up to 5 games.</p>
   
       <button type="submit">Save</button>
   </form>

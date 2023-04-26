@@ -107,19 +107,19 @@ public class UserHandler {
         return returnList;
     }
 
-    public void createProfile(User user, String username, String description, String preferredTime, String game) {
-        
+    public void createProfile(User user, String username, String description, String preferredTime, List<Game> selectedGames) {
         
         user.getProfile().setUsername(username); // username has to be unique
         user.getProfile().setDescription(description); 
         user.getProfile().setTime(preferredTime);
 
-        // set one game for now
-        // drop down page for selecting more than one game
-        List<Game> games = new ArrayList<Game>();
-        game.toUpperCase();
-        games.add(Game.valueOf(game));
-        user.getProfile().setGames(games);
+        // // convert to Enum
+        // List<Game> games = new ArrayList<Game>();
+        // for (String gameName : selectedGames) {
+        //     games.add(Game.valueOf(gameName));
+        // }
+// check if game is null before adding?
+        user.getProfile().setGames(selectedGames);
 
         // save all
         userRepo.save(user);
