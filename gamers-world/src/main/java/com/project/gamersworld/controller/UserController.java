@@ -178,37 +178,6 @@ public class UserController {
 
     }
 
-    //log out
-    @PostMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response)
-    {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null)
-        {
-            new SecurityContextLogoutHandler().logout(request, response, authentication);
-        }
-        
-        return "redirect:/login?logout"; //go back to login page after log out
-
-    }
-
-    //delect account
-    @PostMapping("/delete")
-    public String deleteAccount(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password) // must enter password to delete account
-    {
-
-        //if password matches then delete
-        if(userHandler.deleteAccount(email, password))
-        {
-            return "redirect:/signup";
-            
-        }
-        
-        
-        return "redirect:/login"; //delete account button in login page?
-
-    }
-
     // create profile
     @GetMapping("/createprofile")
     public String viewCreateProfile(){
