@@ -13,6 +13,8 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
     public User findByUid(int uid);
 
+    public User findByProfileUsername(String username);
+
     public List<User> findByProfilePreferredTimeContains(String preferredTime);
 
     public List<User> findByProfileDescriptionContains(String description);
