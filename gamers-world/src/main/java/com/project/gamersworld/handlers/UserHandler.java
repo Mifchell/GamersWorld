@@ -17,7 +17,7 @@ import com.project.gamersworld.models.Game;
 import com.project.gamersworld.repo.UserRepo;
 
 @Service
-public class UserHandler {
+public class UserHandler{ 
     @Autowired
     private UserRepo userRepo;
 
@@ -60,10 +60,11 @@ public class UserHandler {
             userRepo.delete(user);
             return true;
         }
-        else{
+        else
+        {
             return false;
         }
-
+    }
     public List<User> userSearch(String[] filters) {
         ArrayList<User> returnList = new ArrayList<User>();
         // make sure no duplicate users are added

@@ -8,9 +8,9 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.springframework.web.bind.annotation.Mapping;
-
-import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.ManyToAny;
 
 @Entity
 @Table(name = "user")
@@ -28,12 +28,13 @@ public class User {
      * do we need this? or should we just have databases representing them? Like
      * eventRegistration class
      */
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "user_friend_uid"))
-    @Fetch(value = FetchMode.SELECT)
-    public List<User> friendsList;
+    @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @CollectionTable(name = "friends", joinColumns = @JoinColumn(name = "uid"))
+    @Column(name = "user_friend_uid")
+    public List<Integer> friendsList;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "group_registration", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns = {
             @JoinColumn(name = "groupID") })
     List<Group> groupList;
@@ -49,11 +50,8 @@ public class User {
     @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "eventID"))
     List<Event> eventList;
 
-    @Transient
-    public Friendship friendHelper = new Friendship(this);
-
     public User() {
-        this.friendsList = new ArrayList<User>();
+        this.friendsList = new ArrayList<Integer>();
         this.groupList = new ArrayList<Group>();
         // this.blockedUsers = new ArrayList<User>();
         this.eventList = new ArrayList<Event>();
@@ -71,7 +69,7 @@ public class User {
     public User(Profile profile) {
 
         this.profile = profile;
-        this.friendsList = new ArrayList<User>();
+        this.friendsList = new ArrayList<Integer>();
         this.groupList = new ArrayList<Group>();
         // this.blockedUsers = new ArrayList<User>();
         this.eventList = new ArrayList<Event>();
@@ -89,11 +87,11 @@ public class User {
         this.profile = profile;
     }
 
-    public List<User> getFriendList() {
+    public List<Integer> getFriendList() {
         return this.friendsList;
     }
 
-    public void setFriendList(ArrayList<User> friendList) {
+    public void setFriendList(ArrayList<Integer> friendList) {
         this.friendsList = friendList;
     }
 

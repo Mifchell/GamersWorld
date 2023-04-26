@@ -18,7 +18,6 @@ public class GroupHandler {
     private GroupRepo groupRepository;
 
     @Autowired
-
     private UserRepo userRepository;
     
     public GroupHandler(GroupRepo groupRepository) {
@@ -55,7 +54,7 @@ public class GroupHandler {
 
         try {
 
-            User creator = new User(userRepo.findByUid(creatorID));
+            User creator = new User(userRepository.findByUid(creatorID));
 
             if (groupRepository.findByName(name) != null) {
                 return null;
@@ -66,7 +65,7 @@ public class GroupHandler {
             ArrayList<Group> groupList = (ArrayList<Group>) creator.getGroupList();
             groupList.add(group);
 
-            userRepo.save(creator);
+            userRepository.save(creator);
             groupRepository.save(group);
 
         } catch (Exception e) {
@@ -127,7 +126,7 @@ public class GroupHandler {
             List<Group> groupList = user.getGroupList();
             groupList.remove(group);
             user.setGroupList(groupList);
-            userRepo.save(user);
+            userRepository.save(user);
             groupRepository.save(group);
             return user;
         }
