@@ -63,7 +63,7 @@ public class UserHandler {
             return false;
         }
     }
-    
+
     public List<User> userSearch(String[] filters) {
         ArrayList<User> returnList = new ArrayList<User>();
         // make sure no duplicate users are added

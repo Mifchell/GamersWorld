@@ -29,16 +29,31 @@
       <a th:href="@{/messages}">Messages</a>
       <a th:href="@{/profile}">Profile</a>
     </div>
-
-  <div class="container">
-
-  <!--Delete account button, probably just need it in login page-->
+    
+    <!--Delete account button, probably just need it in login page-->
   <form th:action="@{/delete}" method="post">
   <button type = "submit" class="delete_button"> Delete Account</button>
   </form>
 
+  <div class="container">
+
+    <h1>Groups</h1>
+    <div class="column">
+      <div class="profile">
+        <br>
+        <h2><span th:text="${profile.username}"></span></h2>
+        <p><span th:text="${profile.description}"></span></p>
+        <p>Games: </p>
+        <div th:each="game : ${profile.games}">
+          <p th:text="${game}"></p>
+        </div>
+        <p><a th:href="@{/edit_profile}"><button>Edit profile</button></p></a>
+      </div>
+    </div>
+
     <h1>Profile</h1>
-    <div class="profile">
+    <div class="column">
+      <div class="profile">
         <br>
         <img src="images/tabprofile.jpg" alt="ProfilePic" style="width: 90%">
         <h1><span th:text="${profile.username}"></span></h1>
@@ -49,6 +64,22 @@
         </div>
         <p><a th:href="@{/edit_profile}"><button>Edit profile</button></p></a>
       </div>
+    </div>
+
+    <h1>Events</h1>
+    <div class="column">
+      <div class="profile">
+        <br>
+        <h2><span th:text="${profile.username}"></span></h2>
+        <p><span th:text="${profile.description}"></span></p>
+        <p>Games: </p>
+        <div th:each="game : ${profile.games}">
+          <p th:text="${game}"></p>
+        </div>
+        <p><a th:href="@{/edit_profile}"><button>Edit profile</button></p></a>
+      </div>
+    </div>
+    
   </div>
 
   </div>

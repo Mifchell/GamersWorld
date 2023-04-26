@@ -57,6 +57,11 @@
     border-radius: 8px;
   }
   
+  button.btn {
+    width: 20% !important;
+    top: 0px;
+    right: 0px;
+  }
   
   button:hover, a:hover {
     opacity: 0.7;
@@ -69,6 +74,12 @@
   .container {
     padding: 40px;
     background-color: #242424;
+  }
+
+  .container::after {
+    content: "";
+    display: table;
+    clear: both;
   }
 
   .indexcontainer {

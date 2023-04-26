@@ -19,7 +19,7 @@ public class GroupHandler {
 
     @Autowired
 
-    private UserRepo userRepository;
+    private UserRepo userRepo;
     
     public GroupHandler(GroupRepo groupRepository) {
         this.groupRepository = groupRepository;
@@ -113,7 +113,7 @@ public class GroupHandler {
 
         for (User member : group.getMembers()) {
             member.getGroupList().remove(group);
-            userRepository.save(member);
+            userRepo.save(member);
         }
 
         groupRepository.delete(group);
