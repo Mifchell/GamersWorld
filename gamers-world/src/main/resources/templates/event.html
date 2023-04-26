@@ -7,9 +7,11 @@
   </head>
 
   <body>
-    <a th:href="@{/index}"><div id="banner"></div></a>
-      <p><a href=""><button>Logout</button></p></a>
-    </div></a>
+
+    <!--Logout button-->
+    <form th:action="@{/logout}" method="post">
+      <button type = "submit"> Logout</button>
+    </form>
     
 
     <!--Navigation Menu-->

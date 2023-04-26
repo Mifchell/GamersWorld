@@ -22,6 +22,15 @@ import com.project.gamersworld.handlers.UserHandler;
 import com.project.gamersworld.models.Game;
 import com.project.gamersworld.models.User;
 
+import ch.qos.logback.core.joran.conditional.ElseAction;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+
+
 @Controller
 public class UserController {
     
@@ -169,6 +178,37 @@ public class UserController {
 
     }
 
+    //log out
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response)
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null)
+        {
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        }
+        
+        return "redirect:/login?logout"; //go back to login page after log out
+
+    }
+
+    //delect account
+    @PostMapping("/delete")
+    public String deleteAccount(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password) // must enter password to delete account
+    {
+
+        //if password matches then delete
+        if(userHandler.deleteAccount(email, password))
+        {
+            return "redirect:/signup";
+            
+        }
+        
+        
+        return "redirect:/login"; //delete account button in login page?
+
+    }
+
     // create profile
     @GetMapping("/createprofile")
     public String viewCreateProfile(){
@@ -199,6 +239,5 @@ public class UserController {
         int userId = (int) session.getAttribute("userID");
         return userHandler.getUserRepo().findByUid(userId);
     }
-
 
 }
