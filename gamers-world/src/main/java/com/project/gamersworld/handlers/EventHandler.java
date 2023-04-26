@@ -34,37 +34,62 @@ public class EventHandler {
      * Does a event search based on user preference
      */
     public List<Event> eventSearch(User user) {
-        // make profile with astroneer- test if nullptr is thrown... if so handle error
+        // // all events
+        // List<Event> events = eventRepo.findAll();
+        // // create empty events list
+        // List<Event> returnEvents = new ArrayList<Event>();
 
-        // all events
-        List<Event> events = eventRepo.findAll();
-        // create empty events list
+        // // check if user has a preference
+        // if (!user.getProfile().getGames().isEmpty()) {
+        //     // retrieve events with matching user preferences
+        //     for (int i = 0; i < events.size(); i++) {
+        //         for (int j = 0; j < user.getProfile().getGames().size(); j++) {
+        //             if (events.get(i).getGame() != null && events.get(i).getGame().equals(user.getProfile().getGames().get(j))) {
+        //                 // store event in return list if not there
+        //                 if (!returnEvents.contains(events.get(i)))
+        //                     returnEvents.add(events.get(i));
+        //             }
+        //         }
+        //     }
+        // }
+
+        // // check if there are matched events, sort, then return
+        // if (!returnEvents.isEmpty())
+        // {
+        //     return sortEvents(returnEvents);
+        // }
+        // else{
+        //     // return all events sorted chronologically
+        //     return sortEvents(events);
+        // }
+
+        // 
+
         List<Event> returnEvents = new ArrayList<Event>();
-
-        // check if user has a preference
-        if (!user.getProfile().getGames().isEmpty()) {
-            // retrieve events with matching user preferences
-            for (int i = 0; i < events.size(); i++) {
-                for (int j = 0; j < user.getProfile().getGames().size(); j++) {
-                    if (events.get(i).getGame() != null && events.get(i).getGame().equals(user.getProfile().getGames().get(j))) {
-                        // store event in return list if not there
-                        if (!returnEvents.contains(events.get(i)))
-                            returnEvents.add(events.get(i));
-                    }
-                }
-            }
-        }
-
-        // check if there are matched events, sort, then return
-        if (!returnEvents.isEmpty())
+        List<Game> userGames = user.getProfile().getGames();
+        Event curEvent = null;
+        
+        if (!userGames.isEmpty())
         {
-            return sortEvents(returnEvents);
-        }
-        else{
-            // return all events sorted chronologically
-            return sortEvents(events);
+
+            // match event game to user's games, if it's not already in there
+            for (int i = 0; i < userGames.size(); i++)
+            {   
+                curEvent = eventRepo.findByGame(userGames.get(i));
+                if (curEvent != null && !returnEvents.contains(curEvent))
+                    returnEvents.add(curEvent);
+            }
+
+            // if there are matched events, sort and return them
+            if (!returnEvents.isEmpty())
+                return sortEvents(returnEvents);
         }
 
+        // if there are no matched events after going thru, then return all events sorted
+        // OR if user does not have a game then return all sorted
+
+        returnEvents = eventRepo.findAll();
+        return sortEvents(returnEvents);
     }
 
     /*
