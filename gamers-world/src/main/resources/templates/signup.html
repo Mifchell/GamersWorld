@@ -23,6 +23,9 @@
         <label for="psw"><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="password" id="password" required>
       
+        <div th:if="${errorMessage}" style="color:red">
+          <p th:text="${errorMessage}"></p>
+        </div>
         <button type="submit">Sign Up</button>
         </div>
 

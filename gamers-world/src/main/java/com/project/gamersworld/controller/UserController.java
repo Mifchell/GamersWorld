@@ -123,7 +123,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signUp(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password, HttpServletRequest request)
+    public String signUp(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password, HttpServletRequest request, Model model)
     {   
         // if sign up works, then take them to create profile, else show them error
         User user = userHandler.signUp(email, password);
@@ -136,7 +136,10 @@ public class UserController {
             return "redirect:/createprofile";
         }
 
-        return "redirect:/signup?error";
+
+        model.addAttribute("errorMessage", "Email is already taken.");
+
+        return "signup";
     }
 
     //log out
