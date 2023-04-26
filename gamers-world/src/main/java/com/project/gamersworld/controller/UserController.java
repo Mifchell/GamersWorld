@@ -3,13 +3,9 @@ package com.project.gamersworld.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,15 +17,6 @@ import com.project.gamersworld.handlers.GroupHandler;
 import com.project.gamersworld.handlers.UserHandler;
 import com.project.gamersworld.models.Game;
 import com.project.gamersworld.models.User;
-
-import ch.qos.logback.core.joran.conditional.ElseAction;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-
 
 @Controller
 public class UserController {
@@ -104,18 +91,19 @@ public class UserController {
         return "login";
     }
 
+    @PostMapping("/login")
     public String login(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password, HttpServletRequest request,  Model model){
-    // authenticate user
-    User user = userHandler.login(email, password);
-    if(user != null)
-    {
-        // store info about user's session
-        HttpSession session = request.getSession();
-        session.setAttribute("userID", user.getUserID());
+        // authenticate user
+        User user = userHandler.login(email, password);
+        if(user != null)
+        {
+            // store info about user's session
+            HttpSession session = request.getSession();
+            session.setAttribute("userID", user.getUserID());
 
-        // show home page
-        return "redirect:/index";
-    }
+            // show home page
+            return "redirect:/index";
+        }
     
         // show error
         model.addAttribute("errorMessage", "Email and/or password invalid. Please try again.");

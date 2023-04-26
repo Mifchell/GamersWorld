@@ -1,11 +1,8 @@
 package com.project.gamersworld;
 
 import com.project.gamersworld.handlers.EventHandler;
-import com.project.gamersworld.handlers.GroupHandler;
-import com.project.gamersworld.models.*;
 import com.project.gamersworld.repo.*;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -27,12 +24,6 @@ public class GamersWorldApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-
-
-		User user1 = userRepo.findByProfileUsername("test1");
-
-		List<Event> events = eventHandler.eventSearch(user1);
-
 
 	}
 
