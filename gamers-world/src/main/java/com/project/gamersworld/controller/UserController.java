@@ -92,28 +92,28 @@ public class UserController {
     }
 
     // log in
-    @GetMapping("/login")
+    @GetMapping({"/login", "", "/"})
     public String showLoginForm() {
         return "login";
     }
 
     @PostMapping("/login")
     public String login(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password, HttpServletRequest request){
-    // authenticate user
-    User user = userHandler.login(email, password);
-    if(user != null)
-    {
-        // store info about user's session
-        HttpSession session = request.getSession();
-        session.setAttribute("userID", user.getUserID());
+        // authenticate user
+        User user = userHandler.login(email, password);
+        if(user != null)
+        {
+            // store info about user's session
+            HttpSession session = request.getSession();
+            session.setAttribute("userID", user.getUserID());
 
-        // show home page
-        return "redirect:/index";
-    }
-    
-    // show error message
-    // return "redirect:/login";
-    return "redirect:/login?error";
+            // show home page
+            return "redirect:/index";
+        }
+        
+        // show error message
+        // return "redirect:/login";
+        return "redirect:/login?error";
     }
 
 
@@ -187,7 +187,7 @@ public class UserController {
 
 
     // helper method for this class to retrieve user for each page
-    private User retrieveCurrentUser(HttpServletRequest request)
+    protected User retrieveCurrentUser(HttpServletRequest request)
     {
         // Get user session, retrieve uid to get User
         HttpSession session = request.getSession();

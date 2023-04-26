@@ -63,6 +63,7 @@ public class UserHandler {
         else{
             return false;
         }
+    }
 
     public List<User> userSearch(String[] filters) {
         ArrayList<User> returnList = new ArrayList<User>();

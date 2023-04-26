@@ -71,6 +71,12 @@
     background-color: #242424;
   }
 
+  .container::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
   .indexcontainer {
     padding: 40px;
     display: flex;

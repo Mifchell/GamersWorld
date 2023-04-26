@@ -145,12 +145,26 @@ public class EventHandler {
         //Retreive event and user and add each other to each other's lists
         Event event = new Event(eventRepo.findByEventId(eventID));
 		List<User> attenList = event.getAttendeeList();
+        for(User user: attenList){
+            if(user.getUserID() == ID){
+                return;
+            }
+        }
         User user = new User(userRepo.findByUid(ID));
 		attenList.add(user);
 		event.setAttendeeList(attenList);
         user.getEventList().add(event);
         userRepo.save(user);
         eventRepo.save(event);
+    }
+
+    /*
+     * Clear all RSVP related to given user
+     */
+    public void ClearRSVP(int userId){
+        User user = new User(userRepo.findByUid(userId));
+        user.getEventList().clear();
+        userRepo.save(user);
     }
 
     /*
