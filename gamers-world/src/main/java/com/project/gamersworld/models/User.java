@@ -28,10 +28,10 @@ public class User {
      * do we need this? or should we just have databases representing them? Like
      * eventRegistration class
      */
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "user_friend_uid"))
     @Fetch(value = FetchMode.SELECT)
-    public List<User> friendsList;
+    public List<Friends> friendsList;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "group_registration", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns = {
@@ -49,11 +49,8 @@ public class User {
     @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "eventID"))
     List<Event> eventList;
 
-    @Transient
-    public Friendship friendHelper = new Friendship(this);
-
     public User() {
-        this.friendsList = new ArrayList<User>();
+        this.friendsList = new ArrayList<Friends>();
         this.groupList = new ArrayList<Group>();
         // this.blockedUsers = new ArrayList<User>();
         this.eventList = new ArrayList<Event>();
@@ -71,7 +68,7 @@ public class User {
     public User(Profile profile) {
 
         this.profile = profile;
-        this.friendsList = new ArrayList<User>();
+        this.friendsList = new ArrayList<Friends>();
         this.groupList = new ArrayList<Group>();
         // this.blockedUsers = new ArrayList<User>();
         this.eventList = new ArrayList<Event>();
@@ -89,11 +86,11 @@ public class User {
         this.profile = profile;
     }
 
-    public List<User> getFriendList() {
+    public List<Friends> getFriendList() {
         return this.friendsList;
     }
 
-    public void setFriendList(ArrayList<User> friendList) {
+    public void setFriendList(ArrayList<Friends> friendList) {
         this.friendsList = friendList;
     }
 

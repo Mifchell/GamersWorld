@@ -1,6 +1,7 @@
 package com.project.gamersworld;
 
 import com.project.gamersworld.handlers.EventHandler;
+import com.project.gamersworld.handlers.FriendsHandler;
 import com.project.gamersworld.handlers.GroupHandler;
 import com.project.gamersworld.models.*;
 import com.project.gamersworld.repo.*;
@@ -15,19 +16,15 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class GamersWorldApplication implements CommandLineRunner {
-	@Autowired
-	EventHandler eventHandler;
 
-	@Autowired
-	UserRepo userRepo;
-
+	FriendsHandler handler = new FriendsHandler();
 	public static void main(String[] args) {
 		SpringApplication.run(GamersWorldApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) {
-
+		handler.addFriend(1, 2);
 	}
 
 }
