@@ -33,7 +33,11 @@
       
         <label for="password"><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="password" id="password" required>
-    
+
+        <div th:if="${errorMessage}" style="color:red">
+          <p th:text="${errorMessage}"></p>
+        </div>
+
         <button type="submit">Log in</button>
 
         <br>

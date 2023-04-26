@@ -28,6 +28,12 @@ public class GamersWorldApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 
+
+		User user1 = userRepo.findByProfileUsername("test1");
+
+		List<Event> events = eventHandler.eventSearch(user1);
+
+
 	}
 
 }

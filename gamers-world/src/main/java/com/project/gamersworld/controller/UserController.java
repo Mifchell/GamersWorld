@@ -1,9 +1,15 @@
 package com.project.gamersworld.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.project.gamersworld.handlers.EventHandler;
 import com.project.gamersworld.handlers.GroupHandler;
 import com.project.gamersworld.handlers.UserHandler;
+import com.project.gamersworld.models.Game;
 import com.project.gamersworld.models.User;
 
 import ch.qos.logback.core.joran.conditional.ElseAction;
@@ -98,7 +105,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password, HttpServletRequest request){
+    public String login(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password, HttpServletRequest request,  Model model){
     // authenticate user
     User user = userHandler.login(email, password);
     if(user != null)
@@ -111,9 +118,9 @@ public class UserController {
         return "redirect:/index";
     }
     
-    // show error message
-    // return "redirect:/login";
-    return "redirect:/login?error";
+        // show error
+        model.addAttribute("errorMessage", "Email and/or password invalid. Please try again.");
+        return "login";
     }
 
 
@@ -125,9 +132,9 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signUp(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password, HttpServletRequest request)
+    public String signUp(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password, HttpServletRequest request, Model model)
     {   
-        // if sign up works, then take them to create profile, else show them error
+        // if sign up works, then take them to create profile
         User user = userHandler.signUp(email, password);
         if(user != null)
         {
@@ -138,7 +145,37 @@ public class UserController {
             return "redirect:/createprofile";
         }
 
-        return "redirect:/signup?error";
+        // show error
+        model.addAttribute("errorMessage", "Email is already taken. Please try again with a different email.");
+        return "signup";
+    }
+
+    //log out
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request)
+    {
+        HttpSession session = request.getSession();
+        session.removeAttribute("userID");
+        
+        return "redirect:/login?logout"; //go back to login page after log out
+
+    }
+
+    //delect account
+    @PostMapping("/delete")
+    public String deleteAccount(HttpServletRequest request) // must enter password to delete account
+    { 
+        //if password matches then delete
+        if(userHandler.deleteAccount(retrieveCurrentUser(request)))
+        {
+            HttpSession session = request.getSession();
+            session.removeAttribute("userID");
+            return "redirect:/login";
+            
+        }
+       
+        return "redirect:/profile"; 
+
     }
 
     //log out
@@ -179,12 +216,20 @@ public class UserController {
     }
 
     @PostMapping("/createprofile")
-    public String createProfile(@RequestParam(value = "username") String username, @RequestParam(value = "description") String description, @RequestParam(value = "preferredTime") String preferredTime, @RequestParam(value = "game") String game, HttpServletRequest request)
-    {   
-        userHandler.createProfile(retrieveCurrentUser(request), username, description, preferredTime, game);
-        return "redirect:/profile";
+    public String createProfile(@RequestParam(value = "username") String username, @RequestParam(value = "description") String description, @RequestParam(value = "preferredTime") String preferredTime, @RequestParam(name = "selectedGames", required = false) List<Game> selectedGames, HttpServletRequest request, Model model)
+    {    
+        // check if new username is valid
+        if(userHandler.createProfile(retrieveCurrentUser(request), username, description, preferredTime, selectedGames))
+        {
+            return "redirect:/profile";
+        }
+        
+        // show error
+        model.addAttribute("errorMessage", "Username is already taken. Please try again with a different username.");
+        return "createprofile";
     }
 
+    
 
     // helper method for this class to retrieve user for each page
     private User retrieveCurrentUser(HttpServletRequest request)

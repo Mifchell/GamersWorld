@@ -51,20 +51,19 @@ public class UserHandler {
         }
     }
 
-    public boolean deleteAccount(String email, String password)
+    public boolean deleteAccount(User user)
     {
-        
-        User user = new User(userRepo.findByProfileEmailAddress(email));
-        
-        if(userRepo.findByProfileEmailAddress(email) != null && user.getProfile().getPassword().equals(password)){
+        if (user != null)
+        {
+
             userRepo.delete(user);
             return true;
         }
         else{
             return false;
         }
-
     }
+    
     public List<User> userSearch(String[] filters) {
         ArrayList<User> returnList = new ArrayList<User>();
         // make sure no duplicate users are added
@@ -109,18 +108,23 @@ public class UserHandler {
         return returnList;
     }
 
-    public void createProfile(User user, String username, String description, String preferredTime, String game) {
-        user.getProfile().setUsername(username);
-        user.getProfile().setDescription(description);
+    public boolean createProfile(User user, String username, String description, String preferredTime, List<Game> selectedGames) {
+        // check if username is unique
+        if (userRepo.findByProfileUsername(username) != null)
+        {
+            return false;
+        }
+
+        user.getProfile().setUsername(username); // username has to be unique
+        user.getProfile().setDescription(description); 
         user.getProfile().setTime(preferredTime);
 
-        // set one game for now
-        List<Game> games = new ArrayList<Game>();
-        games.add(Game.valueOf(game));
-        user.getProfile().setGames(games);
+        user.getProfile().setGames(selectedGames);
 
         // save all
         userRepo.save(user);
+
+        return true;
     }
 
     public UserRepo getUserRepo() {

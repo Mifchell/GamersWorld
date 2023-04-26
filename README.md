@@ -3,8 +3,8 @@ IT 326 Project
 
 
 Tab:
-- sign up
-- login
+- sign up 
+- login 
 - Create profile
 - Search post
 - filter post
