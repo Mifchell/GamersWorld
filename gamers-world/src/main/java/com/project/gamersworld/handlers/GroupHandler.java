@@ -55,7 +55,7 @@ public class GroupHandler {
 
         try {
 
-            User creator = new User(userRepository.findByUid(creatorID));
+            User creator = new User(userRepo.findByUid(creatorID));
 
             if (groupRepository.findByName(name) != null) {
                 return null;
@@ -66,7 +66,7 @@ public class GroupHandler {
             ArrayList<Group> groupList = (ArrayList<Group>) creator.getGroupList();
             groupList.add(group);
 
-            userRepository.save(creator);
+            userRepo.save(creator);
             groupRepository.save(group);
 
         } catch (Exception e) {
@@ -127,7 +127,7 @@ public class GroupHandler {
             List<Group> groupList = user.getGroupList();
             groupList.remove(group);
             user.setGroupList(groupList);
-            userRepository.save(user);
+            userRepo.save(user);
             groupRepository.save(group);
             return user;
         }
