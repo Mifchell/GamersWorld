@@ -107,8 +107,13 @@ public class UserHandler {
         return returnList;
     }
 
-    public void createProfile(User user, String username, String description, String preferredTime, List<Game> selectedGames) {
-        
+    public boolean createProfile(User user, String username, String description, String preferredTime, List<Game> selectedGames) {
+        // check if username is unique
+        if (userRepo.findByProfileUsername(username) != null)
+        {
+            return false;
+        }
+
         user.getProfile().setUsername(username); // username has to be unique
         user.getProfile().setDescription(description); 
         user.getProfile().setTime(preferredTime);
@@ -117,6 +122,8 @@ public class UserHandler {
 
         // save all
         userRepo.save(user);
+
+        return true;
     }
 
     public UserRepo getUserRepo() {

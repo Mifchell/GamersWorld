@@ -20,6 +20,10 @@
               <label for="username"><b>Username</b></label>
               <input type="text" placeholder="Enter Username" name="username" id="username" required>
 
+              <div th:if="${errorMessage}" style="color:red">
+                <p th:text="${errorMessage}"></p>
+              </div>
+
               <label for="description"><b>Bio Description</b></label>
               <input type="text" placeholder="Enter Description" name="description" id="description" required>
 
