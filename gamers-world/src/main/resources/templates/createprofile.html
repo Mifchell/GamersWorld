@@ -27,13 +27,11 @@
       <label for="preferredTime"><b>Preferred Time</b></label>
       <input type="text" placeholder="Enter Time" name="preferredTime" id="preferredTime" required>
 
-      <label for="games"><b>Select up to 5 games:</b></label>
+      <label for="games"><b>Select your games:</b></label>
         <div th:each="game : ${T(com.project.gamersworld.models.Game).values()}">
           <input type="checkbox" name="selectedGames" id="selectedGames" th:value="${game}" class="game-checkbox">
           <label for="${game}" th:text="${game}"></label>
         </div>
-
-        <p id="error-message" style="color: red; font-weight: bold; display: none;">You can only select up to 5 games.</p>
   
       <button type="submit">Save</button>
   </form>
