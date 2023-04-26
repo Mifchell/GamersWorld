@@ -4,6 +4,7 @@
     <title>Gamer's World</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
     <link rel="stylesheet" th:href="@{/css/form.css}" href="../css/form.css">
+    <script src="js/createprofile.js"></script>
   </head>
 
   <body>
@@ -11,7 +12,7 @@
     <br>
 
     <div class="container">
-    <form action="#" th:action="@{/signup}" method="post">
+    <form onsubmit="return checkEmail() && checkPassword();" action="#" th:action="@{/signup}" method="post">
         <h1>Sign Up</h1>
         <p>Please fill in this form to create an account.</p>
       

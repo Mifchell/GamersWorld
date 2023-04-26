@@ -113,12 +113,6 @@ public class UserHandler {
         user.getProfile().setDescription(description); 
         user.getProfile().setTime(preferredTime);
 
-        // // convert to Enum
-        // List<Game> games = new ArrayList<Game>();
-        // for (String gameName : selectedGames) {
-        //     games.add(Game.valueOf(gameName));
-        // }
-// check if game is null before adding?
         user.getProfile().setGames(selectedGames);
 
         // save all
