@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.gamersworld.handlers.EventHandler;
 import com.project.gamersworld.handlers.GroupHandler;
 import com.project.gamersworld.handlers.UserHandler;
+import com.project.gamersworld.models.Group;
 import com.project.gamersworld.models.User;
 
 import ch.qos.logback.core.joran.conditional.ElseAction;
@@ -23,10 +25,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
-
 @Controller
 public class UserController {
-    
+
     @Autowired
     UserHandler userHandler;
 
@@ -35,59 +36,65 @@ public class UserController {
 
     @Autowired
     GroupHandler groupHandler;
-    
+
     // show pages
     @GetMapping("/index")
-    public String viewHome(Model model, HttpServletRequest request){
+    public String viewHome(Model model, HttpServletRequest request) {
         model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
         model.addAttribute("groups", groupHandler.groupSearch(""));
         model.addAttribute("gamers", userHandler.recommendGamer(retrieveCurrentUser(request).getUserID()));
-        
+
         return "index";
     }
 
     @GetMapping("/events")
-    public String viewEvents(Model model, HttpServletRequest request){
+    public String viewEvents(Model model, HttpServletRequest request) {
         model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
         return "events";
     }
 
     @PostMapping("/events")
-    public String filterEvents(@RequestParam(value = "filter") String filter, Model model, HttpServletRequest request)
-    {   
+    public String filterEvents(@RequestParam(value = "filter") String filter, Model model, HttpServletRequest request) {
         model.addAttribute("events", eventHandler.filterEvent(filter));
         return "events";
     }
 
     @GetMapping("/groups")
-    public String viewGroups(Model model, HttpServletRequest request){
+    public String viewGroups(Model model, HttpServletRequest request) {
+        model.addAttribute("groups", groupHandler.groupSearch(""));
+        return "groups";
+    }
+
+    @PostMapping("/groups")
+    public String filterGroup(@RequestParam(value = "filter") String filter, Model model, HttpServletRequest request) {
+        model.addAttribute("groups", groupHandler.groupSearch(filter));
         return "groups";
     }
 
     @GetMapping("/gamers")
-    public String viewGamers(Model model, HttpServletRequest request){
+    public String viewGamers(Model model, HttpServletRequest request) {
         return "gamers";
     }
 
     @GetMapping("/messages")
-    public String viewMessages(Model model, HttpServletRequest request){
+    public String viewMessages(Model model, HttpServletRequest request) {
         return "messages";
     }
 
     @GetMapping("/profile")
-    public String viewProfile(Model model, HttpServletRequest request){
+    public String viewProfile(Model model, HttpServletRequest request) {
         model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
         return "profile";
     }
 
     @GetMapping("/edit_profile")
-    public String viewEditProfile(Model model, HttpServletRequest request){
+    public String viewEditProfile(Model model, HttpServletRequest request) {
         model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
         return "editprofile";
     }
 
     @GetMapping("/event")
-    public String viewEvent(){
+    public String viewEvent() {
         return "event";
     }
 
@@ -98,39 +105,36 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password, HttpServletRequest request){
-    // authenticate user
-    User user = userHandler.login(email, password);
-    if(user != null)
-    {
-        // store info about user's session
-        HttpSession session = request.getSession();
-        session.setAttribute("userID", user.getUserID());
+    public String login(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password,
+            HttpServletRequest request) {
+        // authenticate user
+        User user = userHandler.login(email, password);
+        if (user != null) {
+            // store info about user's session
+            HttpSession session = request.getSession();
+            session.setAttribute("userID", user.getUserID());
 
-        // show home page
-        return "redirect:/index";
-    }
-    
-    // show error message
-    // return "redirect:/login";
-    return "redirect:/login?error";
-    }
+            // show home page
+            return "redirect:/index";
+        }
 
+        // show error message
+        // return "redirect:/login";
+        return "redirect:/login?error";
+    }
 
     // sign up
     @GetMapping("/signup")
-    public String showSignUp()
-    {
+    public String showSignUp() {
         return "signup";
     }
 
     @PostMapping("/signup")
-    public String signUp(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password, HttpServletRequest request)
-    {   
+    public String signUp(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password,
+            HttpServletRequest request) {
         // if sign up works, then take them to create profile, else show them error
         User user = userHandler.signUp(email, password);
-        if(user != null)
-        {
+        if (user != null) {
             // store info about user's session
             HttpSession session = request.getSession();
             session.setAttribute("userID", user.getUserID());
@@ -141,54 +145,72 @@ public class UserController {
         return "redirect:/signup?error";
     }
 
-    //log out
+    // log out
     @PostMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response)
-    {
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null)
-        {
+        if (authentication != null) {
             new SecurityContextLogoutHandler().logout(request, response, authentication);
         }
-        
-        return "redirect:/login?logout"; //go back to login page after log out
+
+        return "redirect:/login?logout"; // go back to login page after log out
 
     }
 
-    //delect account
+    // delect account
     @PostMapping("/delete")
-    public String deleteAccount(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password) // must enter password to delete account
+    public String deleteAccount(@RequestParam(value = "email") String email,
+            @RequestParam(value = "password") String password) // must enter password to delete account
     {
 
-        //if password matches then delete
-        if(userHandler.deleteAccount(email, password))
-        {
+        // if password matches then delete
+        if (userHandler.deleteAccount(email, password)) {
             return "redirect:/signup";
-            
+
         }
-        
-        
-        return "redirect:/login"; //delete account button in login page?
+
+        return "redirect:/login"; // delete account button in login page?
 
     }
 
     // create profile
     @GetMapping("/createprofile")
-    public String viewCreateProfile(){
+    public String viewCreateProfile() {
         return "createprofile";
     }
 
     @PostMapping("/createprofile")
-    public String createProfile(@RequestParam(value = "username") String username, @RequestParam(value = "description") String description, @RequestParam(value = "preferredTime") String preferredTime, @RequestParam(value = "game") String game, HttpServletRequest request)
-    {   
+    public String createProfile(@RequestParam(value = "username") String username,
+            @RequestParam(value = "description") String description,
+            @RequestParam(value = "preferredTime") String preferredTime, @RequestParam(value = "game") String game,
+            HttpServletRequest request) {
         userHandler.createProfile(retrieveCurrentUser(request), username, description, preferredTime, game);
         return "redirect:/profile";
     }
 
+    @GetMapping("/creategroup")
+    public String viewCreateGroup() {
+        return "creategroup";
+    }
+
+    @PostMapping("/creategroup")
+    public String createGroup(@RequestParam(value = "name") String name,
+            @RequestParam(value = "description") String description, HttpServletRequest request) {
+        groupHandler.createGroup(name, description, retrieveCurrentUser(request));
+        return "redirect:/groups";
+    }
+
+    @PostMapping("/joingroup/{id}")
+    public String joinGroup(@PathVariable String id, Model model, HttpServletRequest request) {
+        Group group = groupHandler.join(Integer.parseInt(id), retrieveCurrentUser(request));
+        if (group == null) {
+            model.addAttribute("joinError", "Error, could not join");
+        }
+        return "redirect:/groups";
+    }
 
     // helper method for this class to retrieve user for each page
-    private User retrieveCurrentUser(HttpServletRequest request)
-    {
+    private User retrieveCurrentUser(HttpServletRequest request) {
         // Get user session, retrieve uid to get User
         HttpSession session = request.getSession();
         int userId = (int) session.getAttribute("userID");

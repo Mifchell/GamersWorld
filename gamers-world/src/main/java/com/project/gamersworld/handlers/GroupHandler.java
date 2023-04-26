@@ -1,12 +1,14 @@
 package com.project.gamersworld.handlers;
 
-
 import com.project.gamersworld.models.*;
 
 import com.project.gamersworld.repo.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,13 +20,12 @@ public class GroupHandler {
     private GroupRepo groupRepository;
 
     @Autowired
-
     private UserRepo userRepository;
-    
-    public GroupHandler(GroupRepo groupRepository) {
-        this.groupRepository = groupRepository;
-    }
 
+    public GroupHandler(GroupRepo groupRepository, UserRepo userRepo) {
+        this.groupRepository = groupRepository;
+        this.userRepository = userRepo;
+    }
 
     public GroupRepo getGroupRepository() {
         return this.groupRepository;
@@ -35,12 +36,12 @@ public class GroupHandler {
      */
     public List<Group> groupSearch(String filter) {
 
-        ArrayList<Group> returnList = new ArrayList<Group>();
+        Set<Group> returnList = new HashSet<Group>();
 
         if (filter.equals("")) {
-            returnList = (ArrayList<Group>) groupRepository.findAll();
+            returnList = groupRepository.findAll().stream().collect(Collectors.toSet());
         } else {
-            returnList = (ArrayList<Group>) groupRepository.findByDescriptionContaining(filter);
+            returnList.addAll(groupRepository.findByDescriptionContaining(filter).stream().collect(Collectors.toSet()));
             returnList.addAll(groupRepository.findByNameContaining(filter));
         }
 
@@ -48,30 +49,29 @@ public class GroupHandler {
             // do something
         }
 
-        return returnList;
+        return returnList.stream().collect(Collectors.toList());
     }
 
-    public String createGroup(String name, String description, int creatorID) {
+    public String createGroup(String name, String description, User user) {
 
-        try {
+        User creator = new User(user);
 
-            User creator = new User(userRepo.findByUid(creatorID));
-
-            if (groupRepository.findByName(name) != null) {
-                return null;
-            }
-
-            Group group = new Group(name, creator, description);
-
-            ArrayList<Group> groupList = (ArrayList<Group>) creator.getGroupList();
-            groupList.add(group);
-
-            userRepo.save(creator);
-            groupRepository.save(group);
-
-        } catch (Exception e) {
-            e.toString();
+        if (groupRepository.findByName(name) != null) {
+            return null;
         }
+
+        Group group = new Group(name, creator, description);
+
+        List<Group> groupList = new ArrayList<Group>();
+        if (creator.getGroupList() != null) {
+            groupList = creator.getGroupList();
+        }
+        groupList.add(group);
+
+        creator.setGroupList(groupList);
+
+        groupRepository.save(group);
+        userRepository.save(creator);
 
         return name;
 
@@ -95,12 +95,35 @@ public class GroupHandler {
 
     /*
      * @param the User joining
+     * 
+     * @param the groupId of the group to join
      *
-     * think of deleting this? kinda the same as add member? or putting it in
-     * another class to call addMethod
      */
-    public boolean join() {
-        return false;
+    public Group join(int groupId, User user) {
+        try {
+            Group group = new Group(groupRepository.findByGroupID(groupId));
+            List<Group> groupList = new ArrayList<Group>();
+            if (user.getGroupList() != null) {
+                groupList = user.getGroupList();
+            }
+            boolean flag = false;
+            for (Group groups : groupList) {
+                if (groups.getGroupID() == group.getGroupID()) {
+                    flag = true;
+                }
+            }
+            if (!flag) {
+                groupList.add(group);
+                user.setGroupList(groupList);
+                userRepository.save(user);
+                groupRepository.save(group);
+            }
+
+        } catch (Exception e) {
+            return null;
+        }
+
+        return groupRepository.findByGroupID(groupId);
     }
 
     /*
@@ -110,7 +133,6 @@ public class GroupHandler {
     public void deleteGroup(int groupID) {
         Group group = groupRepository.findByGroupID(groupID);
 
-
         for (User member : group.getMembers()) {
             member.getGroupList().remove(group);
             userRepository.save(member);
@@ -118,7 +140,8 @@ public class GroupHandler {
 
         groupRepository.delete(group);
     }
-     public User leaveGroup(User user, int groupID) {
+
+    public User leaveGroup(User user, int groupID) {
 
         Group group = new Group(groupRepository.findByGroupID(groupID));
         List<User> memberList = group.getMembers();
@@ -127,7 +150,7 @@ public class GroupHandler {
             List<Group> groupList = user.getGroupList();
             groupList.remove(group);
             user.setGroupList(groupList);
-            userRepo.save(user);
+            userRepository.save(user);
             groupRepository.save(group);
             return user;
         }

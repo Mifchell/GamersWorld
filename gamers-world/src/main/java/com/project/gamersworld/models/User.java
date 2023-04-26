@@ -8,9 +8,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.springframework.web.bind.annotation.Mapping;
-
-import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 
 @Entity
 @Table(name = "user")
@@ -44,13 +41,13 @@ public class User {
     // List<User> blockedUsers;
 
     // It did not like this NOT being Eager
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SELECT)
     @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "eventID"))
     List<Event> eventList;
 
-    @Transient
-    public Friendship friendHelper = new Friendship(this);
+    // @Transient
+    // public Friendship friendHelper = new Friendship(this);
 
     public User() {
         this.friendsList = new ArrayList<User>();

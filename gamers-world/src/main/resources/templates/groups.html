@@ -4,6 +4,7 @@
 		<title>Groups</title>
         <meta charset="UTF-8">
 		<link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+		<link rel="stylesheet" th:href="@{/css/event.css}" href="../css/event.css"> 
 		<style>
 			.accordion {
 			  cursor: pointer;
@@ -13,9 +14,25 @@
 			  font-size: 15px;
 			  transition: 0.4s;
 			}
+
+			.joingroup {
+				padding: 10px 10px;
+				width: 100px;
+				height: 40px;
+				float: right;
+				text-align: center;
+			}
 			
 			.active, .accordion:hover {
 			  background-color: #706f6f !important; 
+			}
+
+			.error{
+    			display: block;
+    			color: #000000;
+				font-size:45px;
+    			font-family: 'Titillium Web', sans-serif;
+    			color:rgb(255, 0, 0);
 			}
 			
 			.panel {
@@ -29,11 +46,11 @@
 
 			.search {
 				padding: 10px 10px;
-				float: left;
 				border: none;
 				margin-top: 10px;
 				margin-right: 16px;
 				font-size: 17px;
+				width: 500px;
 			}
 
 			button {
@@ -57,34 +74,34 @@
               </div>
 		</header>
 
-        <div class = "container">
+        <div class = "groupcontainer">
 			<h1>Groups</h1>
-
             <div class="search">
-                <form action="#">
+                <form action="#" th:action="@{/groups}" method="post">
                     <div style="display: flex">
-                        <input type="text" placeholder="Filter Groups" name="search">
-                        <button type="submit">Submit</button>
+                        <input type="text" placeholder="Filter Groups" name="filter">
+                        <button type="submit" >Submit</button>
                     </div>
                 </form>
             </div>
-    
-            <button class="accordion" id="eventborder" style="font-size: large; font-weight: bold"><u>Meetup at the Esports center.</u></button>
-            <div class="panel">
-                <p class="whitetext">Let's meetup this Saturday to play Valorant!</p>
-            </div>
-    
-            <button class="accordion" id="eventborder" style="font-size: large; font-weight: bold"><u>Looking for people to play CSGO!</u></button>
-            <div class="panel">
-                <p class="whitetext">Hmu. Snap: gamer123 Discord: noob#4859</p>
-            </div>
-    
-            <button class="accordion" id="eventborder" style="font-size: large; font-weight: bold"><u>Smash Bros tournament 4/3 @ 6 pm</u></button>
-            <div class="panel">
-                <p class="whitetext">Located at Esports center</p>
-            </div>
+			
 
-        </div>
+
+			
+			<tr th:each="group : ${groups}">
+				<div class ="groups post">
+					<h2><span th:text="${group.name}"></span></h2>
+					
+					<form th:action="@{/joingroup/{id}(id = ${group.groupID})}" method="post">
+						<button type="submit" class="joingroup">Join</button>
+					</form>
+					<p class="tab"><span th:text="${group.description}"></span></p>
+				</div>
+			</tr>
+			
+		
+
+
 
 		<script src="js/index.js"></script>
 

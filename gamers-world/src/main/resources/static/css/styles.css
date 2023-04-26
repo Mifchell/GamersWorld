@@ -77,6 +77,21 @@
     background-color: #242424;
   }
 
+  .groupcontainer {
+    
+    padding: 40px;
+    display: grid;
+    background-color: #242424;
+  }
+
+  .groupcontainer2 {
+    flex-direction: column;
+    width: 30%;
+    padding: 40px;
+    display: grid;
+    background-color: #242424;
+  }
+
   .box-group{
     flex-direction: column;
     width: 70%;
