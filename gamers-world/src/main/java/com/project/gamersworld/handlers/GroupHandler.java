@@ -100,30 +100,26 @@ public class GroupHandler {
      *
      */
     public Group join(int groupId, User user) {
-        try {
-            Group group = new Group(groupRepository.findByGroupID(groupId));
-            List<Group> groupList = new ArrayList<Group>();
-            if (user.getGroupList() != null) {
-                groupList = user.getGroupList();
-            }
-            boolean flag = false;
-            for (Group groups : groupList) {
-                if (groups.getGroupID() == group.getGroupID()) {
-                    flag = true;
-                }
-            }
-            if (!flag) {
-                groupList.add(group);
-                user.setGroupList(groupList);
-                userRepository.save(user);
-                groupRepository.save(group);
-            }
 
-        } catch (Exception e) {
-            return null;
+        Group group = new Group(groupRepository.findByGroupID(groupId));
+        List<Group> groupList = new ArrayList<Group>();
+        if (user.getGroupList() != null) {
+            groupList = user.getGroupList();
+        }
+        boolean flag = false;
+        for (Group groups : groupList) {
+            if (groups.getGroupID() == group.getGroupID()) {
+                flag = true;
+            }
+        }
+        if (!flag) {
+            groupList.add(group);
+            user.setGroupList(groupList);
+            userRepository.save(user);
+            groupRepository.save(group);
         }
 
-        return groupRepository.findByGroupID(groupId);
+        return group;
     }
 
     /*

@@ -4,35 +4,44 @@
     <title>Gamer's World</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
     <link rel="stylesheet" th:href="@{/css/form.css}" href="../css/form.css">
-
+    <script src="js/createprofile.js"></script>
 </head>
 <body>
 
     <a th:href="@{/index}"><div id="banner"></div></a>
     <br>
 
-<div class="container">
-<h1>Create Profile</h1>
+    <div class="container">
+        <h1>Create Profile</h1>
 
-<div class="inputform">
-    <form action="#" th:action="@{/createprofile}" method="post">
-  
-      <label for="username"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="username" id="username" required>
+        <div class="inputform">
+            <form onsubmit="return checkSelectedGames();" action="#" th:action="@{/createprofile}" method="post">
+      
+              <label for="username"><b>Username</b></label>
+              <input type="text" placeholder="Enter Username" name="username" id="username" required>
 
-      <label for="description"><b>Bio Description</b></label>
-      <input type="description" placeholder="Enter Description" name="description" id="description" required>
+              <div th:if="${errorMessage}" style="color:red">
+                <p th:text="${errorMessage}"></p>
+              </div>
 
-      <label for="preferredTime"><b>Preferred Time</b></label>
-      <input type="text" placeholder="Enter Time" name="preferredTime" id="preferredTime" required>
+              <label for="description"><b>Bio Description</b></label>
+              <input type="text" placeholder="Enter Description" name="description" id="description" required>
 
-      <label for="game"><b>Fav Game</b></label>
-      <input type="text" placeholder="Enter Game" name="game" id="game" required>
-  
-      <button type="submit">Save</button>
-  </form>
-</div>
-</div>
+              <label for="preferredTime"><b>Preferred Time</b></label>
+              <input type="text" placeholder="Enter Time" name="preferredTime" id="preferredTime" required>
+
+              <label for="games"><b>Select up to 5 games:</b></label>
+              <div style="height: 150px; overflow-y: auto;">
+                <div th:each="game : ${T(com.project.gamersworld.models.Game).values()}">
+                  <input type="checkbox" name="selectedGames" id="selectedGames" th:value="${game}">
+                  <label for="${game}" th:text="${game}"></label>
+                </div>
+              </div>
+          
+              <button type="submit">Save</button>
+          </form>
+        </div>
+    </div>
 
     <footer>
       <!--Copyright information-->
@@ -42,7 +51,3 @@
 
 </body>
 </html>
-
-
-
-

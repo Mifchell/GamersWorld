@@ -1,6 +1,7 @@
 package com.project.gamersworld.repo;
 
 import com.project.gamersworld.models.Event;
+import com.project.gamersworld.models.Game;
 import com.project.gamersworld.models.User;
 
 import java.util.List;
@@ -12,6 +13,8 @@ public interface EventRepo extends JpaRepository<Event, Long> {
     public Event findByEventId(int eventId);
 
     public Event findByEventName(String eventName);
+
+    public Event findByGame(Game game);
 
     public List<Event> findByDescriptionContaining(String description);
 
