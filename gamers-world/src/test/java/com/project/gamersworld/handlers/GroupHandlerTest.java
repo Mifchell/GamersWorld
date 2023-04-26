@@ -1,6 +1,8 @@
 package com.project.gamersworld.handlers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -11,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-
 import com.project.gamersworld.models.Group;
 import com.project.gamersworld.models.Profile;
 import com.project.gamersworld.models.User;
@@ -26,6 +27,7 @@ public class GroupHandlerTest {
     private static UserRepo mockUserRepository;
     @InjectMocks
     private static GroupHandler groupHandler;
+
     ArrayList<Group> list1 = new ArrayList<>();
     ArrayList<Group> list2 = new ArrayList<>();
     ArrayList<Group> list3 = new ArrayList<>();
@@ -36,6 +38,7 @@ public class GroupHandlerTest {
     void setUp() {
         mockGroupRepository = Mockito.mock(GroupRepo.class);
         mockUserRepository = Mockito.mock(UserRepo.class);
+        groupHandler = new GroupHandler(mockGroupRepository, mockUserRepository);
 
         Profile profile = new Profile("user1", "1234", "test@test.com", "", "");
         user1 = new User(profile);
@@ -51,7 +54,7 @@ public class GroupHandlerTest {
     @Test
     void testSearchGroupNoFilter() {
         when(mockGroupRepository.findAll()).thenReturn(list2);
-        groupHandler = new GroupHandler(mockGroupRepository);
+        
         List<Group> groups = groupHandler.groupSearch("");
 
         assertEquals(groups, list2);
@@ -63,7 +66,7 @@ public class GroupHandlerTest {
     void testSearchGroupHappyPath() {
         when(mockGroupRepository.findByDescriptionContaining("p1")).thenReturn(list4);
         when(mockGroupRepository.findByNameContaining("p1")).thenReturn(list1);
-        groupHandler = new GroupHandler(mockGroupRepository);
+
         List<Group> groups = groupHandler.groupSearch("p1");
 
         assertEquals(groups, list2); 
@@ -73,7 +76,7 @@ public class GroupHandlerTest {
     void testSearchGroupNoMatch() {
         when(mockGroupRepository.findByDescriptionContaining("fef")).thenReturn(new ArrayList<Group>());
         when(mockGroupRepository.findByNameContaining("fef")).thenReturn(new ArrayList<Group>());
-        groupHandler = new GroupHandler(mockGroupRepository);
+
         List<Group> groups = groupHandler.groupSearch("fef");
 
         assertEquals(groups, list3); 
@@ -81,12 +84,24 @@ public class GroupHandlerTest {
 
     @Test
     void testCreateGroupHappyPath() {
-        when(mockGroupRepository.findByName("").thenReturn(null));
-        when(mockUserRepository.findByUid(0).thenReturn(user1));
-        
-        String name = groupHandler.createGroup("", "", 0);
+        when(mockGroupRepository.findByName("")).thenReturn(null);
+        when(mockUserRepository.save(Mockito.any(User.class))).thenReturn(new User());
+        when(mockGroupRepository.save(Mockito.any(Group.class))).thenReturn(new Group());
+
+        String name = groupHandler.createGroup("", "", user1);
 
         assertEquals(name,"");
+    }
+
+    @Test
+    void testCreateGroupBadName() {
+        when(mockGroupRepository.findByName("")).thenReturn(new Group());
+
+        String name = groupHandler.createGroup("", "", user1);
+
+        verifyNoInteractions(mockUserRepository);
+
+        assertNull(name);
     }
 
 }
