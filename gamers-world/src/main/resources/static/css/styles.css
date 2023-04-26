@@ -26,6 +26,13 @@
     padding: 14px 100px;
     text-decoration: none;
   }
+  .nav button {
+    padding: 10px 10px;
+		width: 100px;
+		height: 45px;
+		float: right;
+		text-align: center;
+  }
   
   .nav a:hover {
     background-color: #a4dfdb;
@@ -87,6 +94,8 @@
     display: flex;
     background-color: #242424;
   }
+
+  
 
   .groupcontainer {
     
