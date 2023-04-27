@@ -4,6 +4,8 @@
     <title>Gamer's World</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
     <link rel="stylesheet" th:href="@{/css/profile.css}" href="../css/profile.css">
+    <script src="/js/event.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   </head>
 
   <style>
@@ -75,7 +77,12 @@
         <div th:each="game : ${profile.games}">
           <p th:text="${game}"></p>
         </div>
-        <p><a th:href="@{/edit_profile}"><button>Edit profile</button></p></a>
+        <tr th:each="event : ${events}">
+          <a th:href="@{event/deleteEvent/{eventId}(eventId=${event.eventId})}"><button class="btn">Delete</button></a>
+          <form action="#" th:action="@{/event/editEvent}" method="post">
+            <button class="btn" th:value="${event.eventId}" name="id" type="submit">Edit</button>
+          </form>
+        </tr>
       </div>
     </div>
     

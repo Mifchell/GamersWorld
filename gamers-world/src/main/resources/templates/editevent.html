@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gamer's World</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+    <link rel="stylesheet" th:href="@{/css/form.css}" href="../css/form.css">
+
+</head>
+
+<body>
+
+    <a th:href="@{/index}"><div id="banner"></div></a>
+
+    <!--Navigation Menu-->
+    <div class="nav">
+      <a th:href="@{/index}">Home</a>
+      <a th:href="@{/messages}">Messages</a>
+      <a th:href="@{/profile}">Profile</a>
+    </div>
+
+    <br>
+    
+    <div class="container">
+      <h1>Edit Event</h1>
+
+      <div class="inputform">
+        <form action="/event/editedEvent">
+          <input th:value="${event.eventId}" name="id" id="id" type="hidden">
+        
+          <label for="name"><b>Event Name</b></label>
+          <input type="text" placeholder="Enter Event Name" name="name" id="name" th:value="${event.eventName}" required>
+
+          <label for="date"><b>Date</b></label>
+          <input type="text" placeholder="MM/DD/YYYY" name="date" id="date" th:value="${event.date}" required>
+
+          <label for="location"><b>Location</b></label>
+          <input type="text" placeholder="Enter Location" name="location" id="location" th:value="${event.location}">
+
+          <label for="game"><b>Game</b></label>
+          <input type="text" placeholder="Enter Game" name="game" id="game" th:value="${event.game}" required>
+
+          <label for="playlevel"><b>Play Level</b></label>
+          <input type="text" placeholder="Enter Play Level" name="level" id="level" th:value="${event.playLevel}" required>
+
+          <label for="desc"><b>Description</b></label>
+          <input type="text" placeholder="Enter Description" name="desc" id="desc" th:value="${event.description}" required>
+      
+          <button type="submit">Save</button>
+        </form>
+      </div>
+    </div>
+
+    <footer>
+      <!--Copyright information-->
+      <br>
+      <p>&copy; 2023 All rights reserved</p>
+    </footer>
+
+</body>
+</html>
+
+
+
+
