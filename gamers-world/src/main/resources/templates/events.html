@@ -4,6 +4,8 @@
 		<title>Events</title>
         <meta charset="UTF-8">
 		<link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+		<script src="/js/event.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 		<style>
 			.accordion {
 			  cursor: pointer;
@@ -58,6 +60,7 @@
 		</header>
 
         <div class = "container">
+			<p><a th:href="@{event/newEvent/}"><button class="btn">Create Event</button></p></a>
 			<h1>Events</h1>
 
             <div class="search">

@@ -59,8 +59,6 @@
   
   button.btn {
     width: 20% !important;
-    top: 0px;
-    right: 0px;
   }
   
   button:hover, a:hover {
