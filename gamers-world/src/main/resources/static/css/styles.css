@@ -26,6 +26,13 @@
     padding: 14px 100px;
     text-decoration: none;
   }
+  .nav button {
+    padding: 10px 10px;
+		width: 100px;
+		height: 45px;
+		float: right;
+		text-align: center;
+  }
   
   .nav a:hover {
     background-color: #a4dfdb;
@@ -83,6 +90,23 @@
   .indexcontainer {
     padding: 40px;
     display: flex;
+    background-color: #242424;
+  }
+
+  
+
+  .groupcontainer {
+    
+    padding: 40px;
+    display: grid;
+    background-color: #242424;
+  }
+
+  .groupcontainer2 {
+    flex-direction: column;
+    width: 30%;
+    padding: 40px;
+    display: grid;
     background-color: #242424;
   }
 

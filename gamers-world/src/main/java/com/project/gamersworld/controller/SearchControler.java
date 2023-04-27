@@ -17,26 +17,16 @@ public class SearchControler {
     @Autowired
     GroupHandler groupHandler;
 
-    @GetMapping
-    public List<Group> searchGroup(@RequestParam(value = "filter") String filter) {
-        List<Group> groups = groupHandler.groupSearch(filter);
+    // @GetMapping
+    // public List<Group> searchGroup(@RequestParam(value = "filter") String filter)
+    // {
+    // List<Group> groups = groupHandler.groupSearch(filter);
 
-        // check if its empty => redirect to error group not found page
-        // redirect display of the groups
+    // // check if its empty => redirect to error group not found page
+    // // redirect display of the groups
 
-        return groups;
+    // return groups;
 
-    }
-
-    @PostMapping
-    public String createGroup(@RequestParam(value = "name") String name,
-            @RequestParam(value = "description") String description,
-            @RequestParam(value = "creatorID") String creatorID) {
-
-        groupHandler.createGroup(name, description, Integer.parseInt(creatorID));
-
-        return "redirect:";
-
-    }
+    // }
 
 }

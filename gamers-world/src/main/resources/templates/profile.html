@@ -10,9 +10,8 @@
 
   <style>
     button .delete_button{
-      position:absolute;
-    			bottom:0;
-    			right:0;
+      float: right;
+      width: 150px;
     }
   </style>
   
@@ -30,12 +29,12 @@
       <a th:href="@{/index}">Home</a>
       <a th:href="@{/messages}">Messages</a>
       <a th:href="@{/profile}">Profile</a>
+      <form th:action="@{/logout}" method="post">
+        <button type = "submit"> Logout</button>
+      </form>
     </div>
     
-    <!--Delete account button, probably just need it in login page-->
-  <form th:action="@{/delete}" method="post">
-  <button type = "submit" class="delete_button"> Delete Account</button>
-  </form>
+  
 
   <div class="container">
 
@@ -90,7 +89,10 @@
   </div>
 
   </div>
-  
+    <!--Delete account button, probably just need it in login page-->
+    <form th:action="@{/delete}" method="post">
+      <button type = "submit" class="delete_button"> Delete Account</button>
+      </form>
     <footer>
       <!--Copyright information-->
       <br>

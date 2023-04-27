@@ -5,6 +5,15 @@
     <title>Gamer's World</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
     <link rel="stylesheet" th:href="@{/css/event.css}" href="../css/event.css"> 
+    <style>
+      .joingroup {
+				padding: 10px 10px;
+				width: 100px;
+				height: 40px;
+				float: right;
+				text-align: center;
+			}
+    </style>
     <meta name="description" content="Welcome to Gamer's World."> 
     <script src="/js/event.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -14,15 +23,16 @@
     <a th:href="@{/index}"><div id="banner"></div></a>
 
     <!--Logout button-->
-    <form th:action="@{/logout}" method="post">
-      <button type = "submit"> Logout</button>
-    </form>
+    
 
     <!--Navigation Menu-->
     <div class="nav">
       <a th:href="@{/index}">Home</a>
       <a th:href="@{/messages}">Messages</a>
       <a th:href="@{/profile}">Profile</a>
+      <form th:action="@{/logout}" method="post">
+        <button type = "submit"> Logout</button>
+      </form>
     </div>
 
     <div class = "indexcontainer">
@@ -33,6 +43,9 @@
         <tr th:each="group, iterStat : ${groups}" th:if="${iterStat.index} lt 3">
         <div class = "groups post">
           <h2><span th:text="${group.name}"></span></h2>
+          <form th:action="@{/joingroup/{id}(id = ${group.groupID})}" method="post">
+						<button type="submit" class="joingroup">Join</button>
+					</form>
           <p class="tab"><span th:text="${group.description}"></span></p>
         </div>
     </div>

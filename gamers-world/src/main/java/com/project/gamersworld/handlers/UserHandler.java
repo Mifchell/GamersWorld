@@ -21,14 +21,11 @@ public class UserHandler {
     @Autowired
     private UserRepo userRepo;
 
-
-    public User login(String email, String password)
-    {
+    public User login(String email, String password) {
         // if user exists, check if password matches saved password
         if (userRepo.findByProfileEmailAddress(email) != null) {
             User user = new User(userRepo.findByProfileEmailAddress(email));
-            if(user.getProfile().getPassword().equals(password))
-            {
+            if (user.getProfile().getPassword().equals(password)) {
                 return user;
             }
         }
@@ -36,13 +33,11 @@ public class UserHandler {
         return null;
     }
 
-    public User signUp(String email, String password)
-    {
+    public User signUp(String email, String password) {
         // check if there is already an existing email
-        if (userRepo.findByProfileEmailAddress(email) != null){
+        if (userRepo.findByProfileEmailAddress(email) != null) {
             return null;
-        }
-        else{
+        } else {
             // create new profile and user
             Profile profile = new Profile("", password, email, "", "");
             User user = new User(profile);
@@ -51,15 +46,11 @@ public class UserHandler {
         }
     }
 
-    public boolean deleteAccount(User user)
-    {
-        if (user != null)
-        {
-
+    public boolean deleteAccount(User user) {
+        if (user != null) {
             userRepo.delete(user);
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -108,15 +99,15 @@ public class UserHandler {
         return returnList;
     }
 
-    public boolean createProfile(User user, String username, String description, String preferredTime, List<Game> selectedGames) {
+    public boolean createProfile(User user, String username, String description, String preferredTime,
+            List<Game> selectedGames) {
         // check if username is unique
-        if (userRepo.findByProfileUsername(username) != null)
-        {
+        if (userRepo.findByProfileUsername(username) != null) {
             return false;
         }
 
         user.getProfile().setUsername(username); // username has to be unique
-        user.getProfile().setDescription(description); 
+        user.getProfile().setDescription(description);
         user.getProfile().setTime(preferredTime);
 
         user.getProfile().setGames(selectedGames);
