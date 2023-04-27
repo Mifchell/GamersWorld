@@ -11,5 +11,6 @@ function checkSelectedGame() {
         return false;
     }
     */
+    // Don't know if we want each event to be forced to assign a game
     return true;
 }
