@@ -19,6 +19,11 @@ public class Friends {
         return user_friend_uid;
     }
 
+    public int getUID()
+    {
+        return this.uid;
+    }
+
     public Friends()
     {
 
