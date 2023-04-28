@@ -14,7 +14,7 @@ public class Group {
 
     private String name;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "groupList")
+    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REMOVE }, fetch = FetchType.EAGER, mappedBy = "groupList")
     List<User> members;
     int creatorID;
     String description;

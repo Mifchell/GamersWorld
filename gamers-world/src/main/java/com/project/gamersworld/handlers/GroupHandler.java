@@ -34,30 +34,42 @@ public class GroupHandler {
     /*
      * Does a group search based on description or name containing a filter
      */
-    public List<Group> groupSearch(String filter) {
+    public List<Group> groupSearch(String filter, User user) {
 
         Set<Group> returnList = new HashSet<Group>();
+
+        List<Group> userList = new ArrayList<Group>();
+        if (user.getGroupList() != null) {
+            userList = user.getGroupList();
+        }
 
         if (filter.equals("")) {
             returnList = groupRepository.findAll().stream().collect(Collectors.toSet());
         } else {
-            returnList.addAll(groupRepository.findByDescriptionContaining(filter).stream().collect(Collectors.toSet()));
+            returnList.addAll(groupRepository.findByDescriptionContaining(filter));
             returnList.addAll(groupRepository.findByNameContaining(filter));
         }
-
-        if (returnList.isEmpty()) {
-            // do something
+        for (Group groups : userList) {
+            returnList.remove(groups);
         }
 
         return returnList.stream().collect(Collectors.toList());
     }
 
-    public String createGroup(String name, String description, User user) {
+    public List<Group> myGroups(User user) {
+        List<Group> mygroups = new ArrayList<Group>();
+        if (user.getGroupList() != null) {
+            mygroups = user.getGroupList();
+        }
+        return mygroups;
+    }
+
+    public boolean createGroup(String name, String description, User user) {
 
         User creator = new User(user);
 
         if (groupRepository.findByName(name) != null) {
-            return null;
+            return false;
         }
 
         Group group = new Group(name, creator, description);
@@ -73,16 +85,8 @@ public class GroupHandler {
         groupRepository.save(group);
         userRepository.save(creator);
 
-        return name;
+        return true;
 
-    }
-
-    /*
-     * @param the User to add
-     * add the given User to the member List
-     */
-    public boolean addMember() {
-        return false;
     }
 
     /*
@@ -141,16 +145,33 @@ public class GroupHandler {
 
         Group group = new Group(groupRepository.findByGroupID(groupID));
         List<User> memberList = group.getMembers();
-        if (memberList.contains(user)) {
-            memberList.remove(user);
-            List<Group> groupList = user.getGroupList();
-            groupList.remove(group);
-            user.setGroupList(groupList);
-            userRepository.save(user);
-            groupRepository.save(group);
-            return user;
+        memberList.remove(user);
+        group.setMembers(memberList);
+        if (group.getCreatorID() == user.getUserID()) {
+            if (memberList.isEmpty()) {
+                deleteGroup(groupID);
+                return user;
+            } else {
+                group.setCreator(memberList.get(0).getUserID());
+            }
         }
-        return null;
+        List<Group> groupList = user.getGroupList();
+        for (int i = 0; i < groupList.size(); i++) {
+            if (groupList.get(i).getGroupID() == group.getGroupID()) {
+                groupList.remove(i);
+            }
+        }
+        user.setGroupList(groupList);
+        userRepository.save(user);
+        groupRepository.save(group);
+
+        for (Group groups : user.groupList) {
+            System.out.println(groups);
+        }
+        for (User users : memberList) {
+            System.out.println(users);
+        }
+        return user;
 
     }
 

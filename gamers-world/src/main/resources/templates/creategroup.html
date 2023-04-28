@@ -20,8 +20,12 @@
       <label for="group name"><b>group Name</b></label>
       <input type="text" placeholder="Enter name" name="name" id="name" required>
 
+      <div th:if="${errorMessage}" style="color:red">
+        <p th:text="${errorMessage}"></p>
+      </div>
+
       <label for="description"><b>Group Description</b></label>
-      <input type="description" placeholder="Enter Description" name="description" id="description" required>
+      <input type="text" placeholder="Enter Description" name="description" id="description" required>
   
       <button type="submit">Save</button>
   </form>
