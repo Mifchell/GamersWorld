@@ -30,10 +30,10 @@ public class User {
     @Fetch(value = FetchMode.SELECT)
     public List<User> friendsList;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
     @JoinTable(name = "group_registration", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns = {
             @JoinColumn(name = "groupID") })
-    List<Group> groupList;
+    public List<Group> groupList;
 
     // @ManyToMany(fetch = FetchType.EAGER)
     // @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "user_uid"),

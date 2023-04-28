@@ -33,9 +33,9 @@ h1{
 
 .groups.post{
   background-color: #666666;
-  border-radius: 4px;
+  border-radius: 1px;
   box-shadow: none;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .gamers.post{
@@ -53,7 +53,7 @@ h1{
 }
 
 .groups{
-  padding: 20px;
+  padding: 10px;
   background-color: #373737;
   border-radius: 8px;
   margin-bottom: 16px;
