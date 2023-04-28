@@ -25,7 +25,7 @@ public class User {
      * do we need this? or should we just have databases representing them? Like
      * eventRegistration class
      */
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REMOVE })
     @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "user_friend_uid"))
     @Fetch(value = FetchMode.SELECT)
     public List<User> friendsList;
@@ -45,9 +45,6 @@ public class User {
     @Fetch(value = FetchMode.SELECT)
     @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "eventID"))
     List<Event> eventList;
-
-    // @Transient
-    // public Friendship friendHelper = new Friendship(this);
 
     public User() {
         this.friendsList = new ArrayList<User>();
@@ -90,7 +87,7 @@ public class User {
         return this.friendsList;
     }
 
-    public void setFriendList(ArrayList<User> friendList) {
+    public void setFriendList(List<User> friendList) {
         this.friendsList = friendList;
     }
 

@@ -1,6 +1,8 @@
 package com.project.gamersworld;
 
 import com.project.gamersworld.handlers.EventHandler;
+import com.project.gamersworld.handlers.FriendHandler;
+import com.project.gamersworld.models.User;
 import com.project.gamersworld.repo.*;
 
 
@@ -13,7 +15,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class GamersWorldApplication implements CommandLineRunner {
 	@Autowired
-	EventHandler eventHandler;
+	FriendHandler handler;
 
 	@Autowired
 	UserRepo userRepo;
@@ -24,6 +26,11 @@ public class GamersWorldApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
+
+		User user1 = userRepo.findByUid(1);
+		User user2 = userRepo.findByUid(2);
+
+		handler.removeFriend(1, 2);
 
 	}
 
