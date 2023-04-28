@@ -27,7 +27,7 @@ public class GamersWorldApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 
-		handler.removeFriend(1, 2);
+		handler.removeFriend(1, 3);
 
 	}
 

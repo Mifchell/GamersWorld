@@ -38,11 +38,15 @@ public class FriendHandler {
         User userU = userRepo.findByUid(user);
         List<User> ownerList = ownerU.getFriendList();
         List<User> userList = userU.getFriendList();
-        if(ownerList.contains(userU))
-            ownerList.remove(userU);
-        if(userList.contains(ownerU))
-            userList.remove(owner);
-        
+        for(int i = 0; i < ownerList.size(); i++)
+            if(ownerList.get(i).getUserID() == user)
+                ownerList.remove(i);
+        for(int i = 0; i < userList.size(); i++)
+            if(userList.get(i).getUserID() == owner)
+                userList.remove(i);
+        ownerU.setFriendList(ownerList);
+        userU.setFriendList(userList);
+        userRepo.save(ownerU);
         userRepo.save(userU);
 
     }
