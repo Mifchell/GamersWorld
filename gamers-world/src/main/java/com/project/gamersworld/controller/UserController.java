@@ -189,17 +189,21 @@ public class UserController {
         @RequestParam(name = "selectedGames", required = false) List<Game> selectedGames,
         @RequestParam(value = "email") String email, @RequestParam(value = "password") String password,
         HttpServletRequest request, Model model){
-            User user = userRepo.findByProfileUsername(username);
-            String response = userHandler.editProfile(user, username, description, preferredTime, selectedGames, email, password);
-            if(response.equals("Profile successfully updated")){
+            
+            if(userHandler.editProfile(retrieveCurrentUser(request), username, description, preferredTime, selectedGames, email, password)){
+                
                 return "redirect:/profile";
             }
-            model.addAttribute("message", response);
+            model.addAttribute("errorMessage", "Username or email is already taken. Please try again.");
+
             return "redirect:/editprofile";
         }
-    
-    
 
+    
+    //React Message
+    @PostMapping("/react_message")
+    
+    
 
     // create profile
     @GetMapping("/createprofile")

@@ -118,8 +118,14 @@ public class UserHandler {
         return true;
     }
 
-    public String editProfile(User user, String username, String description, String preferredTime,
+    public boolean editProfile(User user, String username, String description, String preferredTime,
         List<Game> selectedGames, String email, String password) {
+        
+        if((userRepo.findByProfileUsername(username) != null) || (userRepo.findByProfileEmailAddress(email) != null)){
+            return false;
+
+        }
+
         
         user.getProfile().setUsername(username); // username has to be unique
         user.getProfile().setDescription(description);
@@ -131,7 +137,7 @@ public class UserHandler {
         // save all
         userRepo.save(user);
 
-        return "Profile successfully updated";
+        return true;
     }
 
     public UserRepo getUserRepo() {
