@@ -8,7 +8,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,40 +38,15 @@ public class EventHandler {
      * Does a event search based on user preference
      */
     public List<Event> eventSearch(User user) {
-        // // all events
-        // List<Event> events = eventRepo.findAll();
-        // // create empty events list
-        // List<Event> returnEvents = new ArrayList<Event>();
-
-        // // check if user has a preference
-        // if (!user.getProfile().getGames().isEmpty()) {
-        //     // retrieve events with matching user preferences
-        //     for (int i = 0; i < events.size(); i++) {
-        //         for (int j = 0; j < user.getProfile().getGames().size(); j++) {
-        //             if (events.get(i).getGame() != null && events.get(i).getGame().equals(user.getProfile().getGames().get(j))) {
-        //                 // store event in return list if not there
-        //                 if (!returnEvents.contains(events.get(i)))
-        //                     returnEvents.add(events.get(i));
-        //             }
-        //         }
-        //     }
-        // }
-
-        // // check if there are matched events, sort, then return
-        // if (!returnEvents.isEmpty())
-        // {
-        //     return sortEvents(returnEvents);
-        // }
-        // else{
-        //     // return all events sorted chronologically
-        //     return sortEvents(events);
-        // }
-
-        // 
 
         List<Event> returnEvents = new ArrayList<Event>();
         List<Game> userGames = user.getProfile().getGames();
-        Event curEvent = null;
+        List<Event> curEvents = null;
+
+        List<Event> userList = new ArrayList<Event>();
+        if (user.getEventList() != null) {
+            userList = user.getEventList();
+        }
         
         if (!userGames.isEmpty())
         {
@@ -75,37 +54,70 @@ public class EventHandler {
             // match event game to user's games, if it's not already in there
             for (int i = 0; i < userGames.size(); i++)
             {   
-                curEvent = eventRepo.findByGame(userGames.get(i));
-                if (curEvent != null && !returnEvents.contains(curEvent))
-                    returnEvents.add(curEvent);
+                // Multiple events can share the same game, so it can return 2+ events
+                curEvents = eventRepo.findAllByGame(userGames.get(i));
+                // Adds each event returned individually
+                for(Event event: curEvents){
+                    if (event != null && !returnEvents.contains(event))
+                        returnEvents.add(event);
+                }
             }
 
             // if there are matched events, sort and return them
             if (!returnEvents.isEmpty())
+            {
+                for (Event events : userList) {
+                    returnEvents.remove(events);
+                }
                 return sortEvents(returnEvents);
+            }
+                
         }
 
         // if there are no matched events after going thru, then return all events sorted
         // OR if user does not have a game then return all sorted
 
         returnEvents = eventRepo.findAll();
+
+        for (Event events : userList) {
+            returnEvents.remove(events);
+        }
+
         return sortEvents(returnEvents);
+    }
+
+    public List<Event> myEvents(User user) {
+        List<Event> myevents = new ArrayList<Event>();
+        if (user.getEventList() != null) {
+            myevents = user.getEventList();
+        }
+        return myevents;
     }
 
     /*
      * do a filter search on the repositary
      */
-    public List<Event> filterEvent(String filter) {
-        List<Event> returnList = new ArrayList<Event>();
+    public List<Event> filterEvent(String filter, User user) {
+        Set<Event> returnList = new HashSet<Event>();
         
         if (filter.equals("")) {
-            returnList = eventRepo.findAll();
+            returnList = eventRepo.findAll().stream().collect(Collectors.toSet());
         } else {
             returnList.addAll(eventRepo.findByDescriptionContaining(filter));
             returnList.addAll(eventRepo.findByEventNameContaining(filter));
         }
 
-        return sortEvents(returnList);
+        List<Event> userList = new ArrayList<Event>();
+        if (user.getEventList() != null) {
+            userList = user.getEventList();
+        }
+        
+        for (Event events : userList) {
+            returnList.remove(events);
+        }
+        
+
+        return sortEvents(returnList.stream().collect(Collectors.toList()));
     }
 
     /*
@@ -156,7 +168,7 @@ public class EventHandler {
         for(User attendee: event.getAttendeeList()) {
             for(Event event2: attendee.getEventList()) {
                 if(event2.getEventId() == ID){
-                    attendee.getEventList().remove(ID);
+                    attendee.getEventList().remove(event2);
                     break;
                 }
             }
@@ -216,9 +228,12 @@ public class EventHandler {
 
     private List<Event> sortEvents(List<Event> events)
     {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        Comparator<Event> byDate = Comparator.comparing(event -> LocalDate.parse(event.getDate(), formatter));
-        Collections.sort(events, byDate);
+        if (events != null && !events.isEmpty())
+        {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+            Comparator<Event> byDate = Comparator.comparing(event -> LocalDate.parse(event.getDate(), formatter));
+            Collections.sort(events, byDate);
+        }
 
         return events;
     }

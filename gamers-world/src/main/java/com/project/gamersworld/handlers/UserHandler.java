@@ -6,14 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import com.project.gamersworld.models.Game;
 import com.project.gamersworld.models.Profile;
 import com.project.gamersworld.models.User;
-import com.project.gamersworld.models.Game;
 import com.project.gamersworld.repo.UserRepo;
 
 @Service
@@ -106,7 +103,7 @@ public class UserHandler {
             return false;
         }
 
-        user.getProfile().setUsername(username); // username has to be unique
+        user.getProfile().setUsername(username);
         user.getProfile().setDescription(description);
         user.getProfile().setTime(preferredTime);
 

@@ -16,6 +16,8 @@ public interface EventRepo extends JpaRepository<Event, Long> {
 
     public Event findByGame(Game game);
 
+    public List<Event> findAllByGame(Game game);
+
     public List<Event> findByDescriptionContaining(String description);
 
     public List<Event> findByEventNameContaining(String name);
