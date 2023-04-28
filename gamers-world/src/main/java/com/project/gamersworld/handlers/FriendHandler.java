@@ -19,36 +19,32 @@ public class FriendHandler {
     @Autowired
     private UserRepo userRepo;
 
-    public void addFriend(User owner, User user)
+    public void addFriend(int owner, int user)
     {
-        owner.friendsList.add(user);
-        user.friendsList.add(owner); 
+        User ownerU = userRepo.findByUid(owner);
+        List<User> ownerList = ownerU.getFriendList();
+        User userU = userRepo.findByUid(user);
+        ownerList.add(userU);
+        List<User> userList = userU.getFriendList();
+        userList.add(ownerU);
+        userU.setFriendList(userList);
+        userRepo.save(userU);
 
-        userRepo.save(owner);
     }
-
-    public void removeFriend(int user1,int user2)
+    
+    public void removeFriend(int owner,int user)
     {
-        boolean check =false;
-        User owner = new User(userRepo.findByUid(user1));
-        User user = new User(userRepo.findByUid(user2));
+        User ownerU = userRepo.findByUid(owner);
+        User userU = userRepo.findByUid(user);
+        List<User> ownerList = ownerU.getFriendList();
+        List<User> userList = userU.getFriendList();
+        if(ownerList.contains(userU))
+            ownerList.remove(userU);
+        if(userList.contains(ownerU))
+            userList.remove(owner);
+        
+        userRepo.save(userU);
 
-        List<User> ownerList = owner.getFriendList();
-
-        for(User us: ownerList)
-            if(us.getUserID() == user2)
-                check = true;
-        if(check)
-        {
-            System.out.print("IN\n\n");
-            ownerList.remove(user);
-            owner.setFriendList(ownerList);
-            List<User> userList = user.getFriendList();
-            userList.remove(user1);
-            user.setFriendList(userList);
-            userRepo.save(owner);
-            userRepo.save(user);
-        }
     }
 
     public void blockUser(User user)

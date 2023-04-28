@@ -27,9 +27,6 @@ public class GamersWorldApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 
-		User user1 = userRepo.findByUid(1);
-		User user2 = userRepo.findByUid(2);
-
 		handler.removeFriend(1, 2);
 
 	}
