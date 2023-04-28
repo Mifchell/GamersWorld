@@ -103,7 +103,7 @@ public class UserHandler {
             return false;
         }
 
-        user.getProfile().setUsername(username); // username has to be unique
+        user.getProfile().setUsername(username);
         user.getProfile().setDescription(description);
         user.getProfile().setTime(preferredTime);
 

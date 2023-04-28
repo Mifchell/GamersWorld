@@ -47,12 +47,6 @@ public class UserController {
         return "events";
     }
 
-    @PostMapping("/events")
-    public String filterEvents(@RequestParam(value = "filter") String filter, Model model, HttpServletRequest request) {
-        model.addAttribute("events", eventHandler.filterEvent(filter));
-        return "events";
-    }
-
     @GetMapping("/gamers")
     public String viewGamers(Model model, HttpServletRequest request) {
         return "gamers";
@@ -67,7 +61,7 @@ public class UserController {
     public String viewProfile(Model model, HttpServletRequest request) {
         model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
         model.addAttribute("mygroups", groupHandler.myGroups(retrieveCurrentUser(request)));
-        model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
+        model.addAttribute("events", eventHandler.myEvents(retrieveCurrentUser(request)));
         return "profile";
     }
 

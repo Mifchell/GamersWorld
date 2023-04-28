@@ -8,7 +8,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +42,11 @@ public class EventHandler {
         List<Event> returnEvents = new ArrayList<Event>();
         List<Game> userGames = user.getProfile().getGames();
         List<Event> curEvents = null;
+
+        List<Event> userList = new ArrayList<Event>();
+        if (user.getEventList() != null) {
+            userList = user.getEventList();
+        }
         
         if (!userGames.isEmpty())
         {
@@ -56,30 +65,59 @@ public class EventHandler {
 
             // if there are matched events, sort and return them
             if (!returnEvents.isEmpty())
+            {
+                for (Event events : userList) {
+                    returnEvents.remove(events);
+                }
                 return sortEvents(returnEvents);
+            }
+                
         }
 
         // if there are no matched events after going thru, then return all events sorted
         // OR if user does not have a game then return all sorted
 
         returnEvents = eventRepo.findAll();
+
+        for (Event events : userList) {
+            returnEvents.remove(events);
+        }
+
         return sortEvents(returnEvents);
+    }
+
+    public List<Event> myEvents(User user) {
+        List<Event> myevents = new ArrayList<Event>();
+        if (user.getEventList() != null) {
+            myevents = user.getEventList();
+        }
+        return myevents;
     }
 
     /*
      * do a filter search on the repositary
      */
-    public List<Event> filterEvent(String filter) {
-        List<Event> returnList = new ArrayList<Event>();
+    public List<Event> filterEvent(String filter, User user) {
+        Set<Event> returnList = new HashSet<Event>();
         
         if (filter.equals("")) {
-            returnList = eventRepo.findAll();
+            returnList = eventRepo.findAll().stream().collect(Collectors.toSet());
         } else {
             returnList.addAll(eventRepo.findByDescriptionContaining(filter));
             returnList.addAll(eventRepo.findByEventNameContaining(filter));
         }
 
-        return sortEvents(returnList);
+        List<Event> userList = new ArrayList<Event>();
+        if (user.getEventList() != null) {
+            userList = user.getEventList();
+        }
+        
+        for (Event events : userList) {
+            returnList.remove(events);
+        }
+        
+
+        return sortEvents(returnList.stream().collect(Collectors.toList()));
     }
 
     /*

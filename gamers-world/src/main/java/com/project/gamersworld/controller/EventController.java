@@ -45,6 +45,12 @@ public class EventController {
         return "editevent";
     }
 
+    @PostMapping("/events")
+    public String filterEvents(@RequestParam(value = "filter") String filter, Model model, HttpServletRequest request) {
+        model.addAttribute("events", eventHandler.filterEvent(filter, userController.retrieveCurrentUser(request)));
+        return "events";
+    }
+
     // Submit event changes
     @GetMapping("/event/editedEvent")
     public String editedEvent(@RequestParam(value = "id") int id, @RequestParam(value = "name") String name, @RequestParam(value = "date") String date, @RequestParam(value = "location") String location, @RequestParam(value = "game") String game, @RequestParam(value = "level") String level, @RequestParam(value = "desc") String desc) {
