@@ -9,26 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.gamersworld.handlers.EventHandler;
 import com.project.gamersworld.handlers.GroupHandler;
 import com.project.gamersworld.handlers.UserHandler;
-import com.project.gamersworld.models.Group;
 import com.project.gamersworld.models.User;
-
-import ch.qos.logback.core.joran.conditional.ElseAction;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-
 import com.project.gamersworld.models.Game;
-import com.project.gamersworld.models.User;
 
 @Controller
 public class UserController {
@@ -46,7 +34,7 @@ public class UserController {
     @GetMapping("/index")
     public String viewHome(Model model, HttpServletRequest request) {
         model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
-        model.addAttribute("groups", groupHandler.groupSearch(""));
+        model.addAttribute("groups", groupHandler.groupSearch("", retrieveCurrentUser(request)));
         model.addAttribute("gamers", userHandler.recommendGamer(retrieveCurrentUser(request).getUserID()));
 
         return "index";
@@ -64,18 +52,6 @@ public class UserController {
         return "events";
     }
 
-    @GetMapping("/groups")
-    public String viewGroups(Model model, HttpServletRequest request) {
-        model.addAttribute("groups", groupHandler.groupSearch(""));
-        return "groups";
-    }
-
-    @PostMapping("/groups")
-    public String filterGroup(@RequestParam(value = "filter") String filter, Model model, HttpServletRequest request) {
-        model.addAttribute("groups", groupHandler.groupSearch(filter));
-        return "groups";
-    }
-
     @GetMapping("/gamers")
     public String viewGamers(Model model, HttpServletRequest request) {
         return "gamers";
@@ -89,6 +65,7 @@ public class UserController {
     @GetMapping("/profile")
     public String viewProfile(Model model, HttpServletRequest request) {
         model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
+        model.addAttribute("mygroups", groupHandler.myGroups(retrieveCurrentUser(request)));
         return "profile";
     }
 
@@ -199,25 +176,6 @@ public class UserController {
         // show error
         model.addAttribute("errorMessage", "Username is already taken. Please try again with a different username.");
         return "createprofile";
-    }
-
-    @GetMapping("/creategroup")
-    public String viewCreateGroup() {
-        return "creategroup";
-    }
-
-    @PostMapping("/creategroup")
-    public String createGroup(@RequestParam(value = "name") String name,
-            @RequestParam(value = "description") String description, HttpServletRequest request) {
-        groupHandler.createGroup(name, description, retrieveCurrentUser(request));
-        return "redirect:/groups";
-    }
-
-    @PostMapping("/joingroup/{id}")
-    public String joinGroup(@PathVariable String id, Model model, HttpServletRequest request) {
-        groupHandler.join(Integer.parseInt(id), retrieveCurrentUser(request));
-
-        return "redirect:/groups";
     }
 
     // helper method for this class to retrieve user for each page

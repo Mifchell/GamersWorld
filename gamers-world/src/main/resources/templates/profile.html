@@ -3,6 +3,7 @@
   <head>
     <title>Gamer's World</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+		<link rel="stylesheet" th:href="@{/css/event.css}" href="../css/event.css"> 
     <link rel="stylesheet" th:href="@{/css/profile.css}" href="../css/profile.css">
   </head>
 
@@ -11,6 +12,14 @@
       float: right;
       width: 150px;
     }
+
+    .joingroup {
+      padding: 10px 10px;
+      width: 100px;
+      height: 35px;
+      text-align: center;
+      float: right;
+		}
   </style>
   
   <body>
@@ -38,16 +47,17 @@
 
     <h1>Groups</h1>
     <div class="column">
-      <div class="profile">
-        <br>
-        <h2><span th:text="${profile.username}"></span></h2>
-        <p><span th:text="${profile.description}"></span></p>
-        <p>Games: </p>
-        <div th:each="game : ${profile.games}">
-          <p th:text="${game}"></p>
+      <div class = "groups">
+        <h1><a th:href="@{/mygroups}">My Groups</a></h1>
+        <tr th:each="group: ${mygroups}" >
+        <div class = "groups post" style="padding: 5px;">
+          
+          <form th:action="@{/leavegroup/{id}(id = ${group.groupID})}" method="post">
+            <button type="submit" style="width: 100px; "    class="joingroup">Leave</button>
+          </form>
+          <h3><span th:text="${group.name}"></span></h3>
         </div>
-        <p><a th:href="@{/edit_profile}"><button>Edit profile</button></p></a>
-      </div>
+    </div>
     </div>
 
     <h1>Profile</h1>
