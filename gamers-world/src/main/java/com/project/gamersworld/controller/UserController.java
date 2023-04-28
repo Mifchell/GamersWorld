@@ -41,6 +41,7 @@ public class UserController {
     }
 
     @GetMapping("/events")
+
     public String viewEvents(Model model, HttpServletRequest request) {
         model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
         return "events";
@@ -66,6 +67,7 @@ public class UserController {
     public String viewProfile(Model model, HttpServletRequest request) {
         model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
         model.addAttribute("mygroups", groupHandler.myGroups(retrieveCurrentUser(request)));
+        model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
         return "profile";
     }
 

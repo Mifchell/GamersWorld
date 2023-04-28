@@ -67,7 +67,7 @@ public class EventHandler {
 
         List<Event> returnEvents = new ArrayList<Event>();
         List<Game> userGames = user.getProfile().getGames();
-        Event curEvent = null;
+        List<Event> curEvents = null;
         
         if (!userGames.isEmpty())
         {
@@ -75,9 +75,13 @@ public class EventHandler {
             // match event game to user's games, if it's not already in there
             for (int i = 0; i < userGames.size(); i++)
             {   
-                curEvent = eventRepo.findByGame(userGames.get(i));
-                if (curEvent != null && !returnEvents.contains(curEvent))
-                    returnEvents.add(curEvent);
+                // Multiple events can share the same game, so it can return 2+ events
+                curEvents = eventRepo.findAllByGame(userGames.get(i));
+                // Adds each event returned individually
+                for(Event event: curEvents){
+                    if (event != null && !returnEvents.contains(event))
+                        returnEvents.add(event);
+                }
             }
 
             // if there are matched events, sort and return them
@@ -156,7 +160,7 @@ public class EventHandler {
         for(User attendee: event.getAttendeeList()) {
             for(Event event2: attendee.getEventList()) {
                 if(event2.getEventId() == ID){
-                    attendee.getEventList().remove(ID);
+                    attendee.getEventList().remove(event2);
                     break;
                 }
             }
