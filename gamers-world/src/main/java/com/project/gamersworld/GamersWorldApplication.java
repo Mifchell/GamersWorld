@@ -17,15 +17,17 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class GamersWorldApplication implements CommandLineRunner {
 	@Autowired
-	FriendsHandler handler;
+	FriendsHandler friendsHandler;
+
+	@Autowired
+	UserRepo userRepo;
 	public static void main(String[] args) {
 		SpringApplication.run(GamersWorldApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) {
-		handler.addFriend(1, 2);
-		
+		friendsHandler.removeFriend(1, 3);
 	}
 
 }

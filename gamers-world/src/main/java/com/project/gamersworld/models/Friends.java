@@ -10,9 +10,10 @@ import javax.persistence.Table;
 @Table(name = "friends")
 public class Friends {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "uid")
     int uid;
+
+    @Column(name = "user_friend_uid")
     int user_friend_uid;
 
     public int getUser_friend_uid() {

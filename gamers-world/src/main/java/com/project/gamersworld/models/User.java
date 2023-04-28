@@ -28,7 +28,7 @@ public class User {
      * do we need this? or should we just have databases representing them? Like
      * eventRegistration class
      */
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "user_friend_uid"))
     @Fetch(value = FetchMode.SELECT)
     public List<Friends> friendsList;
@@ -90,7 +90,7 @@ public class User {
         return this.friendsList;
     }
 
-    public void setFriendList(ArrayList<Friends> friendList) {
+    public void setFriendList(List<Friends> friendList) {
         this.friendsList = friendList;
     }
 
