@@ -18,7 +18,7 @@ import com.project.gamersworld.handlers.GroupHandler;
 import com.project.gamersworld.handlers.UserHandler;
 import com.project.gamersworld.models.Group;
 import com.project.gamersworld.models.User;
-
+import com.project.gamersworld.models.User;
 import ch.qos.logback.core.joran.conditional.ElseAction;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-
+import com.project.gamersworld.repo.UserRepo;
 import com.project.gamersworld.models.Game;
 import com.project.gamersworld.models.User;
 
@@ -38,6 +38,9 @@ public class UserController {
 
     @Autowired
     EventHandler eventHandler;
+
+    @Autowired
+    private UserRepo userRepo;
 
     @Autowired
     GroupHandler groupHandler;
@@ -177,6 +180,26 @@ public class UserController {
         return "redirect:/profile";
 
     }
+
+    //Edit profile
+    @PostMapping("/edit_profile")
+    public String editProfile(@RequestParam(value = "username") String username,
+        @RequestParam(value = "description") String description,
+        @RequestParam(value = "preferredTime") String preferredTime,
+        @RequestParam(name = "selectedGames", required = false) List<Game> selectedGames,
+        @RequestParam(value = "email") String email, @RequestParam(value = "password") String password,
+        HttpServletRequest request, Model model){
+            User user = userRepo.findByProfileUsername(username);
+            String response = userHandler.editProfile(user, username, description, preferredTime, selectedGames, email, password);
+            if(response.equals("Profile successfully updated")){
+                return "redirect:/profile";
+            }
+            model.addAttribute("message", response);
+            return "redirect:/editprofile";
+        }
+    
+    
+
 
     // create profile
     @GetMapping("/createprofile")

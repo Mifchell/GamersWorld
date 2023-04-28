@@ -118,6 +118,22 @@ public class UserHandler {
         return true;
     }
 
+    public String editProfile(User user, String username, String description, String preferredTime,
+        List<Game> selectedGames, String email, String password) {
+        
+        user.getProfile().setUsername(username); // username has to be unique
+        user.getProfile().setDescription(description);
+        user.getProfile().setTime(preferredTime);
+        user.getProfile().setEmail(email);
+        user.getProfile().setPassword(password);
+        user.getProfile().setGames(selectedGames);
+
+        // save all
+        userRepo.save(user);
+
+        return "Profile successfully updated";
+    }
+
     public UserRepo getUserRepo() {
         return userRepo;
     }
