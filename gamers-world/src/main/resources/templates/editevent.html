@@ -30,6 +30,10 @@
           <label for="name"><b>Event Name</b></label>
           <input type="text" placeholder="Enter Event Name" name="name" id="name" th:value="${event.eventName}" required>
 
+          <div th:if="${errorMessage}" style="color:red">
+            <p th:text="${errorMessage}"></p>
+          </div>
+
           <label for="date"><b>Date</b></label>
           <input type="text" placeholder="MM/DD/YYYY" name="date" id="date" th:value="${event.date}" required>
 
