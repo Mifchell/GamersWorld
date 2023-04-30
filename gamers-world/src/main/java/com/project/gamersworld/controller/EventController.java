@@ -47,8 +47,14 @@ public class EventController {
 
     @PostMapping("/events")
     public String filterEvents(@RequestParam(value = "filter") String filter, Model model, HttpServletRequest request) {
-        model.addAttribute("events", eventHandler.filterEvent(filter, userController.retrieveCurrentUser(request)));
-        return "events";
+        if (userController.retrieveCurrentUser(request) != null)
+        {
+            model.addAttribute("events", eventHandler.filterEvent(filter, userController.retrieveCurrentUser(request)));
+            return "events";
+        }
+
+        return "error";
+
     }
 
     // Submit event changes

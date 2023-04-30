@@ -1,5 +1,5 @@
 package com.project.gamersworld.controler;
 
-public class SearchControlerTest {
-
+public class EventControllerTest {
+    
 }

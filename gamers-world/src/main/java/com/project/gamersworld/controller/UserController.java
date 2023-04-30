@@ -33,18 +33,30 @@ public class UserController {
     // show pages
     @GetMapping("/index")
     public String viewHome(Model model, HttpServletRequest request) {
-        model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
-        model.addAttribute("groups", groupHandler.groupSearch("", retrieveCurrentUser(request)));
-        model.addAttribute("gamers", userHandler.recommendGamer(retrieveCurrentUser(request).getUserID()));
+        if (retrieveCurrentUser(request) != null)
+        {
+            model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
+            model.addAttribute("groups", groupHandler.groupSearch("", retrieveCurrentUser(request)));
+            model.addAttribute("gamers", userHandler.recommendGamer(retrieveCurrentUser(request).getUserID()));
+            
+            return "index";
+        }
 
-        return "index";
+        return "error";
+  
     }
 
     @GetMapping("/events")
 
     public String viewEvents(Model model, HttpServletRequest request) {
-        model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
-        return "events";
+        if (retrieveCurrentUser(request) != null)
+        {
+            model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
+            return "events";
+        }
+
+        return "error";
+
     }
 
     @GetMapping("/gamers")

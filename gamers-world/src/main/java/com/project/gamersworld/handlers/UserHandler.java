@@ -18,6 +18,10 @@ public class UserHandler {
     @Autowired
     private UserRepo userRepo;
 
+    public UserHandler(UserRepo userRepository) {
+        this.userRepo = userRepository;
+    }
+
     public User login(String email, String password) {
         // if user exists, check if password matches saved password
         if (userRepo.findByProfileEmailAddress(email) != null) {
