@@ -88,7 +88,7 @@
                 <div class="panel">
                     <p><span th:text="${event.description}"></span></p>
 					<form th:action="@{/rsvpevent}" method="post">
-						<button type="submit" class="rsvpevent">RSVP Yes</button>
+						<button class="btn" th:value="${event.eventId}" onclick="rsvp(this.value)">RSVP</button>
 					</form>
                 </div>
             </tr>
