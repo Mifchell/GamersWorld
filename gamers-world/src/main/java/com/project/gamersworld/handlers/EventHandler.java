@@ -11,7 +11,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -153,7 +152,7 @@ public class EventHandler {
      */
     public boolean editEvent(int ID, String name, String date, String location, String description, String game, String playLevel) {
         // check if event name is unique
-        if (eventRepo.findByEventName(name) != null) {
+        if (eventRepo.findByEventName(name) != eventRepo.findByEventId(ID)) {
             return false;
         }
 
