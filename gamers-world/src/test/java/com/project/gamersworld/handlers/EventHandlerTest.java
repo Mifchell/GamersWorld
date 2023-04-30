@@ -27,8 +27,10 @@ public class EventHandlerTest {
 
     @Mock
     private static EventRepo mockEventRepository;
+
     @Mock
     private static UserRepo mockUserRepository;
+
     @InjectMocks
     private static EventHandler eventHandler;
 
@@ -44,20 +46,24 @@ public class EventHandlerTest {
         mockEventRepository = Mockito.mock(EventRepo.class);
         mockUserRepository = Mockito.mock(UserRepo.class);
         eventHandler = new EventHandler(mockEventRepository, mockUserRepository);
+
+        // sort events
         events = new ArrayList<Event>();
         result = new ArrayList<Event>();
         Profile profile = new Profile("user1", "1234", "test@test.com", "", "");
         user1 = new User(profile);
 
+        // event search
+            // set up games for user
+            List<Game> games = 
+        Event event2 = new Event("", "12/24/2023", "", "", Game.MINECRAFT, PlayLevel.CASUAL, user1);
 
-        Event event1 = new Event("", "12/24/2023", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1);
-        Event event2 = new Event("", "12/24/2023", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1);
-
-        list1.add(event1);
     }
 
+    // sort events - eventhandler
     @Test
     void testUnSortedEvents() {
+        // should return a sorted list
         events.add(new Event("", "12/24/2023", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
         events.add(new Event("", "12/24/2024", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
         events.add(new Event("", "12/25/2023", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
@@ -76,13 +82,11 @@ public class EventHandlerTest {
     // test - eventSearch
     @Test
     void testEventSearchHappyPath() {
-        // return a list of matched events according to the user's games
+        // should return a list of matched events with the same game according to the user's games
         when(mockEventRepository.findAllByGame(user1.getGames())).thenReturn(list2);
         when(mockEventRepository.findByNameContaining("p1")).thenReturn(list1);
 
         List<Event> events = eventHandler.eventSearch(user1);
-
-
 
         assertEquals(events, list1); 
     }
