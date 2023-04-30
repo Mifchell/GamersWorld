@@ -43,6 +43,14 @@
           <label for="game"><b>Game</b></label>
           <input type="text" placeholder="Enter Game" name="game" id="game" th:value="${event.game}" required>
 
+          <label for="games"><b>Select up to 1 game:</b></label>
+          <div style="height: 150px; overflow-y: auto;">
+            <div th:each="game : ${T(com.project.gamersworld.models.Game).values()}">
+              <input type="checkbox" name="selectedGame" id="selectedGame" th:checked="${event.game == game}" th:value="${game}">
+              <label for="${game}" th:text="${game}"></label>
+            </div>
+          </div>
+
           <label for="playlevel"><b>Play Level</b></label>
           <input type="text" placeholder="Enter Play Level" name="level" id="level" th:value="${event.playLevel}" required>
 
