@@ -39,7 +39,7 @@
       <label for="games"><b>Reselect up to 5 games:</b></label>
               <div style="height: 150px; overflow-y: auto;">
                 <div th:each="game : ${T(com.project.gamersworld.models.Game).values()}">
-                  <input type="checkbox" name="selectedGames" id="selectedGames" th:value="${game}">
+                  <input type="checkbox" name="selectedGames" th:checked="${profile.games.contains(game)}" id="selectedGames" th:value="${game}">
                   <label for="${game}" th:text="${game}"></label>
                 </div>
               </div>
