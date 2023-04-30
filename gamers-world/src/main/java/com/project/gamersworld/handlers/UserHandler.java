@@ -115,6 +115,28 @@ public class UserHandler {
         return true;
     }
 
+    public boolean editProfile(User user, String username, String description, String preferredTime,
+        List<Game> selectedGames, String email, String password) {
+        
+        if((userRepo.findByProfileUsername(username) != null) || (userRepo.findByProfileEmailAddress(email) != null)){
+            return false;
+
+        }
+
+        
+        user.getProfile().setUsername(username); // username has to be unique
+        user.getProfile().setDescription(description);
+        user.getProfile().setTime(preferredTime);
+        user.getProfile().setEmail(email);
+        user.getProfile().setPassword(password);
+        user.getProfile().setGames(selectedGames);
+
+        // save all
+        userRepo.save(user);
+
+        return true;
+    }
+
     public UserRepo getUserRepo() {
         return userRepo;
     }

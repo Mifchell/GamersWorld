@@ -11,10 +11,10 @@
 
     <a th:href="@{/index}"><div id="banner"></div></a>
 
-    <!--Logout button-->
+    <!--Logout button
     <form th:action="@{/logout}" method="post">
       <button type = "submit"> Logout</button>
-    </form>
+    </form> -->
 
     <!--Navigation Menu-->
     <div class="nav">
@@ -29,17 +29,29 @@
 <h1>Edit Profile</h1>
 
 <div class="inputform">
-<form action="/action_page.php">
+<form onsubmit="return checkSelectedGames();" action="#" th:action="@{/createprofile}" method="post">
   
+      <label for="username"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="username" id="username" required>
+
       <label for="email"><b>Email</b></label>
       <input type="text" placeholder="Enter Email" name="email" id="email" required>
 
       <label for="password"><b>Password</b></label>
       <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
 
-      <label for="game"><b>Preferred Game</b></label>
-      <input type="text" placeholder="Enter Game" name="game" id="game" required>
+      <label for="games"><b>Preferred Games<br>Select up to 5 games:</b></label>
+              <div style="height: 150px; overflow-y: auto;">
+                <div th:each="game : ${T(com.project.gamersworld.models.Game).values()}">
+                  <input type="checkbox" name="selectedGames" id="selectedGames" th:value="${game}">
+                  <label for="${game}" th:text="${game}"></label>
+                </div>
+              </div>
 
+      <label for="preferredTime"><b><br>Preferred Time</b></label>
+      <input type="text" placeholder="Enter Time" name="preferredTime" id="preferredTime" required>
+
+  
       <label for="description"><b>Bio Description</b></label>
       <input type="text" placeholder="Enter Description" name="description" id="description" required>
   
