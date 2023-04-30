@@ -237,7 +237,7 @@ public class EventHandler {
         return sortEvents(events);
     }
 
-    private List<Event> sortEvents(List<Event> events)
+    protected List<Event> sortEvents(List<Event> events)
     {
         if (events != null && !events.isEmpty())
         {
