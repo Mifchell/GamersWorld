@@ -29,16 +29,16 @@ public class User {
     @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "user_friend_uid"))
     @Fetch(value = FetchMode.SELECT)
     public List<User> friendsList;
+    
+    @ManyToMany(fetch = FetchType.EAGER,cascade ={CascadeType.MERGE, CascadeType.REMOVE})
+    @JoinTable(name = "blocked", joinColumns = @JoinColumn(name = "UID"), inverseJoinColumns = @JoinColumn(name = "blocked_friend_uid"))
+    @Fetch(value = FetchMode.SELECT)
+    public List<User> blockedUsers;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "group_registration", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns = {
             @JoinColumn(name = "groupID") })
     List<Group> groupList;
-
-    // @ManyToMany(fetch = FetchType.EAGER)
-    // @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "user_uid"),
-    // inverseJoinColumns = @JoinColumn(name = "blocked_friend_uid"))
-    // List<User> blockedUsers;
 
     // It did not like this NOT being Eager
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
@@ -49,7 +49,7 @@ public class User {
     public User() {
         this.friendsList = new ArrayList<User>();
         this.groupList = new ArrayList<Group>();
-        // this.blockedUsers = new ArrayList<User>();
+        this.blockedUsers = new ArrayList<User>();
         this.eventList = new ArrayList<Event>();
     }
 
@@ -57,7 +57,7 @@ public class User {
         this.uid = user.getUserID();
         this.profile = user.getProfile();
         this.friendsList = user.getFriendList();
-        // this.blockedUsers = user.getBlockedUsers();
+        this.blockedUsers = user.getBlockedUsers();
         this.groupList = user.getGroupList();
         this.eventList = user.getEventList();
     }
@@ -67,7 +67,7 @@ public class User {
         this.profile = profile;
         this.friendsList = new ArrayList<User>();
         this.groupList = new ArrayList<Group>();
-        // this.blockedUsers = new ArrayList<User>();
+        this.blockedUsers = new ArrayList<User>();
         this.eventList = new ArrayList<Event>();
     }
 
@@ -99,13 +99,13 @@ public class User {
         this.groupList = groupList;
     }
 
-    // public List<User> getBlockedUsers() {
-    // return this.blockedUsers;
-    // }
+    public List<User> getBlockedUsers() {
+    return this.blockedUsers;
+    }
 
-    // public void setBlockedUsers(ArrayList<User> blockedUsers) {
-    // this.blockedUsers = blockedUsers;
-    // }
+    public void setBlockedUsers(List<User> blockedUsers) {
+        this.blockedUsers = blockedUsers;
+    }
 
     public List<Event> getEventList() {
         return this.eventList;
@@ -113,18 +113,6 @@ public class User {
 
     public void setEventList(List<Event> eventList) {
         this.eventList = eventList;
-    }
-
-    // removed the addFriend, removeFriend and blockUser as they are in the
-    // firendship class now
-
-    // create group and event belong here?
-    void createGroup() {
-        // create the group
-    }
-
-    void createEvent() {
-        // create the Event
     }
 
     public String toString() {

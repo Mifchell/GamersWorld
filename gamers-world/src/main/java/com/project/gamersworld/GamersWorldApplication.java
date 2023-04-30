@@ -5,6 +5,7 @@ import com.project.gamersworld.handlers.FriendHandler;
 import com.project.gamersworld.models.User;
 import com.project.gamersworld.repo.*;
 
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -27,7 +28,14 @@ public class GamersWorldApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 
-		handler.removeFriend(1, 3);
+		User u1 = userRepo.findByUid(1);
+
+		if(u1.blockedUsers.isEmpty())
+			System.out.println("True");
+		for(User u : u1.getBlockedUsers())
+			System.out.println(u.getUserID());
+
+		System.out.println("HERE_______________");
 
 	}
 
