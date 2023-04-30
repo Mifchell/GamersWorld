@@ -118,9 +118,8 @@ public class UserHandler {
     public boolean editProfile(User user, String username, String description, String preferredTime,
         List<Game> selectedGames, String email, String password) {
         
-        if((userRepo.findByProfileUsername(username) != null) || (userRepo.findByProfileEmailAddress(email) != null)){
+        if( (userRepo.findByProfileUsername(username) != null && !userRepo.findByProfileUsername(username).equals(user) ) || ( (userRepo.findByProfileEmailAddress(email) != null) && !userRepo.findByProfileEmailAddress(email).equals(user) )){
             return false;
-
         }
 
         
