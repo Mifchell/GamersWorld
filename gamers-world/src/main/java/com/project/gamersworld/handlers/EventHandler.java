@@ -151,11 +151,17 @@ public class EventHandler {
     /*
      * Edit event 
      */
-    public void editEvent(int ID, String name, String date, String location, String description, String game, String playLevel) {
+    public boolean editEvent(int ID, String name, String date, String location, String description, String game, String playLevel) {
+        // check if event name is unique
+        if (eventRepo.findByEventName(name) != null) {
+            return false;
+        }
+
         //Retreive Game and PlayLevel objects
         Game gameObject = Game.valueOf(game.toUpperCase());
         PlayLevel playLevelObject = PlayLevel.valueOf(playLevel.toUpperCase());
         Event oldVersion = new Event(eventRepo.findByEventId(ID));
+
         //Create new event based on updated data
         Event updatedEvent = new Event(name, date, location, description, gameObject, playLevelObject, oldVersion.getAttendeeList().get(0));
         //Keep same ID and set attendeelist and comments
@@ -164,6 +170,7 @@ public class EventHandler {
         updatedEvent.setAttendeeList(oldVersion.getAttendeeList());
         updatedEvent.setComments(oldVersion.getComments());
         eventRepo.save(updatedEvent);
+        return true;
     }
 
     /*

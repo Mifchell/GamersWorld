@@ -53,9 +53,15 @@ public class EventController {
 
     // Submit event changes
     @GetMapping("/event/editedEvent")
-    public String editedEvent(@RequestParam(value = "id") int id, @RequestParam(value = "name") String name, @RequestParam(value = "date") String date, @RequestParam(value = "location") String location, @RequestParam(value = "game") String game, @RequestParam(value = "level") String level, @RequestParam(value = "desc") String desc) {
-        eventHandler.editEvent(id, name, date, location, desc, game, level);
-        return "redirect:/profile";
+    public String editedEvent(Model model, @RequestParam(value = "id") int id, @RequestParam(value = "name") String name, @RequestParam(value = "date") String date, @RequestParam(value = "location") String location, @RequestParam(value = "game") String game, @RequestParam(value = "level") String level, @RequestParam(value = "desc") String desc) {
+        // check if new username is valid
+        if (eventHandler.editEvent(id, name, date, location, desc, game, level)) {
+            return "redirect:/profile";
+        }
+
+        // show error
+        model.addAttribute("errorMessage", "Event name is already taken. Please try again with a different name.");
+        return "editevent";
     }
 
     // Remove event from database
