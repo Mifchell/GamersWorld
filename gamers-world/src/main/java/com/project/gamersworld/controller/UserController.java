@@ -66,7 +66,7 @@ public class UserController {
         return "profile";
     }
 
-    @GetMapping("/edit_profile")
+    @GetMapping("/editprofile")
     public String viewEditProfile(Model model, HttpServletRequest request) {
         model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
         return "editprofile";
@@ -153,7 +153,7 @@ public class UserController {
     }
 
     //Edit profile
-    @PostMapping("/edit_profile")
+    @PostMapping("/editprofile")
     public String editProfile(@RequestParam(value = "username") String username,
         @RequestParam(value = "description") String description,
         @RequestParam(value = "preferredTime") String preferredTime,
@@ -166,8 +166,9 @@ public class UserController {
                 return "redirect:/profile";
             }
             model.addAttribute("errorMessage", "Username or email is already taken. Please try again.");
-
-            return "redirect:/editprofile";
+            model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
+            
+            return "editprofile";
         }
 
     
