@@ -48,7 +48,7 @@ public class EventHandlerTest {
         result = new ArrayList<Event>();
         Profile profile = new Profile("user1", "1234", "test@test.com", "", "");
         user1 = new User(profile);
-        
+
 
         Event event1 = new Event("", "12/24/2023", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1);
         Event event2 = new Event("", "12/24/2023", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1);
@@ -70,7 +70,7 @@ public class EventHandlerTest {
 
         events = eventHandler.sortEvents(events);
 
-        assertReflectionEquals(events, result);
+        assertEquals(events, result);
     }
 
     // test - eventSearch
