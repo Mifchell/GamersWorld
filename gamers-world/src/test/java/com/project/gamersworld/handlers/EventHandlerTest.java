@@ -1,5 +1,6 @@
 package com.project.gamersworld.handlers;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -47,6 +48,7 @@ public class EventHandlerTest {
         result = new ArrayList<Event>();
         Profile profile = new Profile("user1", "1234", "test@test.com", "", "");
         user1 = new User(profile);
+        
 
         Event event1 = new Event("", "12/24/2023", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1);
         Event event2 = new Event("", "12/24/2023", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1);
@@ -61,7 +63,6 @@ public class EventHandlerTest {
         events.add(new Event("", "12/25/2023", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
         events.add(new Event("", "10/25/2020", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
 
-
         result.add(new Event("", "10/25/2020", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
         result.add(new Event("", "12/24/2023", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
         result.add(new Event("", "12/25/2023", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
@@ -69,16 +70,19 @@ public class EventHandlerTest {
 
         events = eventHandler.sortEvents(events);
 
-        assertEquals(events, result);
+        assertReflectionEquals(events, result);
     }
 
     // test - eventSearch
     @Test
     void testEventSearchHappyPath() {
-        when(mockEventRepository.findAllByGame(user1.getGame())).thenReturn(list2);
+        // return a list of matched events according to the user's games
+        when(mockEventRepository.findAllByGame(user1.getGames())).thenReturn(list2);
         when(mockEventRepository.findByNameContaining("p1")).thenReturn(list1);
 
         List<Event> events = eventHandler.eventSearch(user1);
+
+
 
         assertEquals(events, list1); 
     }
