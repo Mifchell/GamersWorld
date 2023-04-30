@@ -61,6 +61,7 @@ public class EventController {
 
         // show error
         model.addAttribute("errorMessage", "Event name is already taken. Please try again with a different name.");
+        model.addAttribute("event", eventRepo.findByEventId(id));
         return "editevent";
     }
 
