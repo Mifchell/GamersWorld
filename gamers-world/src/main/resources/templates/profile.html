@@ -87,6 +87,7 @@
             <form action="#" th:action="@{/event/editEvent}" method="post">
               <button style="width: 100px;" class="joingroup" th:value="${event.eventId}" th:if="${event.attendeeList[0].profile.getUsername() == profile.getUsername()}" name="id" type="submit">Edit</button>
             </form>
+            <p style="float: right" th:if="${event.attendeeList[0].profile.getUsername() == profile.getUsername()}">(Owner)</p>
             <h3><span th:text="${event.eventName}"></span></h3>
           </div>
         </tr>
