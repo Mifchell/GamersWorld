@@ -28,8 +28,11 @@ public class GamersWorldApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
+		List<User> list = mRepo.findByMessageID(1).getRecievers();
 
-		System.out.println(mRepo.getMessageByMessageID(1).getRecievers().get(0).getUserID());
+		for(User u: list)
+			System.out.println(u.getUserID());
+		System.out.println(mRepo.findByMessageID(1).getSender().getUserID());
 	}
 
 }

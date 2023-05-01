@@ -9,22 +9,27 @@ import org.hibernate.annotations.FetchMode;
 
 
 @Entity
+@Table(name = "messages")
 public class Message {
 
     @Id
+    @Column(name = "messageID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     int messageID;
 
     @ManyToOne
-    int sender;
+    @JoinColumn(name = "sender", referencedColumnName = "UID")
+    User sender;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "message", joinColumns = @JoinColumn(name = "UID"), inverseJoinColumns = @JoinColumn(name = "receiver"))
+    @JoinTable(name = "messages", joinColumns = @JoinColumn(name = "messageID"), inverseJoinColumns = @JoinColumn(name = "receiver"))
     @Fetch(value = FetchMode.SELECT)
     List<User> receivers;
-    
+    @Column(name = "date")
     String date;
+    @Column(name = "message")
     String message;
+    @Column(name = "groupID")
     int groupID;
 
     public Message()
@@ -56,7 +61,7 @@ public class Message {
     public List<User> getRecievers() {
         return receivers;
     }
-    public int getSender() {
+    public User getSender() {
         return sender;
     }
     public void setRecievers(List<User> recievers) {

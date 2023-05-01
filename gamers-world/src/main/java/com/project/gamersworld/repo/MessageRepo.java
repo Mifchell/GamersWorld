@@ -4,6 +4,6 @@ import com.project.gamersworld.models.Message;
 
 public interface MessageRepo extends JpaRepository<Message, Long> {
 
-   public Message getMessageByMessageID(int id);
+   public Message findByMessageID(int id);
 
 }
