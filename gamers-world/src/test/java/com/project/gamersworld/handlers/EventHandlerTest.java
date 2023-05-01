@@ -159,10 +159,18 @@ public class EventHandlerTest {
         result.add(event6);
         result.add(event7);
 
-        // should return a list of matched events with the same game according to the user's games
-        when(mockEventRepository.findAllByGame(user1.getProfile().getGames().get(0))).thenReturn(events);
+        events1.add(event5);
+        events1.add(event6);
+        events1.add(event7);
 
-        result = eventHandler.eventSearch(user1);
+        // should return a list of matched events with the same game according to the user's games
+        when(mockEventRepository.findAllByGame(user1.getProfile().getGames().get(0))).thenReturn(events1);
+        when(mockEventRepository.findAllByGame(user1.getProfile().getGames().get(1))).thenReturn(events2);
+        when(mockEventRepository.findAllByGame(user1.getProfile().getGames().get(2))).thenReturn(events3);
+
+        when(mockEventRepository.findAll()).thenReturn(events1);
+
+        events = eventHandler.eventSearch(user1);
 
         assertEquals(result, events); 
     }
