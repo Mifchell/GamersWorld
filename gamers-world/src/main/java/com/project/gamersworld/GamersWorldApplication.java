@@ -1,6 +1,5 @@
 package com.project.gamersworld;
 
-import com.project.gamersworld.handlers.EventHandler;
 import com.project.gamersworld.handlers.FriendHandler;
 import com.project.gamersworld.models.User;
 import com.project.gamersworld.repo.*;
@@ -29,10 +28,11 @@ public class GamersWorldApplication implements CommandLineRunner {
 	public void run(String... args) {
 
 		User u1 = userRepo.findByUid(1);
+		handler.blockUser(1, 2);
+		handler.unblockUser(2, 1);
 
-		if(u1.blockedUsers.isEmpty())
-			System.out.println("True");
-		for(User u : u1.getBlockedUsers())
+		List<User> list = u1.getBlockedUsers();
+		for(User u : list)
 			System.out.println(u.getUserID());
 
 		System.out.println("HERE_______________");

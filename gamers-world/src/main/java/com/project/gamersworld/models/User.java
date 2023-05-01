@@ -30,7 +30,7 @@ public class User {
     @Fetch(value = FetchMode.SELECT)
     public List<User> friendsList;
     
-    @ManyToMany(fetch = FetchType.EAGER,cascade ={CascadeType.MERGE, CascadeType.REMOVE})
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     @JoinTable(name = "blocked", joinColumns = @JoinColumn(name = "UID"), inverseJoinColumns = @JoinColumn(name = "blocked_friend_uid"))
     @Fetch(value = FetchMode.SELECT)
     public List<User> blockedUsers;

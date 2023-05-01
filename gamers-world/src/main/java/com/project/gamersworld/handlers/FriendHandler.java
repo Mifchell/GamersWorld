@@ -45,9 +45,31 @@ public class FriendHandler {
 
     }
 
-    public void blockUser(User user)
+    public void blockUser(int user, int blocked)
     {
+        boolean check = true;
+        User userU = userRepo.findByUid(user);
+        List<User> userBlockedList = userU.getBlockedUsers();
+        User blockedU = userRepo.findByUid(blocked);
+        for(User u: userBlockedList)
+            if(u.getUserID() == blocked)
+                check = false;
+        if(check)
+        {
+            userBlockedList.add(blockedU);
+            userU.setBlockedUsers(userBlockedList);
+            userRepo.save(userU);   
+        }
+    }
 
+    public void unblockUser(int user, int blocked)
+    {
+        User userU = userRepo.findByUid(user);
+        List<User> userBlockedList = userU.getBlockedUsers();
+        for(int i = 0; i < userBlockedList.size(); i++)
+            if(userBlockedList.get(i).getUserID() == blocked)
+                userBlockedList.remove(i);
+        userRepo.save(userU);
     }
  
 }
