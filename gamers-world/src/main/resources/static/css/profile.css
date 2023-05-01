@@ -1,7 +1,8 @@
 .profile {
-    /*width: 350px;*/
+    /*width: 350px;
     width:450px;
-    height: 600px;
+    height: 600px;*/
+    padding: 10px;
     margin: auto;
     border-radius: 8px;
     text-align: center;

@@ -31,11 +31,18 @@ public class EventController {
     EventRepo eventRepo;
 
     // RSVP to event
-    @PostMapping("event/rsvp/{eventId}")
+    @PostMapping("eventRSVP/{eventId}")
     @ResponseBody
-    public void RSVP(@PathVariable("eventId") int id, HttpServletRequest request) {
+    public void eventRSVP(@PathVariable("eventId") int id, HttpServletRequest request) {
         User user = userController.retrieveCurrentUser(request);
         eventHandler.RSVPEvent(user.getUserID(), id);
+    }
+
+    @PostMapping("RSVP")
+    public String RSVP(@RequestParam(value = "id") int id, HttpServletRequest request) {
+        User user = userController.retrieveCurrentUser(request);
+        eventHandler.RSVPEvent(user.getUserID(), id);
+        return "redirect:/profile";
     }
 
     // Go to edit event page
@@ -48,6 +55,7 @@ public class EventController {
     @PostMapping("/events")
     public String filterEvents(@RequestParam(value = "filter") String filter, Model model, HttpServletRequest request) {
         model.addAttribute("events", eventHandler.filterEvent(filter, userController.retrieveCurrentUser(request)));
+        model.addAttribute("user", userController.retrieveCurrentUser(request));
         return "events";
     }
 
@@ -90,6 +98,13 @@ public class EventController {
         // show error
         model.addAttribute("errorMessage", "Event name is already taken. Please try again with a different name.");
         return "createevent";
+    }
+
+    @GetMapping("/event/{eventId}")
+    public String viewEvent(Model model, @PathVariable("eventId") int id, HttpServletRequest request) {
+        model.addAttribute("event", eventRepo.findByEventId(id));
+        model.addAttribute("user", userController.retrieveCurrentUser(request));
+        return "event";
     }
 
 }

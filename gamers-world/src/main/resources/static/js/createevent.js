@@ -4,18 +4,10 @@ function checkSelectedGame() {
         alert('You can only select 1 game!');
         return false;
     }
-    /*
-    else if (selectedGames.length == 0)
-    {
-        alert('Please choose a game.');
-        return false;
-    }
-    */
-    // Don't know if we want each event to be forced to assign a game
+
     return true;
 }
 
-// This function made me lose braincells
 function checkDate() {
     const date = new Date();
     let setDate = document.getElementById('date').value;
