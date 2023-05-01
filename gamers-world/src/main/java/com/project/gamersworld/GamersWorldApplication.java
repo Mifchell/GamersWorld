@@ -1,9 +1,11 @@
 package com.project.gamersworld;
 
 import com.project.gamersworld.handlers.FriendHandler;
+import com.project.gamersworld.models.Message;
 import com.project.gamersworld.models.User;
 import com.project.gamersworld.repo.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,7 @@ public class GamersWorldApplication implements CommandLineRunner {
 	FriendHandler handler;
 
 	@Autowired
-	UserRepo userRepo;
+	MessageRepo mRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(GamersWorldApplication.class, args);
@@ -27,16 +29,7 @@ public class GamersWorldApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 
-		User u1 = userRepo.findByUid(1);
-		handler.blockUser(1, 2);
-		handler.unblockUser(2, 1);
-
-		List<User> list = u1.getBlockedUsers();
-		for(User u : list)
-			System.out.println(u.getUserID());
-
-		System.out.println("HERE_______________");
-
+		System.out.println(mRepo.getMessageByMessageID(1).getRecievers().get(0).getUserID());
 	}
 
 }
