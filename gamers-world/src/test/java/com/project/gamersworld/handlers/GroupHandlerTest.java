@@ -46,6 +46,7 @@ public class GroupHandlerTest {
         Group group2 = new Group("group2", user1, "ksofnshp1");
 
         list1.add(group1);
+
         list2.add(group2);
         list2.add(group1);
         list4.add(group2);
@@ -55,7 +56,7 @@ public class GroupHandlerTest {
     void testSearchGroupNoFilter() {
         when(mockGroupRepository.findAll()).thenReturn(list2);
         
-        List<Group> groups = groupHandler.groupSearch("");
+        List<Group> groups = groupHandler.groupSearch("",user1);
 
         assertEquals(groups, list2);
 
@@ -67,7 +68,7 @@ public class GroupHandlerTest {
         when(mockGroupRepository.findByDescriptionContaining("p1")).thenReturn(list4);
         when(mockGroupRepository.findByNameContaining("p1")).thenReturn(list1);
 
-        List<Group> groups = groupHandler.groupSearch("p1");
+        List<Group> groups = groupHandler.groupSearch("p1",user1);
 
         assertEquals(groups, list2); 
     }
