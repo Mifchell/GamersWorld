@@ -87,7 +87,19 @@ public class EventHandlerTest {
     // test - eventSearch
     @Test
     void testEventSearchHappyPath() {
-        events.add(new Event(" ", "12/24/2023", " ", "", Game.MINECRAFT, PlayLevel.CASUAL, user2));
+        events.add(new Event(" ", "12/24/2023", " ", "", Game.FORTNITE, PlayLevel.CASUAL, user2));
+        
+
+        // should return a list of matched events with the same game according to the user's games
+        for (int i = 0; i < user1.getProfile().getGames().size(); i++)
+            when(mockEventRepository.findAllByGame(user1.getProfile().getGames().get(i))).thenReturn(events);
+    result = eventHandler.eventSearch(user1);
+    assertEquals(result, events); 
+    }
+
+    @Test
+    void testEventSearchNoMatch() {
+        // should return empty list
 
         // should return a list of matched events with the same game according to the user's games
         when(mockEventRepository.findAllByGame(user1.getProfile().getGames().get(0))).thenReturn(events);
@@ -97,10 +109,7 @@ public class EventHandlerTest {
         assertEquals(result, events); 
     }
 
-    @Test
-    void testEventSearchNoMatch() {
 
-    }
 
 
 

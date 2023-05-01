@@ -55,7 +55,7 @@ public class GroupHandlerTest {
     void testSearchGroupNoFilter() {
         when(mockGroupRepository.findAll()).thenReturn(list2);
         
-        List<Group> groups = groupHandler.groupSearch("", user1);
+        List<Group> groups = groupHandler.groupSearch("");
 
         assertEquals(groups, list2);
 
