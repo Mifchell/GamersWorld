@@ -87,9 +87,7 @@
                 <button class="accordion" id="eventborder" style="font-size: large; font-weight: bold"><u><a href="event.html"><span th:text="${event.eventName}"></span> | <span th:text="${event.date}"></span> | <span th:text="${event.location}"></span></a></u></button>
                 <div class="panel">
                     <p><span th:text="${event.description}"></span></p>
-					<form th:action="@{/rsvpevent}" method="post">
-						<button type="submit" class="rsvpevent">RSVP Yes</button>
-					</form>
+					<button class="btn" th:value="${event.eventId}" onclick="rsvp(this.value)">RSVP</button>
                 </div>
             </tr>
 

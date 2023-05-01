@@ -73,25 +73,23 @@
         <div th:each="game : ${profile.games}">
           <p th:text="${game}"></p>
         </div>
-        <p><a th:href="@{/edit_profile}"><button>Edit profile</button></p></a>
+        <p><a th:href="@{/editprofile}"><button>Edit profile</button></p></a>
       </div>
     </div>
 
     <h1>Events</h1>
     <div class="column">
-      <div class="profile">
-        <br>
-        <h2><span th:text="${profile.username}"></span></h2>
-        <p><span th:text="${profile.description}"></span></p>
-        <p>Games: </p>
-        <div th:each="game : ${profile.games}">
-          <p th:text="${game}"></p>
-        </div>
+      <div class="groups">
+        <h1><a th:href="@{/mygroups}">My Events</a></h1>
         <tr th:each="event : ${events}">
-          <a th:href="@{event/deleteEvent/{eventId}(eventId=${event.eventId})}"><button class="btn">Delete</button></a>
-          <form action="#" th:action="@{/event/editEvent}" method="post">
-            <button class="btn" th:value="${event.eventId}" name="id" type="submit">Edit</button>
-          </form>
+          <div class = "groups post" style="padding: 5px;">
+            <a th:href="@{event/deleteEvent/{eventId}(eventId=${event.eventId})}"><button th:if="${event.attendeeList[0].profile.getUsername() == profile.getUsername()}" style="width: 100px; margin-left: 10px;" class="joingroup">Delete</button></a>
+            <form action="#" th:action="@{/event/editEvent}" method="post">
+              <button style="width: 100px;" class="joingroup" th:value="${event.eventId}" th:if="${event.attendeeList[0].profile.getUsername() == profile.getUsername()}" name="id" type="submit">Edit</button>
+            </form>
+            <p style="float: right" th:if="${event.attendeeList[0].profile.getUsername() == profile.getUsername()}">(Owner)</p>
+            <h3><span th:text="${event.eventName}"></span></h3>
+          </div>
         </tr>
       </div>
     </div>

@@ -16,6 +16,7 @@ import com.project.gamersworld.handlers.EventHandler;
 import com.project.gamersworld.handlers.GroupHandler;
 import com.project.gamersworld.handlers.UserHandler;
 import com.project.gamersworld.models.User;
+import com.project.gamersworld.repo.UserRepo;
 import com.project.gamersworld.models.Game;
 
 @Controller
@@ -65,7 +66,7 @@ public class UserController {
         return "profile";
     }
 
-    @GetMapping("/edit_profile")
+    @GetMapping("/editprofile")
     public String viewEditProfile(Model model, HttpServletRequest request) {
         model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
         return "editprofile";
@@ -150,6 +151,31 @@ public class UserController {
         return "redirect:/profile";
 
     }
+
+    //Edit profile
+    @PostMapping("/editprofile")
+    public String editProfile(@RequestParam(value = "username") String username,
+        @RequestParam(value = "description") String description,
+        @RequestParam(value = "preferredTime") String preferredTime,
+        @RequestParam(name = "selectedGames", required = false) List<Game> selectedGames,
+        @RequestParam(value = "email") String email, @RequestParam(value = "password") String password,
+        HttpServletRequest request, Model model){
+            
+            if(userHandler.editProfile(retrieveCurrentUser(request), username, description, preferredTime, selectedGames, email, password)){
+                
+                return "redirect:/profile";
+            }
+            model.addAttribute("errorMessage", "Username or email is already taken. Please try again.");
+            model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
+            
+            return "editprofile";
+        }
+
+    
+    //React Message
+    @PostMapping("/react_message")
+    
+    
 
     // create profile
     @GetMapping("/createprofile")
