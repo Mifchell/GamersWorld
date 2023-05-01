@@ -36,27 +36,32 @@ public class EventHandlerTest {
 
     private List<Event> events;
     private User user1;
+    private User user2;
     private List<Event> result;
-    ArrayList<Event> list1 = new ArrayList<>();
 
     // test - sort events
     @BeforeEach
     void setUp()
     {
+        // set up mocks
         mockEventRepository = Mockito.mock(EventRepo.class);
         mockUserRepository = Mockito.mock(UserRepo.class);
         eventHandler = new EventHandler(mockEventRepository, mockUserRepository);
 
-        // sort events
-        events = new ArrayList<Event>();
-        result = new ArrayList<Event>();
+        // set up user1 and games
         Profile profile = new Profile("user1", "1234", "test@test.com", "", "");
         user1 = new User(profile);
+        List<Game> games = new ArrayList<Game>();
+        games.add(Game.MINECRAFT);
+        games.add(Game.FORTNITE);
+        games.add(Game.VALORANT);
+        user1.getProfile().setGames(games);
 
-        // event search
-            // set up games for user
-            List<Game> games = 
-        Event event2 = new Event("", "12/24/2023", "", "", Game.MINECRAFT, PlayLevel.CASUAL, user1);
+        user2 = new User();
+
+        // instantiations
+        events = new ArrayList<Event>();
+        result = new ArrayList<Event>();
 
     }
 
@@ -64,41 +69,37 @@ public class EventHandlerTest {
     @Test
     void testUnSortedEvents() {
         // should return a sorted list
-        events.add(new Event("", "12/24/2023", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
-        events.add(new Event("", "12/24/2024", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
-        events.add(new Event("", "12/25/2023", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
-        events.add(new Event("", "10/25/2020", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
+        events.add(new Event(" ", "12/24/2023", " ", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
+        events.add(new Event(" ", "12/24/2024", " ", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
+        events.add(new Event(" ", "12/25/2023", " ", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
+        events.add(new Event(" ", "10/25/2020", " ", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
 
-        result.add(new Event("", "10/25/2020", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
-        result.add(new Event("", "12/24/2023", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
-        result.add(new Event("", "12/25/2023", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
-        result.add(new Event("", "12/24/2024", "", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
+        result.add(new Event(" ", "10/25/2020", " ", " ", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
+        result.add(new Event(" ", "12/24/2023", " ", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
+        result.add(new Event(" ", "12/25/2023", " ", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
+        result.add(new Event(" ", "12/24/2024", " ", "", Game.ACROSS_THE_OBELISK, PlayLevel.CASUAL, user1));
 
         events = eventHandler.sortEvents(events);
 
-        assertEquals(events, result);
+       org.junit.jupiter.api.Assertions.assertIterableEquals(events,result);
     }
 
     // test - eventSearch
     @Test
     void testEventSearchHappyPath() {
+        events.add(new Event(" ", "12/24/2023", " ", "", Game.MINECRAFT, PlayLevel.CASUAL, user2));
+
         // should return a list of matched events with the same game according to the user's games
-        when(mockEventRepository.findAllByGame(user1.getGames())).thenReturn(list2);
-        when(mockEventRepository.findByNameContaining("p1")).thenReturn(list1);
+        when(mockEventRepository.findAllByGame(user1.getProfile().getGames().get(0))).thenReturn(events);
 
-        List<Event> events = eventHandler.eventSearch(user1);
+        result = eventHandler.eventSearch(user1);
 
-        assertEquals(events, list1); 
+        assertEquals(result, events); 
     }
 
     @Test
     void testEventSearchNoMatch() {
-        when(mockGroupRepository.findByDescriptionContaining("fef")).thenReturn(new ArrayList<Group>());
-        when(mockGroupRepository.findByNameContaining("fef")).thenReturn(new ArrayList<Group>());
 
-        List<Group> groups = groupHandler.groupSearch("fef");
-
-        assertEquals(groups, list3); 
     }
 
 

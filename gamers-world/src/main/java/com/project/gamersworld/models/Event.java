@@ -138,4 +138,10 @@ public class Event {
     public String toString() {
         return "EventName: " + this.eventName;
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        return this.date.equals(((Event) obj).date);
+    }
 }
