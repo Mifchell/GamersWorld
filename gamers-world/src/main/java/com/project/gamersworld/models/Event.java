@@ -142,6 +142,7 @@ public class Event {
     @Override
     public boolean equals(Object obj)
     {
-        return this.date.equals(((Event) obj).date);
+        return this.eventName.equals(((Event) obj).eventName) && this.location.equals(((Event) obj).location)  && this.description.equals(((Event) obj).description) && this.playLevel.equals(((Event) obj).playLevel) && this.game.equals(((Event) obj).game) && this.date.equals(((Event) obj).date) && this.eventId == ((Event) obj).eventId;
     }
+
 }
