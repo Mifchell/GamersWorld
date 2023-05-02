@@ -66,8 +66,8 @@ public class EventHandlerTest {
         event3 = new Event(" ", "11/24/2024", " ", "", Game.FORTNITE, PlayLevel.CASUAL, user1);
         event4 = new Event(" ", "12/24/2024", " ", "", Game.MINECRAFT, PlayLevel.CASUAL, user1);
 
-        event5 = new Event(" ", "12/24/2023", " ", "", Game.SEKIRO_SHADOWS_DIE_TWICE, PlayLevel.CASUAL, user1);
-        event6 = new Event(" ", "11/24/2024", " ", "", Game.LAST_EPOCH, PlayLevel.CASUAL, user1);
+        event5 = new Event(" ", "12/24/2023", " ", "hi", Game.SEKIRO_SHADOWS_DIE_TWICE, PlayLevel.CASUAL, user1);
+        event6 = new Event("hi", "11/24/2024", " ", "", Game.LAST_EPOCH, PlayLevel.CASUAL, user1);
         event7 = new Event(" ", "12/24/2024", " ", "", Game.KENSHI, PlayLevel.CASUAL, user1);
 
         // set up user1 and games
@@ -152,7 +152,7 @@ public class EventHandlerTest {
     }
 
     @Test
-    void testEventSearchNoMatch() {
+    void testEventSearchGameNoMatch() {
         // should return all events sorted
         // add all events sorted
         result.add(event5);
@@ -176,7 +176,48 @@ public class EventHandlerTest {
     }
 
     // filter event
-    
+    @Test
+    void testFilterEventHappyPath() {
+        events1.add(event5);
+        events2.add(event6);
+
+        result.addAll(events1);
+        result.addAll(events2);
+
+        // should return all events pertaining to filter
+        when(mockEventRepository.findByDescriptionContaining("hi")).thenReturn(events1);
+        when(mockEventRepository.findByEventNameContaining("hi")).thenReturn(events2);
+
+        events = eventHandler.filterEvent("hi", user1);
+
+        assertEquals(result, events); 
+    }
+
+    @Test
+    void testFilterEventNoMatch() {
+        //return no events pertaining to filter
+
+        when(mockEventRepository.findByDescriptionContaining("hi")).thenReturn(new ArrayList<Event>());
+        when(mockEventRepository.findByEventNameContaining("hi")).thenReturn(new ArrayList<Event>());
+
+        events = eventHandler.filterEvent("hi", user1);
+
+        assertEquals(result, events);
+    }
+
+    @Test
+    void testFilterEventNoFilter() {
+        // add all events sorted
+        result.add(event5);
+        result.add(event6);
+        result.add(event7);
+
+        when(mockEventRepository.findAll()).thenReturn(result);
+        
+        events = eventHandler.filterEvent("", user1);
+
+        assertEquals(result, events);
+    }
 
     
 
