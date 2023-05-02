@@ -137,4 +137,11 @@ public class User {
     public Object thenReturn(User user1) {
         return null;
     }
+
+    // for login test only
+    @Override
+    public boolean equals(Object obj)
+    {
+        return this.uid == ((User) obj).uid;
+    }
 }

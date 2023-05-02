@@ -139,6 +139,7 @@ public class Event {
         return "EventName: " + this.eventName;
     }
 
+    // for event search test only
     @Override
     public boolean equals(Object obj)
     {
