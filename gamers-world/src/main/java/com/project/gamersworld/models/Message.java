@@ -1,5 +1,6 @@
 package com.project.gamersworld.models;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +15,14 @@ public class Message {
 
     @Id
     @Column(name = "messageID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     int messageID;
 
     @ManyToOne
     @JoinColumn(name = "sender", referencedColumnName = "UID")
     User sender;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "messages", joinColumns = @JoinColumn(name = "messageID"), inverseJoinColumns = @JoinColumn(name = "receiver"))
     @Fetch(value = FetchMode.SELECT)
     List<User> receivers;
@@ -35,6 +36,17 @@ public class Message {
     public Message()
     {
         this.receivers = new ArrayList<User>();
+        this.date = LocalDateTime.now().toString();
+    }
+
+    public Message(User sender, User receiver, String message)
+    {
+        this.receivers = new ArrayList<User>();
+        this.receivers.add(receiver);
+        this.message = message;
+        this.date = LocalDateTime.now().toString();
+        this.groupID = -1;
+
     }
 
     public Message(Message m)
@@ -70,4 +82,14 @@ public class Message {
     public int getGroupID() {
         return groupID;
     }
+    public void setMessage(String message) {
+        this.message = message;
+    }
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
+    }
+
 }
