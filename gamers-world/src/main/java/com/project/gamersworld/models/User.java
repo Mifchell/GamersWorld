@@ -54,7 +54,6 @@ public class User {
     @OneToMany(mappedBy = "requestReceiver", cascade = CascadeType.ALL)
     private List<FriendRequest> receivedFriendRequest;
 
-
     public User() {
         this.friendsList = new ArrayList<User>();
         this.groupList = new ArrayList<Group>();
@@ -124,6 +123,10 @@ public class User {
 
     public List<User> getBlockedUsers() {
     return this.blockedUsers;
+    }
+    
+    public void setBlockedUsers(List<User> blockedUsers) {
+        this.blockedUsers = blockedUsers;
     }
 
     public void setBlockedUsers(List<User> blockedUsers) {
