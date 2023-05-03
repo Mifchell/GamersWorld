@@ -16,7 +16,6 @@ import com.project.gamersworld.handlers.EventHandler;
 import com.project.gamersworld.handlers.GroupHandler;
 import com.project.gamersworld.handlers.UserHandler;
 import com.project.gamersworld.models.User;
-import com.project.gamersworld.repo.UserRepo;
 import com.project.gamersworld.models.Game;
 
 @Controller
@@ -37,15 +36,15 @@ public class UserController {
         model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
         model.addAttribute("groups", groupHandler.groupSearch("", retrieveCurrentUser(request)));
         model.addAttribute("gamers", userHandler.recommendGamer(retrieveCurrentUser(request).getUserID()));
+        model.addAttribute("user", retrieveCurrentUser(request));
 
         return "index";
     }
 
     @GetMapping("/events")
-
     public String viewEvents(Model model, HttpServletRequest request) {
-        model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
-        return "events";
+            model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
+            return "events";
     }
 
     @GetMapping("/gamers")
@@ -66,15 +65,10 @@ public class UserController {
         return "profile";
     }
 
-    @GetMapping("/edit_profile")
+    @GetMapping("/editprofile")
     public String viewEditProfile(Model model, HttpServletRequest request) {
         model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
         return "editprofile";
-    }
-
-    @GetMapping("/event")
-    public String viewEvent() {
-        return "event";
     }
 
     // log in
@@ -153,7 +147,7 @@ public class UserController {
     }
 
     //Edit profile
-    @PostMapping("/edit_profile")
+    @PostMapping("/editprofile")
     public String editProfile(@RequestParam(value = "username") String username,
         @RequestParam(value = "description") String description,
         @RequestParam(value = "preferredTime") String preferredTime,
@@ -166,15 +160,10 @@ public class UserController {
                 return "redirect:/profile";
             }
             model.addAttribute("errorMessage", "Username or email is already taken. Please try again.");
-
-            return "redirect:/editprofile";
+            model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
+            
+            return "editprofile";
         }
-
-    
-    //React Message
-    @PostMapping("/react_message")
-    
-    
 
     // create profile
     @GetMapping("/createprofile")

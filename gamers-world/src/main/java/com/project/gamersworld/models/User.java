@@ -40,17 +40,28 @@ public class User {
             @JoinColumn(name = "groupID") })
     public List<Group> groupList;
 
-    // It did not like this NOT being Eager
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SELECT)
     @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "eventID"))
     List<Event> eventList;
+
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    private List<Message> sentMessages;
+
+    @ManyToMany(mappedBy = "receivers")
+    private List<Message> receivedMessages;
+
+    @OneToMany(mappedBy = "requestReceiver", cascade = CascadeType.ALL)
+    private List<FriendRequest> receivedFriendRequest;
 
     public User() {
         this.friendsList = new ArrayList<User>();
         this.groupList = new ArrayList<Group>();
         this.blockedUsers = new ArrayList<User>();
         this.eventList = new ArrayList<Event>();
+        this.sentMessages = new ArrayList<Message>();
+        this.receivedMessages = new ArrayList<Message>();
+        this.receivedFriendRequest = new ArrayList<FriendRequest>();
     }
 
     public User(User user) {
@@ -60,6 +71,9 @@ public class User {
         this.blockedUsers = user.getBlockedUsers();
         this.groupList = user.getGroupList();
         this.eventList = user.getEventList();
+        this.receivedMessages = user.getReceivedMessages();
+        this.sentMessages = user.getSentMessages();
+        this.receivedFriendRequest = user.getreceivedFriendRequest();
     }
 
     public User(Profile profile) {
@@ -69,10 +83,18 @@ public class User {
         this.groupList = new ArrayList<Group>();
         this.blockedUsers = new ArrayList<User>();
         this.eventList = new ArrayList<Event>();
+        this.sentMessages = new ArrayList<Message>();
+        this.receivedMessages = new ArrayList<Message>();
+        this.receivedFriendRequest = new ArrayList<FriendRequest>();
     }
 
     public int getUserID() {
         return this.uid;
+    }
+
+    // For Test Purposes ONLY
+    public void setUserId(int id) {
+        this.uid = id;
     }
 
     public Profile getProfile() {
@@ -102,11 +124,14 @@ public class User {
     public List<User> getBlockedUsers() {
     return this.blockedUsers;
     }
-
+    
     public void setBlockedUsers(List<User> blockedUsers) {
         this.blockedUsers = blockedUsers;
     }
 
+    public void setBlockedUsers(List<User> blockedUsers) {
+        this.blockedUsers = blockedUsers;
+    }
     public List<Event> getEventList() {
         return this.eventList;
     }
@@ -121,5 +146,22 @@ public class User {
 
     public Object thenReturn(User user1) {
         return null;
+    }
+    public List<Message> getReceivedMessages() {
+        return receivedMessages;
+    }
+    public List<Message> getSentMessages() {
+        return sentMessages;
+    }
+
+    public List<FriendRequest> getreceivedFriendRequest() {
+        return receivedFriendRequest;
+    }
+
+    // for login test only
+    @Override
+    public boolean equals(Object obj)
+    {
+        return this.uid == ((User) obj).uid;
     }
 }

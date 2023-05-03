@@ -18,6 +18,10 @@ public class UserHandler {
     @Autowired
     private UserRepo userRepo;
 
+    public UserHandler(UserRepo userRepository) {
+        this.userRepo = userRepository;
+    }
+
     public User login(String email, String password) {
         // if user exists, check if password matches saved password
         if (userRepo.findByProfileEmailAddress(email) != null) {
@@ -118,9 +122,8 @@ public class UserHandler {
     public boolean editProfile(User user, String username, String description, String preferredTime,
         List<Game> selectedGames, String email, String password) {
         
-        if((userRepo.findByProfileUsername(username) != null) || (userRepo.findByProfileEmailAddress(email) != null)){
+        if( (userRepo.findByProfileUsername(username) != null && !userRepo.findByProfileUsername(username).equals(user) ) || ( (userRepo.findByProfileEmailAddress(email) != null) && !userRepo.findByProfileEmailAddress(email).equals(user) )){
             return false;
-
         }
 
         

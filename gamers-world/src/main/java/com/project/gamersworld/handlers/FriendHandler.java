@@ -12,6 +12,8 @@ public class FriendHandler {
 
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private FriendRequestRepo friendRequestRepo;
 
     public void addFriend(int owner, int user)
     {
@@ -70,6 +72,19 @@ public class FriendHandler {
             if(userBlockedList.get(i).getUserID() == blocked)
                 userBlockedList.remove(i);
         userRepo.save(userU);
+    }
+
+    public void sendFriendRequest(int sender, int receiver)
+    {
+        User senderU = userRepo.findByUid(sender);
+        User receiverU = userRepo.findByUid(receiver);
+
+        FriendRequest request = new FriendRequest(senderU, receiverU);
+        friendRequestRepo.save(request);
+    }
+    public void declineFriendRequest(FriendRequest request)
+    {
+        friendRequestRepo.delete(request);
     }
  
 }

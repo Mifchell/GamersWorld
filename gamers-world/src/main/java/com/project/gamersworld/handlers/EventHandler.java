@@ -11,7 +11,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,11 @@ public class EventHandler {
 
     }
 
+    public EventHandler(EventRepo eventRepository, UserRepo userRepo) {
+        this.eventRepo  = eventRepository;
+        this.userRepo = userRepo;
+    }
+
     public EventRepo getEventRepository() {
         return this.eventRepo;
     }
@@ -40,15 +44,16 @@ public class EventHandler {
     public List<Event> eventSearch(User user) {
 
         List<Event> returnEvents = new ArrayList<Event>();
-        List<Game> userGames = user.getProfile().getGames();
         List<Event> curEvents = null;
+        List<Event> userEventList = null;
+        List<Game> userGames = null;
 
-        List<Event> userList = new ArrayList<Event>();
-        if (user.getEventList() != null) {
-            userList = user.getEventList();
-        }
+        if (user.getEventList() != null)
+            userEventList = user.getEventList();
+        if (user.getProfile().getGames() != null)
+            userGames = user.getProfile().getGames();
         
-        if (!userGames.isEmpty())
+        if (userGames != null && !userGames.isEmpty())
         {
 
             // match event game to user's games, if it's not already in there
@@ -66,8 +71,11 @@ public class EventHandler {
             // if there are matched events, sort and return them
             if (!returnEvents.isEmpty())
             {
-                for (Event events : userList) {
-                    returnEvents.remove(events);
+                if (userEventList != null)
+                {
+                    for (Event events : userEventList) {
+                        returnEvents.remove(events);
+                    }
                 }
                 return sortEvents(returnEvents);
             }
@@ -78,9 +86,11 @@ public class EventHandler {
         // OR if user does not have a game then return all sorted
 
         returnEvents = eventRepo.findAll();
-
-        for (Event events : userList) {
-            returnEvents.remove(events);
+        if (userEventList != null)
+        {
+            for (Event events : userEventList) {
+                returnEvents.remove(events);
+            }
         }
 
         return sortEvents(returnEvents);
@@ -123,32 +133,45 @@ public class EventHandler {
     /*
      * Create an event
      */
-    public int createEvent(String name, String date, String location, String description, String game, String playLevel, int user) {
+    public boolean createEvent(String name, String date, String location, String description, String game, String playLevel, int user) {
+        // check if event name is unique
+        if (eventRepo.findByEventName(name) != null) {
+            return false;
+        }
+
         //Retreive Game and PlayLevel objects
         Game gameObject = Game.valueOf(game.toUpperCase());
         PlayLevel playLevelObject = PlayLevel.valueOf(playLevel.toUpperCase());
         //find active user info: id, name, object, idc
         User creator = new User(userRepo.findByUid(user));
+
         //create new attendeelist to quickly add to created event
         List<User> attendeeList1 = new ArrayList<User>();
         attendeeList1.add(creator);
+
         Event event = new Event(name, date, location, description, gameObject, playLevelObject, creator);
         event.setAttendeeList(attendeeList1);
         //MUST add event to users eventlist and save both for many to many relation to work
         creator.getEventList().add(event);
         eventRepo.save(event);
         userRepo.save(creator);
-        return event.getEventId();
+        return true;
     }
 
     /*
      * Edit event 
      */
-    public void editEvent(int ID, String name, String date, String location, String description, String game, String playLevel) {
+    public boolean editEvent(int ID, String name, String date, String location, String description, String game, String playLevel) {
+        // check if event name is unique
+        if (eventRepo.findByEventName(name) != eventRepo.findByEventId(ID)) {
+            return false;
+        }
+
         //Retreive Game and PlayLevel objects
         Game gameObject = Game.valueOf(game.toUpperCase());
         PlayLevel playLevelObject = PlayLevel.valueOf(playLevel.toUpperCase());
         Event oldVersion = new Event(eventRepo.findByEventId(ID));
+
         //Create new event based on updated data
         Event updatedEvent = new Event(name, date, location, description, gameObject, playLevelObject, oldVersion.getAttendeeList().get(0));
         //Keep same ID and set attendeelist and comments
@@ -157,14 +180,19 @@ public class EventHandler {
         updatedEvent.setAttendeeList(oldVersion.getAttendeeList());
         updatedEvent.setComments(oldVersion.getComments());
         eventRepo.save(updatedEvent);
+        return true;
     }
 
     /*
      * Delete event from database
      */
     @Transactional // Don't remember why this was needed, but it stopped errors from occuring
-    public void deleteEvent(int ID) {
-        Event event = new Event(eventRepo.findByEventId(ID));
+    public boolean deleteEvent(int ID) {
+        Event temp = eventRepo.findByEventId(ID);
+        if(temp == null) {
+            return false;
+        }
+        Event event = new Event(temp);
         for(User attendee: event.getAttendeeList()) {
             for(Event event2: attendee.getEventList()) {
                 if(event2.getEventId() == ID){
@@ -175,18 +203,23 @@ public class EventHandler {
             userRepo.save(attendee);
         }
         eventRepo.deleteByEventId(ID);
+        return true;
     }
 
     /*
      * Mark user as attending event
      */
-    public void RSVPEvent(int ID, int eventID){
+    public boolean RSVPEvent(int ID, int eventID){
         //Retreive event and user and add each other to each other's lists
-        Event event = new Event(eventRepo.findByEventId(eventID));
+        Event temp = eventRepo.findByEventId(eventID);
+        if(temp == null) {
+            return false;
+        }
+        Event event = new Event(temp);
 		List<User> attenList = event.getAttendeeList();
         for(User user: attenList){
             if(user.getUserID() == ID){
-                return;
+                return false;
             }
         }
         User user = new User(userRepo.findByUid(ID));
@@ -195,6 +228,7 @@ public class EventHandler {
         user.getEventList().add(event);
         userRepo.save(user);
         eventRepo.save(event);
+        return true;
     }
 
     /*
@@ -209,14 +243,19 @@ public class EventHandler {
     /*
      * User leaves a comment on the post
      */
-    public void commentEvent(String comment, int eventID){
+    public boolean commentEvent(String comment, int eventID){
         // Retreive existing comment list
-        Event event = new Event(eventRepo.findByEventId(eventID));
+        Event temp = eventRepo.findByEventId(eventID);
+        if(temp == null) {
+            return false;
+        }
+        Event event = new Event(temp);
 		List<String> comments = event.getComments();
         // Add comment to list and save
 		comments.add(comment);
 		event.setComments(comments);
 		eventRepo.save(event);
+        return true;
     }
 
 
@@ -226,7 +265,7 @@ public class EventHandler {
         return sortEvents(events);
     }
 
-    private List<Event> sortEvents(List<Event> events)
+    protected List<Event> sortEvents(List<Event> events)
     {
         if (events != null && !events.isEmpty())
         {

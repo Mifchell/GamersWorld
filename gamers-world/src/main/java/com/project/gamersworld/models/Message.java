@@ -1,5 +1,6 @@
 package com.project.gamersworld.models;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class Message {
 
     @Id
     @Column(name = "messageID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     int messageID;
 
     @ManyToOne
@@ -22,9 +23,9 @@ public class Message {
     User sender;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "messages", joinColumns = @JoinColumn(name = "messageID"), inverseJoinColumns = @JoinColumn(name = "receiver"))
-    @Fetch(value = FetchMode.SELECT)
+    @JoinTable(name = "message_receivers", joinColumns = @JoinColumn(name = "message_id"),inverseJoinColumns = @JoinColumn(name = "receiverID"))
     List<User> receivers;
+    
     @Column(name = "date")
     String date;
     @Column(name = "message")
@@ -37,6 +38,7 @@ public class Message {
     public Message()
     {
         this.receivers = new ArrayList<User>();
+        this.date = LocalDateTime.now().toString();
     }
 
     public Message(Message m)
@@ -48,6 +50,28 @@ public class Message {
         this.message = m.getMessage();
         this.groupID = m.getGroupID();
         
+    }
+
+    public Message(User sender, User receiver, String message)
+    {
+        this.sender = sender;
+        List<User> list = new ArrayList<User>();
+        list.add(receiver);
+        this.receivers = list;
+        this.message = message;
+        this.date = LocalDateTime.now().toString();
+        this.groupID = -1;
+
+    }
+
+    public Message(User sender, Group group, String message)
+    {
+        this.sender = sender;
+        List<User> list = group.getMembers();
+        this.receivers = list;
+        this.message = message;
+        this.date = LocalDateTime.now().toString();
+        this.groupID = group.getGroupID();
     }
 
     public String getDate()
@@ -72,13 +96,21 @@ public class Message {
     public int getGroupID() {
         return groupID;
     }
-
-    public void setLikes(int numOfLikes){
-
+    public void setMessage(String message) {
+        this.message = message;
+    }
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
+    }
+        
+    public void setLikes(int numOfLikes) {
         this.numOfLikes = numOfLikes;
     }
 
-    public int getLikes(){
+    public int getLikes() {
         return numOfLikes;
     }
 }

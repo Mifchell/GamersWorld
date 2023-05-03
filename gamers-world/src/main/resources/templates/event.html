@@ -1,17 +1,19 @@
 <!DOCTYPE html>
+<!--Webpage made by Tabitha Ristoff, Justin Turziak, Joshua Lecik-->
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Gamer's World</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
-    <link rel="stylesheet" th:href="@{/css/event.css}" href="../css/event.css">
+    <link rel="stylesheet" th:href="@{/css/event.css}" href="../css/event.css"> 
+    <meta name="description" content="Welcome to Gamer's World."> 
+    <script src="/js/event.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   </head>
 
   <body>
+    <a th:href="@{/index}"><div id="banner"></div></a>
 
     <!--Logout button-->
-    <form th:action="@{/logout}" method="post">
-      <button type = "submit"> Logout</button>
-    </form>
     
 
     <!--Navigation Menu-->
@@ -19,59 +21,39 @@
       <a th:href="@{/index}">Home</a>
       <a th:href="@{/messages}">Messages</a>
       <a th:href="@{/profile}">Profile</a>
+      <form th:action="@{/logout}" method="post">
+        <button type = "submit"> Logout</button>
+      </form>
     </div>
 
-    <br>
-
-    <div class="container">
-        <div class="post">
-            <h2>4/26/23 | 6pm</h2>
-            <h1>Meetup at the Esports center.</h1>
-            <img src="images/tabprofile.jpg" alt="ProfilePic">
-            <p>Let's meetup this Saturday to play Valorant!</p>
-            <h5>Post by <a href="profile.html"><b>Gamer</b></a> on 26 March 2023</h5>
-
+    <div class = "indexcontainer">
+        <div class = "events" style="width: 100%">
+          <div class = "events post">
+            <h2><span th:text="${event.date}"></span> | <span th:text="${event.location}"></span></h2>
+            <h2><span th:text="${event.eventName}"></span></h2>
+            <p class="tab"><span th:text="${event.description}"></span></p>
+            <p>Game: <span th:text="${event.game}"></span></p>
+            <p>Play Level: <span th:text="${event.playLevel}"></span></p>
+            <form action="#" th:action="@{/RSVP}" method="post">
+              <button class="btn2" type="submit" th:if="${!#lists.contains(event.attendeeList, user)}" name="id" th:id="${event.eventId}" th:value="${event.eventId}">RSVP</button>
+            </form>
+            <button class="btn2" th:unless="${!#lists.contains(event.attendeeList, user)}" style="background-color: #712277">Attending</button>
+            <form action="#" th:action="@{/event/comment}" method="post">
+              <input type="text" placeholder="Enter Comment" name="comment" id="comment" required>
+              <br>
+              <button class="btn2" type="submit" th:if="${#lists.contains(event.attendeeList, user)}" name="eventId" th:id="eventId" th:value="${event.eventId}">Comment</button>
+            </form>
+            <tr th:each="comment, iterStat : ${event.comments}" th:if="${iterStat.index} lt 3">
+              <p><span th:text="${comment}"></span></p>
+            </tr>
+          </div>
         </div>
-
-        <br>
-
-        <div class="post">
-            <img src="images/tabprofile.jpg" alt="ProfilePic">
-            <p>Sounds like a plan!</p>
-            <h5>Post by <a href="profile.html"><b>Gamer2</b></a> on 26 March 2023</h5>
-          
-          <!-- drop down menu button-->
-          <div class="dropdown">
-            <button onclick="myFunction()" class="dropbtn">Options</button>
-            <div id="myDropdown" class="dropdown-content">
-              <a href="">Reply</a>
-              <a href="">React</a>
-              <a href="">Delete</a>
-            </div>
-
-        </div>
-        </div>
-
-        <br>
-
-        <div class="post">
-            <img src="images/tabprofile.jpg" alt="ProfilePic">
-            <p>Can't wait!</p>
-            <h5>Post by <a href="profile.html"><b>Gamer3</b></a> on 26 March 2023</h5>
-        </div>
-
-        <p><a href=""><button>Reply event</button></p></a>
-        <p><a href=""><button>Edit event</button></p></a>
-        <p><a href=""><button>Delete event</button></p></a>
-
     </div>
-
-    <script src="js/event.js"></script>
 
     <footer>
       <!--Copyright information-->
       <br>
-      <p>&copy; 2023 All rights reserved</p>
+      <p></p>&copy; 2023 All rights reserved</p>
     </footer>
 
   </body>

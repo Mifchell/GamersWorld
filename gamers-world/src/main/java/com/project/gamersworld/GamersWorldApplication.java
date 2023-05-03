@@ -1,7 +1,10 @@
 package com.project.gamersworld;
 
 import com.project.gamersworld.handlers.FriendHandler;
+import com.project.gamersworld.handlers.MessageHandler;
+import com.project.gamersworld.models.FriendRequest;
 import com.project.gamersworld.models.Message;
+
 import com.project.gamersworld.models.User;
 import com.project.gamersworld.repo.*;
 
@@ -21,6 +24,8 @@ public class GamersWorldApplication implements CommandLineRunner {
 
 	@Autowired
 	MessageRepo mRepo;
+	@Autowired
+	UserRepo uRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(GamersWorldApplication.class, args);
@@ -28,11 +33,6 @@ public class GamersWorldApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		List<User> list = mRepo.findByMessageID(1).getRecievers();
 
-		for(User u: list)
-			System.out.println(u.getUserID());
-		System.out.println(mRepo.findByMessageID(1).getSender().getUserID());
 	}
-
 }
