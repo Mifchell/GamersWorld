@@ -211,7 +211,7 @@ public class EventHandler {
      */
     public boolean RSVPEvent(int ID, int eventID){
         //Retreive event and user and add each other to each other's lists
-        Event temp = eventRepo.findByEventId(ID);
+        Event temp = eventRepo.findByEventId(eventID);
         if(temp == null) {
             return false;
         }

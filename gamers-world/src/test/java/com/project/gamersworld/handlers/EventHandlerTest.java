@@ -67,11 +67,14 @@ public class EventHandlerTest {
         games.add(Game.FORTNITE);
         games.add(Game.VALORANT);
         user1.getProfile().setGames(games);
+        user1.setUserId(1);
 
         user2 = new User();
+        user2.setUserId(2);
 
         Profile profile2 = new Profile("user3", "1234", "test69@test.com", "", "");
         user3 = new User(profile2);
+        user3.setUserId(3);
 
         // create events
         event1 = new Event(" ", "12/20/2021", " ", "", Game.MINECRAFT, PlayLevel.CASUAL, user1);
@@ -255,11 +258,8 @@ public class EventHandlerTest {
     @Test
     void testRSVPHappyPath() {
         when(mockEventRepository.findByEventId(event6.getEventId())).thenReturn(event6);
-        // Boolean result2 = user1.getUserID() == user3.getUserID();
-        // Boolean result3 = event6.getAttendeeList().get(0).getProfile().getEmail().equals("test69@test.com");
-        // Boolean result4 = event6.getAttendeeList().get(0).getProfile().getEmail().equals("test@test.com");
-        Boolean result = eventHandler.RSVPEvent(user3.getUserID(), event6.getEventId());
-        // It thinks every user has the same ID
+        when(mockUserRepository.findByUid(user2.getUserID())).thenReturn(user2);
+        Boolean result = eventHandler.RSVPEvent(user2.getUserID(), event6.getEventId());
         assertTrue(result);
     }
 
