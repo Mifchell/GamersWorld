@@ -31,6 +31,8 @@ public class Message {
     String message;
     @Column(name = "groupID")
     int groupID;
+    @Column(name = "numOfLikes")
+    int numOfLikes = 0;
 
     public Message()
     {
@@ -69,5 +71,14 @@ public class Message {
     }
     public int getGroupID() {
         return groupID;
+    }
+
+    public void setLikes(int numOfLikes){
+
+        this.numOfLikes = numOfLikes;
+    }
+
+    public int getLikes(){
+        return numOfLikes;
     }
 }
