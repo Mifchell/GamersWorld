@@ -99,7 +99,7 @@ public class GroupHandler {
 
     /*
      * @param the User joining
-     * 
+     *
      * @param the groupId of the group to join
      *
      */
@@ -133,11 +133,7 @@ public class GroupHandler {
     public void deleteGroup(int groupID) {
         Group group = groupRepository.findByGroupID(groupID);
 
-        for (User member : group.getMembers()) {
-            member.getGroupList().remove(group);
-            userRepository.save(member);
-        }
-
+        group.getMembers().get(0).setGroupList(null);
         groupRepository.delete(group);
     }
 
