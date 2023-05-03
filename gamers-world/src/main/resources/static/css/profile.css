@@ -38,9 +38,20 @@
     padding: 15px;
   }
 
-  @media screen and (max-width:600px) {
-    .column {
-      width: 100%;
+
+
+  @media screen and (max-width: 600px){
+    .profile{
+      width: 90%;
+      height: auto;
+    }
+
+    .column{
+      width:100%;
+    }
+
+    .profile button{
+      width: 90%;
     }
   }
   
