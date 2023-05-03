@@ -33,9 +33,6 @@ public class GamersWorldApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		User u13 = uRepo.findByUid(14);
-		FriendRequest request = u13.getreceivedFriendRequest().get(0);
-		handler.declineFriendRequest(request);
-		handler.sendFriendRequest(1, 16);
+	
 	}
 }
