@@ -93,6 +93,11 @@ public class User {
         return this.uid;
     }
 
+    // For Test Purposes ONLY
+    public void setUserId(int id) {
+        this.uid = id;
+    }
+
     public Profile getProfile() {
         return this.profile;
     }

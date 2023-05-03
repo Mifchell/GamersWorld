@@ -72,7 +72,7 @@
     <h1>Events</h1>
     <div class="column">
       <div class="groups">
-        <h1><a th:href="@{/mygroups}">My Events</a></h1>
+        <h1>My Events</h1>
         <tr th:each="event : ${events}">
           <div class = "groups post" style="padding: 5px;">
             <a th:href="@{event/deleteEvent/{eventId}(eventId=${event.eventId})}"><button th:if="${event.attendeeList[0].profile.getUsername() == profile.getUsername()}" style="width: 100px; margin-left: 10px;" class="joingroup">Delete</button></a>
