@@ -188,11 +188,11 @@ public class EventHandler {
      */
     @Transactional // Don't remember why this was needed, but it stopped errors from occuring
     public boolean deleteEvent(int ID) {
-        Event temp = eventRepo.findByEventId(ID);
-        if(temp == null) {
+        Event eventTemp = eventRepo.findByEventId(ID);
+        if(eventTemp == null) {
             return false;
         }
-        Event event = new Event(temp);
+        Event event = new Event(eventTemp);
         for(User attendee: event.getAttendeeList()) {
             for(Event event2: attendee.getEventList()) {
                 if(event2.getEventId() == ID){
