@@ -48,8 +48,12 @@ public class User {
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
     private List<Message> sentMessages;
+
     @ManyToMany(mappedBy = "receivers")
     private List<Message> receivedMessages;
+
+    @OneToMany(mappedBy = "requestReceiver", cascade = CascadeType.ALL)
+    private List<FriendRequest> receivedFriendRequest;
 
 
     public User() {
@@ -59,6 +63,7 @@ public class User {
         this.eventList = new ArrayList<Event>();
         this.sentMessages = new ArrayList<Message>();
         this.receivedMessages = new ArrayList<Message>();
+        this.receivedFriendRequest = new ArrayList<FriendRequest>();
     }
 
     public User(User user) {
@@ -70,6 +75,7 @@ public class User {
         this.eventList = user.getEventList();
         this.receivedMessages = user.getReceivedMessages();
         this.sentMessages = user.getSentMessages();
+        this.receivedFriendRequest = user.getreceivedFriendRequest();
     }
 
     public User(Profile profile) {
@@ -81,6 +87,7 @@ public class User {
         this.eventList = new ArrayList<Event>();
         this.sentMessages = new ArrayList<Message>();
         this.receivedMessages = new ArrayList<Message>();
+        this.receivedFriendRequest = new ArrayList<FriendRequest>();
     }
 
     public int getUserID() {
@@ -139,5 +146,9 @@ public class User {
     }
     public List<Message> getSentMessages() {
         return sentMessages;
+    }
+
+    public List<FriendRequest> getreceivedFriendRequest() {
+        return receivedFriendRequest;
     }
 }

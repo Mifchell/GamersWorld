@@ -2,7 +2,7 @@ package com.project.gamersworld;
 
 import com.project.gamersworld.handlers.FriendHandler;
 import com.project.gamersworld.handlers.MessageHandler;
-
+import com.project.gamersworld.models.FriendRequest;
 import com.project.gamersworld.models.Message;
 
 import com.project.gamersworld.models.User;
@@ -20,7 +20,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class GamersWorldApplication implements CommandLineRunner {
 	@Autowired
-	MessageHandler handler;
+	FriendHandler handler;
 
 	@Autowired
 	MessageRepo mRepo;
@@ -33,9 +33,9 @@ public class GamersWorldApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-
-
-		handler.sendGroupMessage(1, 5, "Group Message Test");
+		User u13 = uRepo.findByUid(14);
+		FriendRequest request = u13.getreceivedFriendRequest().get(0);
+		handler.declineFriendRequest(request);
+		handler.sendFriendRequest(1, 16);
 	}
-
 }
