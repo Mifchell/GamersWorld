@@ -11,7 +11,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,32 +133,45 @@ public class EventHandler {
     /*
      * Create an event
      */
-    public int createEvent(String name, String date, String location, String description, String game, String playLevel, int user) {
+    public boolean createEvent(String name, String date, String location, String description, String game, String playLevel, int user) {
+        // check if event name is unique
+        if (eventRepo.findByEventName(name) != null) {
+            return false;
+        }
+
         //Retreive Game and PlayLevel objects
         Game gameObject = Game.valueOf(game.toUpperCase());
         PlayLevel playLevelObject = PlayLevel.valueOf(playLevel.toUpperCase());
         //find active user info: id, name, object, idc
         User creator = new User(userRepo.findByUid(user));
+
         //create new attendeelist to quickly add to created event
         List<User> attendeeList1 = new ArrayList<User>();
         attendeeList1.add(creator);
+
         Event event = new Event(name, date, location, description, gameObject, playLevelObject, creator);
         event.setAttendeeList(attendeeList1);
         //MUST add event to users eventlist and save both for many to many relation to work
         creator.getEventList().add(event);
         eventRepo.save(event);
         userRepo.save(creator);
-        return event.getEventId();
+        return true;
     }
 
     /*
      * Edit event 
      */
-    public void editEvent(int ID, String name, String date, String location, String description, String game, String playLevel) {
+    public boolean editEvent(int ID, String name, String date, String location, String description, String game, String playLevel) {
+        // check if event name is unique
+        if (eventRepo.findByEventName(name) != eventRepo.findByEventId(ID)) {
+            return false;
+        }
+
         //Retreive Game and PlayLevel objects
         Game gameObject = Game.valueOf(game.toUpperCase());
         PlayLevel playLevelObject = PlayLevel.valueOf(playLevel.toUpperCase());
         Event oldVersion = new Event(eventRepo.findByEventId(ID));
+
         //Create new event based on updated data
         Event updatedEvent = new Event(name, date, location, description, gameObject, playLevelObject, oldVersion.getAttendeeList().get(0));
         //Keep same ID and set attendeelist and comments
@@ -168,6 +180,7 @@ public class EventHandler {
         updatedEvent.setAttendeeList(oldVersion.getAttendeeList());
         updatedEvent.setComments(oldVersion.getComments());
         eventRepo.save(updatedEvent);
+        return true;
     }
 
     /*

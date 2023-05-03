@@ -33,14 +33,15 @@ public class UserController {
     // show pages
     @GetMapping("/index")
     public String viewHome(Model model, HttpServletRequest request) {
-            model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
-            model.addAttribute("groups", groupHandler.groupSearch("", retrieveCurrentUser(request)));
-            model.addAttribute("gamers", userHandler.recommendGamer(retrieveCurrentUser(request).getUserID()));
-            return "index";
+        model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
+        model.addAttribute("groups", groupHandler.groupSearch("", retrieveCurrentUser(request)));
+        model.addAttribute("gamers", userHandler.recommendGamer(retrieveCurrentUser(request).getUserID()));
+        model.addAttribute("user", retrieveCurrentUser(request));
+
+        return "index";
     }
 
     @GetMapping("/events")
-
     public String viewEvents(Model model, HttpServletRequest request) {
             model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
             return "events";
@@ -64,15 +65,10 @@ public class UserController {
         return "profile";
     }
 
-    @GetMapping("/edit_profile")
+    @GetMapping("/editprofile")
     public String viewEditProfile(Model model, HttpServletRequest request) {
         model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
         return "editprofile";
-    }
-
-    @GetMapping("/event")
-    public String viewEvent() {
-        return "event";
     }
 
     // log in
@@ -149,6 +145,25 @@ public class UserController {
         return "redirect:/profile";
 
     }
+
+    //Edit profile
+    @PostMapping("/editprofile")
+    public String editProfile(@RequestParam(value = "username") String username,
+        @RequestParam(value = "description") String description,
+        @RequestParam(value = "preferredTime") String preferredTime,
+        @RequestParam(name = "selectedGames", required = false) List<Game> selectedGames,
+        @RequestParam(value = "email") String email, @RequestParam(value = "password") String password,
+        HttpServletRequest request, Model model){
+            
+            if(userHandler.editProfile(retrieveCurrentUser(request), username, description, preferredTime, selectedGames, email, password)){
+                
+                return "redirect:/profile";
+            }
+            model.addAttribute("errorMessage", "Username or email is already taken. Please try again.");
+            model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
+            
+            return "editprofile";
+        }
 
     // create profile
     @GetMapping("/createprofile")

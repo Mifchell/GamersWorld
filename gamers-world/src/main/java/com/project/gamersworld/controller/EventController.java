@@ -31,11 +31,18 @@ public class EventController {
     EventRepo eventRepo;
 
     // RSVP to event
-    @PostMapping("event/rsvp/{eventId}")
+    @PostMapping("eventRSVP/{eventId}")
     @ResponseBody
-    public void RSVP(@PathVariable("eventId") int id, HttpServletRequest request) {
+    public void eventRSVP(@PathVariable("eventId") int id, HttpServletRequest request) {
         User user = userController.retrieveCurrentUser(request);
         eventHandler.RSVPEvent(user.getUserID(), id);
+    }
+
+    @PostMapping("RSVP")
+    public String RSVP(@RequestParam(value = "id") int id, HttpServletRequest request) {
+        User user = userController.retrieveCurrentUser(request);
+        eventHandler.RSVPEvent(user.getUserID(), id);
+        return "redirect:/profile";
     }
 
     // Go to edit event page
@@ -47,15 +54,23 @@ public class EventController {
 
     @PostMapping("/events")
     public String filterEvents(@RequestParam(value = "filter") String filter, Model model, HttpServletRequest request) {
-            model.addAttribute("events", eventHandler.filterEvent(filter, userController.retrieveCurrentUser(request)));
-            return "events";
+        model.addAttribute("events", eventHandler.filterEvent(filter, userController.retrieveCurrentUser(request)));
+        model.addAttribute("user", userController.retrieveCurrentUser(request));
+        return "events";
     }
 
     // Submit event changes
     @GetMapping("/event/editedEvent")
-    public String editedEvent(@RequestParam(value = "id") int id, @RequestParam(value = "name") String name, @RequestParam(value = "date") String date, @RequestParam(value = "location") String location, @RequestParam(value = "game") String game, @RequestParam(value = "level") String level, @RequestParam(value = "desc") String desc) {
-        eventHandler.editEvent(id, name, date, location, desc, game, level);
-        return "redirect:/profile";
+    public String editedEvent(Model model, @RequestParam(value = "id") int id, @RequestParam(value = "name") String name, @RequestParam(value = "date") String date, @RequestParam(value = "location") String location, @RequestParam(value = "game") String game, @RequestParam(value = "level") String level, @RequestParam(value = "desc") String desc) {
+        // check if new username is valid
+        if (eventHandler.editEvent(id, name, date, location, desc, game, level)) {
+            return "redirect:/profile";
+        }
+
+        // show error
+        model.addAttribute("errorMessage", "Event name is already taken. Please try again with a different name.");
+        model.addAttribute("event", eventRepo.findByEventId(id));
+        return "editevent";
     }
 
     // Remove event from database
@@ -73,10 +88,23 @@ public class EventController {
 
     // Create new event
     @PostMapping("/createevent")
-    public String createEvent(HttpServletRequest request, @RequestParam(value = "name") String name, @RequestParam(value = "date") String date, @RequestParam(value = "location") String location, @RequestParam(name = "selectedGame", required = false) List<Game> selectedGame, @RequestParam(value = "level") String level, @RequestParam(value = "desc") String desc){
+    public String createEvent(Model model, HttpServletRequest request, @RequestParam(value = "name") String name, @RequestParam(value = "date") String date, @RequestParam(value = "location") String location, @RequestParam(name = "selectedGame", required = false) List<Game> selectedGame, @RequestParam(value = "level") String level, @RequestParam(value = "desc") String desc){
         int user = userController.retrieveCurrentUser(request).getUserID();
-        eventHandler.createEvent(name, date, location, desc, selectedGame.get(0).toString(), level, user);
-        return "redirect:/events";
+
+        if (eventHandler.createEvent(name, date, location, desc, selectedGame.get(0).toString(), level, user)) {
+            return "redirect:/events";
+        }
+
+        // show error
+        model.addAttribute("errorMessage", "Event name is already taken. Please try again with a different name.");
+        return "createevent";
+    }
+
+    @GetMapping("/event/{eventId}")
+    public String viewEvent(Model model, @PathVariable("eventId") int id, HttpServletRequest request) {
+        model.addAttribute("event", eventRepo.findByEventId(id));
+        model.addAttribute("user", userController.retrieveCurrentUser(request));
+        return "event";
     }
 
 }
