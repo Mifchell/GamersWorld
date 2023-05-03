@@ -29,6 +29,11 @@ public class EventHandler {
 
     }
 
+    public EventHandler(EventRepo eventRepository, UserRepo userRepo) {
+        this.eventRepo  = eventRepository;
+        this.userRepo = userRepo;
+    }
+
     public EventRepo getEventRepository() {
         return this.eventRepo;
     }
@@ -39,15 +44,16 @@ public class EventHandler {
     public List<Event> eventSearch(User user) {
 
         List<Event> returnEvents = new ArrayList<Event>();
-        List<Game> userGames = user.getProfile().getGames();
         List<Event> curEvents = null;
+        List<Event> userEventList = null;
+        List<Game> userGames = null;
 
-        List<Event> userList = new ArrayList<Event>();
-        if (user.getEventList() != null) {
-            userList = user.getEventList();
-        }
+        if (user.getEventList() != null)
+            userEventList = user.getEventList();
+        if (user.getProfile().getGames() != null)
+            userGames = user.getProfile().getGames();
         
-        if (!userGames.isEmpty())
+        if (userGames != null && !userGames.isEmpty())
         {
 
             // match event game to user's games, if it's not already in there
@@ -65,8 +71,11 @@ public class EventHandler {
             // if there are matched events, sort and return them
             if (!returnEvents.isEmpty())
             {
-                for (Event events : userList) {
-                    returnEvents.remove(events);
+                if (userEventList != null)
+                {
+                    for (Event events : userEventList) {
+                        returnEvents.remove(events);
+                    }
                 }
                 return sortEvents(returnEvents);
             }
@@ -77,9 +86,11 @@ public class EventHandler {
         // OR if user does not have a game then return all sorted
 
         returnEvents = eventRepo.findAll();
-
-        for (Event events : userList) {
-            returnEvents.remove(events);
+        if (userEventList != null)
+        {
+            for (Event events : userEventList) {
+                returnEvents.remove(events);
+            }
         }
 
         return sortEvents(returnEvents);
@@ -239,7 +250,7 @@ public class EventHandler {
         return sortEvents(events);
     }
 
-    private List<Event> sortEvents(List<Event> events)
+    protected List<Event> sortEvents(List<Event> events)
     {
         if (events != null && !events.isEmpty())
         {

@@ -43,8 +43,8 @@ public class UserController {
 
     @GetMapping("/events")
     public String viewEvents(Model model, HttpServletRequest request) {
-        model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
-        return "events";
+            model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
+            return "events";
     }
 
     @GetMapping("/gamers")
