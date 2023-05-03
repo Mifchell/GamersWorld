@@ -28,17 +28,25 @@
 
     <div class = "indexcontainer">
         <div class = "events" style="width: 100%">
-            <div class = "events post">
-                <h2><span th:text="${event.eventName}"></span></h2>
-                <p class="tab"><span th:text="${event.description}"></span></p>
-                <h2><span th:text="${event.date}"></span> | <span th:text="${event.location}"></span></h2>
-                <p>Game: <span th:text="${event.game}"></span></p>
-                <p>Play Level: <span th:text="${event.playLevel}"></span></p>
-                <form action="#" th:action="@{/RSVP}" method="post">
-                  <button class="btn" type="submit" th:if="${!#lists.contains(event.attendeeList, user)}" name="id" th:id="${event.eventId}" th:value="${event.eventId}">RSVP</button>
-                </form>
-                <button class="btn" th:unless="${!#lists.contains(event.attendeeList, user)}" style="background-color: #712277">Attending</button>
-            </div>
+          <div class = "events post">
+            <h2><span th:text="${event.date}"></span> | <span th:text="${event.location}"></span></h2>
+            <h2><span th:text="${event.eventName}"></span></h2>
+            <p class="tab"><span th:text="${event.description}"></span></p>
+            <p>Game: <span th:text="${event.game}"></span></p>
+            <p>Play Level: <span th:text="${event.playLevel}"></span></p>
+            <form action="#" th:action="@{/RSVP}" method="post">
+              <button class="btn2" type="submit" th:if="${!#lists.contains(event.attendeeList, user)}" name="id" th:id="${event.eventId}" th:value="${event.eventId}">RSVP</button>
+            </form>
+            <button class="btn2" th:unless="${!#lists.contains(event.attendeeList, user)}" style="background-color: #712277">Attending</button>
+            <form action="#" th:action="@{/event/comment}" method="post">
+              <input type="text" placeholder="Enter Comment" name="comment" id="comment" required>
+              <br>
+              <button class="btn2" type="submit" th:if="${#lists.contains(event.attendeeList, user)}" name="eventId" th:id="eventId" th:value="${event.eventId}">Comment</button>
+            </form>
+            <tr th:each="comment, iterStat : ${event.comments}" th:if="${iterStat.index} lt 3">
+              <p><span th:text="${comment}"></span></p>
+            </tr>
+          </div>
         </div>
     </div>
 

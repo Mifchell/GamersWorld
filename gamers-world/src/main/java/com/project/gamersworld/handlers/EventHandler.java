@@ -187,8 +187,13 @@ public class EventHandler {
      * Delete event from database
      */
     @Transactional // Don't remember why this was needed, but it stopped errors from occuring
-    public void deleteEvent(int ID) {
-        Event event = new Event(eventRepo.findByEventId(ID));
+
+    public boolean deleteEvent(int ID) {
+        Event temp = eventRepo.findByEventId(ID);
+        if (temp == null) {
+            return false;
+        }
+        Event event = new Event(temp);
         for (User attendee : event.getAttendeeList()) {
             for (Event event2 : attendee.getEventList()) {
                 if (event2.getEventId() == ID) {
@@ -199,18 +204,23 @@ public class EventHandler {
             userRepo.save(attendee);
         }
         eventRepo.deleteByEventId(ID);
+        return true;
     }
 
     /*
      * Mark user as attending event
      */
-    public void RSVPEvent(int ID, int eventID) {
+    public boolean RSVPEvent(int ID, int eventID) {
         // Retreive event and user and add each other to each other's lists
-        Event event = new Event(eventRepo.findByEventId(eventID));
+        Event temp = eventRepo.findByEventId(eventID);
+        if (temp == null) {
+            return false;
+        }
+        Event event = new Event(temp);
         List<User> attenList = event.getAttendeeList();
         for (User user : attenList) {
             if (user.getUserID() == ID) {
-                return;
+                return false;
             }
         }
         User user = new User(userRepo.findByUid(ID));
@@ -219,6 +229,7 @@ public class EventHandler {
         user.getEventList().add(event);
         userRepo.save(user);
         eventRepo.save(event);
+        return true;
     }
 
     /*
@@ -233,14 +244,19 @@ public class EventHandler {
     /*
      * User leaves a comment on the post
      */
-    public void commentEvent(String comment, int eventID) {
+    public boolean commentEvent(String comment, int eventID) {
         // Retreive existing comment list
-        Event event = new Event(eventRepo.findByEventId(eventID));
+        Event temp = eventRepo.findByEventId(eventID);
+        if (temp == null) {
+            return false;
+        }
+        Event event = new Event(temp);
         List<String> comments = event.getComments();
         // Add comment to list and save
         comments.add(comment);
         event.setComments(comments);
         eventRepo.save(event);
+        return true;
     }
 
     public List<Event> getEventsSorted() {

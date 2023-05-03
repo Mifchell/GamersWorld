@@ -1,15 +1,13 @@
 package com.project.gamersworld.handlers;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.verifyNoInteractions;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -49,6 +47,7 @@ public class EventHandlerTest {
     private List<Event> events3;
     private User user1;
     private User user2;
+    private User user3;
     private List<Event> result;
 
     // test - sort events
@@ -60,6 +59,23 @@ public class EventHandlerTest {
         mockUserRepository = Mockito.mock(UserRepo.class);
         eventHandler = new EventHandler(mockEventRepository, mockUserRepository);
 
+        // set up user1 and games
+        Profile profile = new Profile("user1", "1234", "test@test.com", "", "");
+        user1 = new User(profile);
+        List<Game> games = new ArrayList<Game>();
+        games.add(Game.MINECRAFT);
+        games.add(Game.FORTNITE);
+        games.add(Game.VALORANT);
+        user1.getProfile().setGames(games);
+        user1.setUserId(1);
+
+        user2 = new User();
+        user2.setUserId(2);
+
+        Profile profile2 = new Profile("user3", "1234", "test69@test.com", "", "");
+        user3 = new User(profile2);
+        user3.setUserId(3);
+
         // create events
         event1 = new Event(" ", "12/20/2021", " ", "", Game.MINECRAFT, PlayLevel.CASUAL, user1);
         event2 = new Event(" ", "12/24/2023", " ", "", Game.SEKIRO_SHADOWS_DIE_TWICE, PlayLevel.CASUAL, user1);
@@ -69,17 +85,6 @@ public class EventHandlerTest {
         event5 = new Event(" ", "12/24/2023", " ", "hi", Game.SEKIRO_SHADOWS_DIE_TWICE, PlayLevel.CASUAL, user1);
         event6 = new Event("hi", "11/24/2024", " ", "", Game.LAST_EPOCH, PlayLevel.CASUAL, user1);
         event7 = new Event(" ", "12/24/2024", " ", "", Game.KENSHI, PlayLevel.CASUAL, user1);
-
-        // set up user1 and games
-        Profile profile = new Profile("user1", "1234", "test@test.com", "", "");
-        user1 = new User(profile);
-        List<Game> games = new ArrayList<Game>();
-        games.add(Game.MINECRAFT);
-        games.add(Game.FORTNITE);
-        games.add(Game.VALORANT);
-        user1.getProfile().setGames(games);
-
-        user2 = new User();
 
         // instantiations
         events = new ArrayList<Event>();
@@ -219,9 +224,86 @@ public class EventHandlerTest {
         assertEquals(result, events);
     }
 
-    
+    @Test
+    void testCreateEventHappyPath() {
+        when(mockUserRepository.findByUid(user1.getUserID())).thenReturn(user1);
+        when(mockEventRepository.findByEventName("hi")).thenReturn(null);
+        Boolean result = eventHandler.createEvent("test", "05/20/2023", "online", "null", "MINECRAFT", "CASUAL", user1.getUserID());
+        assertTrue(result);
+    }
 
+    @Test
+    void testCreateEventExistingName() {
+        when(mockEventRepository.findByEventName("hi")).thenReturn(event6);
+        Boolean result = eventHandler.createEvent("hi", "05/20/2023", "online", "null", "MINECRAFT", "CASUAL", user1.getUserID());
+        assertFalse(result);
+    }
 
+    @Test
+    void testEditEventHappyPath() {
+        when(mockEventRepository.findByEventId(event6.getEventId())).thenReturn(event6);
+        when(mockEventRepository.findByEventName("jeff")).thenReturn(event6);
+        Boolean result = eventHandler.editEvent(event6.getEventId(), "jeff", "05/20/2023", "online", "yes", "MINECRAFT", "CASUAL");
+        assertTrue(result);
+    }
+
+    @Test
+    void testEditEventExistingName() {
+        when(mockEventRepository.findByEventId(event6.getEventId())).thenReturn(event6);
+        when(mockEventRepository.findByEventName("jeff")).thenReturn(event1);
+        Boolean result = eventHandler.editEvent(event6.getEventId(), "jeff", "05/20/2023", "online", "yes", "MINECRAFT", "CASUAL");
+        assertFalse(result);
+    }
+
+    @Test
+    void testRSVPHappyPath() {
+        when(mockEventRepository.findByEventId(event6.getEventId())).thenReturn(event6);
+        when(mockUserRepository.findByUid(user2.getUserID())).thenReturn(user2);
+        Boolean result = eventHandler.RSVPEvent(user2.getUserID(), event6.getEventId());
+        assertTrue(result);
+    }
+
+    @Test
+    void testRSVPAlreadyAttending() {
+        when(mockEventRepository.findByEventId(event6.getEventId())).thenReturn(event6);
+        Boolean result = eventHandler.RSVPEvent(user1.getUserID(), event6.getEventId());
+        assertFalse(result);
+    }
+
+    @Test
+    void testRSVPDoesNotExist() {
+        when(mockEventRepository.findByEventId(event6.getEventId())).thenReturn(null);
+        Boolean result = eventHandler.RSVPEvent(1, event6.getEventId());
+        assertFalse(result);
+    }
+
+    @Test
+    void testDeleteEventHappyPath() {
+        when(mockEventRepository.findByEventId(event6.getEventId())).thenReturn(event6);
+        Boolean result = eventHandler.deleteEvent(event6.getEventId());
+        assertTrue(result);
+    }
+
+    @Test
+    void testDeleteEventDoesNotExist() {
+        when(mockEventRepository.findByEventId(event6.getEventId())).thenReturn(null);
+        Boolean result = eventHandler.deleteEvent(event6.getEventId());
+        assertFalse(result);
+    }
+
+    @Test
+    void testCommentEventHappyPath() {
+        when(mockEventRepository.findByEventId(event6.getEventId())).thenReturn(event6);
+        Boolean result = eventHandler.commentEvent("jeff", event6.getEventId());
+        assertTrue(result);
+    }
+
+    @Test
+    void testCommentEventDoesNotExist() {
+        when(mockEventRepository.findByEventId(event6.getEventId())).thenReturn(null);
+        Boolean result = eventHandler.commentEvent("jeff", event6.getEventId());
+        assertFalse(result);
+    }
 
 }
 

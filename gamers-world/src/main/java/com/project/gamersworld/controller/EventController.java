@@ -107,4 +107,9 @@ public class EventController {
         return "event";
     }
 
+    @PostMapping("/event/comment")
+    public String commentEvent(@RequestParam(value = "eventId") int id, @RequestParam(value = "comment") String comment) {
+        eventHandler.commentEvent(comment, id);
+        return "redirect:/event/"+id;
+    }
 }
