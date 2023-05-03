@@ -133,7 +133,11 @@ public class GroupHandler {
     public void deleteGroup(int groupID) {
         Group group = groupRepository.findByGroupID(groupID);
 
-        group.getMembers().get(0).setGroupList(null);
+        for (User member : group.getMembers()) {
+            member.getGroupList().remove(group);
+            userRepository.save(member);
+        }
+
         groupRepository.delete(group);
     }
 
