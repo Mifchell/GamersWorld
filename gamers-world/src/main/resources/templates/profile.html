@@ -27,12 +27,6 @@
   <body>
     <a th:href="@{/index}"><div id="banner"></div></a>
 
-    <!--Logout button-->
-    <!--
-    <form th:action="@{/logout}" method="post">
-      <button type = "submit"> Logout</button>
-    </form> -->
-
     <!--Navigation Menu-->
     <div class="nav">
       <a th:href="@{/index}">Home</a>
@@ -42,8 +36,6 @@
         <button type = "submit"> Logout</button>
       </form>
     </div>
-    
-  
 
   <div class="container">
 
@@ -99,7 +91,7 @@
               <button style="width: 100px;" class="joingroup" th:value="${event.eventId}" th:if="${event.attendeeList[0].profile.getUsername() == profile.getUsername()}" name="id" type="submit">Edit</button>
             </form>
             <p style="float: right" th:if="${event.attendeeList[0].profile.getUsername() == profile.getUsername()}">(Owner)</p>
-            <h3><span th:text="${event.eventName}"></span></h3>
+            <h3><a th:href="@{/event/{eventId}(eventId=${event.eventId})}" th:text="${event.eventName}"></a></h3>
           </div>
         </tr>
       </div>
