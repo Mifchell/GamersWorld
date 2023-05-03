@@ -26,6 +26,7 @@ public class GroupControler {
 
     @GetMapping("/creategroup")
     public String viewCreateGroup() {
+
         return "creategroup";
     }
 
@@ -64,6 +65,14 @@ public class GroupControler {
     public String myGroups(Model model, HttpServletRequest request) {
         model.addAttribute("mygroups", groupHandler.myGroups(retrieveCurrentUser(request)));
         return "profile";
+    }
+
+    @PostMapping("/managegroup/{id}")
+    public String manageGroup(@PathVariable String id, Model model) {
+        model.addAttribute("group", groupHandler.getGroupRepository().findByGroupID(Integer.parseInt(id)));
+        model.addAttribute("members",
+                groupHandler.getGroupRepository().findByGroupID(Integer.parseInt(id)).getMembers());
+        return "managegroup";
     }
 
     @PostMapping("/groups")

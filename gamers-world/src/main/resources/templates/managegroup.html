@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gamer's World</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+	<link rel="stylesheet" th:href="@{/css/event.css}" href="../css/event.css"> 
+    <link rel="stylesheet" th:href="@{/css/form.css}" href="../css/form.css">
+    <style>
+        .joingroup {
+            padding: 10px 10px;
+            width: 100px;
+            height: 35px;
+            text-align: center;
+            float: right;
+		}
+    </style>
+
+</head>
+
+<body>
+
+    <a th:href="@{/index}"><div id="banner"></div></a>
+
+
+    <br>
+    <div class="container">
+        <form th:action="@{/deletegroup/{id}(id = ${group.groupID})}" method="post">
+            <button type="submit" style="width: 200px; "    class="joingroup">Delete Group</button>
+          </form>
+    <h1>          Manage Group</h1></div>
+    <div class = "indexcontainer">
+        
+        <div class="box-group">
+            <div class = "groups">
+      <h1>Edit Group</h1>
+        
+      <div class="inputform">
+        <form action="/editgroup">
+          <input th:value="${group.groupID}" name="id" id="id" type="hidden">
+        
+          <label for="name"><b>Group Name</b></label>
+          <input type="text" placeholder="Enter Event Name" name="name" id="name" th:value="${group.name}" required>
+
+          <div th:if="${errorMessage}" style="color:red">
+            <p th:text="${errorMessage}"></p>
+          </div>
+
+          <label for="desc"><b>Description</b></label>
+          <input type="text" placeholder="Enter Description" name="desc" id="desc" th:value="${group.description}" required>
+      
+          <button type="submit">Save</button>
+        </form>
+        </div>
+        </div>
+        </div>
+        <div class="box-group2">
+            
+            <div class="gamers">
+                <h1>Edit members</h1>
+                <tr th:each="user: ${members}" >
+                <div class = "gamers post" style="padding: 5px;">
+                    <form th:action="@{/removefromgroup/{id}(id = ${user.getUserID()})}" method="post">
+                        <button type="submit" style="width: 150px; "    class="joingroup">Remove</button>
+                      </form>
+                      <h3><span th:text="${user.profile.username}"></span></h3>
+                </div>
+        </div>
+    </div>
+    </div>
+    <footer>
+      <!--Copyright information-->
+      <br>
+      <p>&copy; 2023 All rights reserved</p>
+    </footer>
+
+</body>
+</html>
+
+
+
+

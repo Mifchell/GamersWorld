@@ -64,6 +64,16 @@ public class GroupHandler {
         return mygroups;
     }
 
+    public List<Group> groupOwned(User user) {
+        List<Group> groupOwned = new ArrayList<Group>();
+        for (Group group : myGroups(user)) {
+            if (group.getCreatorID() == user.getUserID()) {
+                groupOwned.add(group);
+            }
+        }
+        return groupOwned;
+    }
+
     public boolean createGroup(String name, String description, User user) {
 
         User creator = new User(user);
