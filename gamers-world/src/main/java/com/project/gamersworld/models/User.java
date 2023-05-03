@@ -46,11 +46,19 @@ public class User {
     @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "eventID"))
     List<Event> eventList;
 
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    private List<Message> sentMessages;
+    @ManyToMany(mappedBy = "receivers")
+    private List<Message> receivedMessages;
+
+
     public User() {
         this.friendsList = new ArrayList<User>();
         this.groupList = new ArrayList<Group>();
         this.blockedUsers = new ArrayList<User>();
         this.eventList = new ArrayList<Event>();
+        this.sentMessages = new ArrayList<Message>();
+        this.receivedMessages = new ArrayList<Message>();
     }
 
     public User(User user) {
@@ -60,6 +68,8 @@ public class User {
         this.blockedUsers = user.getBlockedUsers();
         this.groupList = user.getGroupList();
         this.eventList = user.getEventList();
+        this.receivedMessages = user.getReceivedMessages();
+        this.sentMessages = user.getSentMessages();
     }
 
     public User(Profile profile) {
@@ -69,6 +79,8 @@ public class User {
         this.groupList = new ArrayList<Group>();
         this.blockedUsers = new ArrayList<User>();
         this.eventList = new ArrayList<Event>();
+        this.sentMessages = new ArrayList<Message>();
+        this.receivedMessages = new ArrayList<Message>();
     }
 
     public int getUserID() {
@@ -121,5 +133,11 @@ public class User {
 
     public Object thenReturn(User user1) {
         return null;
+    }
+    public List<Message> getReceivedMessages() {
+        return receivedMessages;
+    }
+    public List<Message> getSentMessages() {
+        return sentMessages;
     }
 }
