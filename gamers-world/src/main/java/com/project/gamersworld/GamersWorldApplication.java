@@ -2,7 +2,9 @@ package com.project.gamersworld;
 
 import com.project.gamersworld.handlers.FriendHandler;
 import com.project.gamersworld.handlers.MessageHandler;
+
 import com.project.gamersworld.models.Message;
+
 import com.project.gamersworld.models.User;
 import com.project.gamersworld.repo.*;
 
@@ -31,6 +33,7 @@ public class GamersWorldApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
+
 
 		handler.sendGroupMessage(1, 5, "Group Message Test");
 	}

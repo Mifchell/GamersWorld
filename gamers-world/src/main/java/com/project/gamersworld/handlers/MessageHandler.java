@@ -21,6 +21,7 @@ public class MessageHandler {
     @Autowired
     GroupRepo groupRepo;
 
+
     public void sendMessage(int sender, int receiver, String message)
     {
         User senderU = userRepo.findByUid(sender);
@@ -51,3 +52,4 @@ public class MessageHandler {
         
     }
 }
+
