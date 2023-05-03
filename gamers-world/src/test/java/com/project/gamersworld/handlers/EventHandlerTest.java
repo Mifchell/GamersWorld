@@ -259,6 +259,7 @@ public class EventHandlerTest {
         // Boolean result3 = event6.getAttendeeList().get(0).getProfile().getEmail().equals("test69@test.com");
         // Boolean result4 = event6.getAttendeeList().get(0).getProfile().getEmail().equals("test@test.com");
         Boolean result = eventHandler.RSVPEvent(user3.getUserID(), event6.getEventId());
+        // It thinks every user has the same ID
         assertTrue(result);
     }
 
