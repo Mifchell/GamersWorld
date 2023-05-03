@@ -21,10 +21,19 @@ public class User {
     @Embedded
     public Profile profile;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    /*
+     * do we need this? or should we just have databases representing them? Like
+     * eventRegistration class
+     */
+    @ManyToMany(fetch = FetchType.EAGER, cascade ={CascadeType.MERGE, CascadeType.REMOVE})
     @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "user_friend_uid"))
     @Fetch(value = FetchMode.SELECT)
     public List<User> friendsList;
+    
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
+    @JoinTable(name = "blocked", joinColumns = @JoinColumn(name = "UID"), inverseJoinColumns = @JoinColumn(name = "blocked_friend_uid"))
+    @Fetch(value = FetchMode.SELECT)
+    public List<User> blockedUsers;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
     @JoinTable(name = "group_registration", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns = {
@@ -36,18 +45,36 @@ public class User {
     @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "eventID"))
     List<Event> eventList;
 
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    private List<Message> sentMessages;
+
+    @ManyToMany(mappedBy = "receivers")
+    private List<Message> receivedMessages;
+
+    @OneToMany(mappedBy = "requestReceiver", cascade = CascadeType.ALL)
+    private List<FriendRequest> receivedFriendRequest;
+
+
     public User() {
         this.friendsList = new ArrayList<User>();
         this.groupList = new ArrayList<Group>();
+        this.blockedUsers = new ArrayList<User>();
         this.eventList = new ArrayList<Event>();
+        this.sentMessages = new ArrayList<Message>();
+        this.receivedMessages = new ArrayList<Message>();
+        this.receivedFriendRequest = new ArrayList<FriendRequest>();
     }
 
     public User(User user) {
         this.uid = user.getUserID();
         this.profile = user.getProfile();
         this.friendsList = user.getFriendList();
+        this.blockedUsers = user.getBlockedUsers();
         this.groupList = user.getGroupList();
         this.eventList = user.getEventList();
+        this.receivedMessages = user.getReceivedMessages();
+        this.sentMessages = user.getSentMessages();
+        this.receivedFriendRequest = user.getreceivedFriendRequest();
     }
 
     public User(Profile profile) {
@@ -55,7 +82,11 @@ public class User {
         this.profile = profile;
         this.friendsList = new ArrayList<User>();
         this.groupList = new ArrayList<Group>();
+        this.blockedUsers = new ArrayList<User>();
         this.eventList = new ArrayList<Event>();
+        this.sentMessages = new ArrayList<Message>();
+        this.receivedMessages = new ArrayList<Message>();
+        this.receivedFriendRequest = new ArrayList<FriendRequest>();
     }
 
     public int getUserID() {
@@ -74,7 +105,7 @@ public class User {
         return this.friendsList;
     }
 
-    public void setFriendList(ArrayList<User> friendList) {
+    public void setFriendList(List<User> friendList) {
         this.friendsList = friendList;
     }
 
@@ -86,6 +117,13 @@ public class User {
         this.groupList = groupList;
     }
 
+    public List<User> getBlockedUsers() {
+    return this.blockedUsers;
+    }
+
+    public void setBlockedUsers(List<User> blockedUsers) {
+        this.blockedUsers = blockedUsers;
+    }
     public List<Event> getEventList() {
         return this.eventList;
     }
@@ -100,6 +138,16 @@ public class User {
 
     public Object thenReturn(User user1) {
         return null;
+    }
+    public List<Message> getReceivedMessages() {
+        return receivedMessages;
+    }
+    public List<Message> getSentMessages() {
+        return sentMessages;
+    }
+
+    public List<FriendRequest> getreceivedFriendRequest() {
+        return receivedFriendRequest;
     }
 
     // for login test only
