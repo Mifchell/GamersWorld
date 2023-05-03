@@ -58,15 +58,17 @@
       <tr th:each="event, iterStat : ${events}" th:if="${iterStat.index} lt 3">
       <div class = "events post">
         <h2><span th:text="${event.date}"></span> | <span th:text="${event.location}"></span></h2>
-        <h2><a href="event.html"><span th:text="${event.eventName}"></span></a></h2>
+        <h2><a th:href="@{/event/{eventId}(eventId=${event.eventId})}"><span th:text="${event.eventName}"></span></a></h2>
         <p class="tab"><span th:text="${event.description}"></span></p>
         <p>Game: <span th:text="${event.game}"></span></p>
         <p>Play Level: <span th:text="${event.playLevel}"></span></p>
-        <button class="btn" th:value="${event.eventId}" onclick="rsvp(this.value)">RSVP</button>
+        <button class="btn" th:if="${!#lists.contains(event.attendeeList, user)}" th:id="${event.eventId}" th:value="${event.eventId}" onclick="rsvp(this.value)">RSVP</button>
+        <button class="btn" th:unless="${!#lists.contains(event.attendeeList, user)}" style="background-color: #712277">Attending</button>
+        <input hidden th:value="${event.eventId}" id="id" name="id"></p>
       </div>
-  </div>
-      </tr>
     </div>
+  </tr>
+</div>
 
     <div class="box-group2">
       <!-- Trends -->
@@ -76,7 +78,7 @@
           <h2>Trend Name</h2>
           <p class="tab">Description</p>
         </div>
-    </div>      
+    </div> 
 
     <!-- Gamers -->
   <div class="gamers">

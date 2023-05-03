@@ -13,7 +13,7 @@
         <h1>Create Event</h1>
 
         <div class="inputform">
-            <form onsubmit="return checkSelectedGame();" action="#" th:action="@{/createevent}" method="post">
+            <form onsubmit="return (checkSelectedGame() && checkDate());" action="#" th:action="@{/createevent}" method="post">
 
               <label for="name"><b>Event Name</b></label>
               <input type="text" placeholder="Enter Event Name" name="name" id="name" required>
@@ -26,7 +26,7 @@
               <input type="text" placeholder="MM/DD/YYYY" name="date" id="date" required>
 
               <label for="location"><b>Location</b></label>
-              <input type="text" placeholder="Enter Location" name="location" id="location">
+              <input type="text" placeholder="Enter Location" name="location" id="location" required>
 
               <label for="playlevel"><b>Play Level</b></label>
               <input type="text" placeholder="Enter Play Level" name="level" id="level" required>

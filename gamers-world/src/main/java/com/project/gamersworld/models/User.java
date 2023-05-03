@@ -35,12 +35,11 @@ public class User {
     @Fetch(value = FetchMode.SELECT)
     public List<User> blockedUsers;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
     @JoinTable(name = "group_registration", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns = {
             @JoinColumn(name = "groupID") })
-    List<Group> groupList;
+    public List<Group> groupList;
 
-    // It did not like this NOT being Eager
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SELECT)
     @JoinTable(name = "event_registration", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "eventID"))
@@ -125,7 +124,6 @@ public class User {
     public void setBlockedUsers(List<User> blockedUsers) {
         this.blockedUsers = blockedUsers;
     }
-
     public List<Event> getEventList() {
         return this.eventList;
     }
@@ -150,5 +148,12 @@ public class User {
 
     public List<FriendRequest> getreceivedFriendRequest() {
         return receivedFriendRequest;
+    }
+
+    // for login test only
+    @Override
+    public boolean equals(Object obj)
+    {
+        return this.uid == ((User) obj).uid;
     }
 }

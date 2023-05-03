@@ -24,7 +24,6 @@ public class Message {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "message_receivers", joinColumns = @JoinColumn(name = "message_id"),inverseJoinColumns = @JoinColumn(name = "receiverID"))
-
     List<User> receivers;
     
     @Column(name = "date")
@@ -104,5 +103,4 @@ public class Message {
     public void setGroupID(int groupID) {
         this.groupID = groupID;
     }
-
 }

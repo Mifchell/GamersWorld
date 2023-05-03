@@ -19,6 +19,9 @@ window.onclick = function(event) {
 }
 
 function rsvp(id) {
-  var url = "event/rsvp/" + id;
+  var url = "eventRSVP/" + id;
+  var rsvpButton = document.getElementById(id);
+  rsvpButton.style.backgroundColor = "#712277";
+  rsvpButton.innerHTML = "Attending";
   $.post(url)
 }

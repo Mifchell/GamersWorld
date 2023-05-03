@@ -3,6 +3,7 @@
   <head>
     <title>Gamer's World</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+		<link rel="stylesheet" th:href="@{/css/event.css}" href="../css/event.css"> 
     <link rel="stylesheet" th:href="@{/css/profile.css}" href="../css/profile.css">
     <script src="/js/event.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -13,16 +14,18 @@
       float: right;
       width: 150px;
     }
+
+    .joingroup {
+      padding: 10px 10px;
+      width: 100px;
+      height: 35px;
+      text-align: center;
+      float: right;
+		}
   </style>
   
   <body>
     <a th:href="@{/index}"><div id="banner"></div></a>
-
-    <!--Logout button-->
-    <!--
-    <form th:action="@{/logout}" method="post">
-      <button type = "submit"> Logout</button>
-    </form> -->
 
     <!--Navigation Menu-->
     <div class="nav">
@@ -33,23 +36,22 @@
         <button type = "submit"> Logout</button>
       </form>
     </div>
-    
-  
 
   <div class="container">
 
     <h1>Groups</h1>
     <div class="column">
-      <div class="profile">
-        <br>
-        <h2><span th:text="${profile.username}"></span></h2>
-        <p><span th:text="${profile.description}"></span></p>
-        <p>Games: </p>
-        <div th:each="game : ${profile.games}">
-          <p th:text="${game}"></p>
+      <div class = "groups">
+        <h1><a th:href="@{/mygroups}">My Groups</a></h1>
+        <tr th:each="group: ${mygroups}" >
+        <div class = "groups post" style="padding: 5px;">
+          
+          <form th:action="@{/leavegroup/{id}(id = ${group.groupID})}" method="post">
+            <button type="submit" style="width: 100px; "    class="joingroup">Leave</button>
+          </form>
+          <h3><span th:text="${group.name}"></span></h3>
         </div>
-        <p><a th:href="@{/edit_profile}"><button>Edit profile</button></p></a>
-      </div>
+    </div>
     </div>
 
     <h1>Profile</h1>
@@ -63,25 +65,23 @@
         <div th:each="game : ${profile.games}">
           <p th:text="${game}"></p>
         </div>
-        <p><a th:href="@{/edit_profile}"><button>Edit profile</button></p></a>
+        <p><a th:href="@{/editprofile}"><button>Edit profile</button></p></a>
       </div>
     </div>
 
     <h1>Events</h1>
     <div class="column">
-      <div class="profile">
-        <br>
-        <h2><span th:text="${profile.username}"></span></h2>
-        <p><span th:text="${profile.description}"></span></p>
-        <p>Games: </p>
-        <div th:each="game : ${profile.games}">
-          <p th:text="${game}"></p>
-        </div>
+      <div class="groups">
+        <h1><a th:href="@{/mygroups}">My Events</a></h1>
         <tr th:each="event : ${events}">
-          <a th:href="@{event/deleteEvent/{eventId}(eventId=${event.eventId})}"><button class="btn">Delete</button></a>
-          <form action="#" th:action="@{/event/editEvent}" method="post">
-            <button class="btn" th:value="${event.eventId}" name="id" type="submit">Edit</button>
-          </form>
+          <div class = "groups post" style="padding: 5px;">
+            <a th:href="@{event/deleteEvent/{eventId}(eventId=${event.eventId})}"><button th:if="${event.attendeeList[0].profile.getUsername() == profile.getUsername()}" style="width: 100px; margin-left: 10px;" class="joingroup">Delete</button></a>
+            <form action="#" th:action="@{/event/editEvent}" method="post">
+              <button style="width: 100px;" class="joingroup" th:value="${event.eventId}" th:if="${event.attendeeList[0].profile.getUsername() == profile.getUsername()}" name="id" type="submit">Edit</button>
+            </form>
+            <p style="float: right" th:if="${event.attendeeList[0].profile.getUsername() == profile.getUsername()}">(Owner)</p>
+            <h3><a th:href="@{/event/{eventId}(eventId=${event.eventId})}" th:text="${event.eventName}"></a></h3>
+          </div>
         </tr>
       </div>
     </div>
