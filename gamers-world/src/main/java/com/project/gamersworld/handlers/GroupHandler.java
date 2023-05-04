@@ -1,9 +1,5 @@
 package com.project.gamersworld.handlers;
 
-import com.project.gamersworld.models.*;
-
-import com.project.gamersworld.repo.*;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +8,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.project.gamersworld.models.Group;
+import com.project.gamersworld.models.User;
+import com.project.gamersworld.repo.GroupRepo;
+import com.project.gamersworld.repo.UserRepo;
 
 @Service
 public class GroupHandler {
@@ -98,8 +99,18 @@ public class GroupHandler {
 
     }
 
-    public Group editGroup(int groupId) {
-        return null;
+    public Group editGroup(int groupId, String name, String description) {
+
+        if (groupRepository.findByName(name) != null && groupRepository.findByGroupID(groupId).getName() != name) {
+            return null;
+        }
+
+        Group group = new Group(groupRepository.findByGroupID(groupId));
+        group.setName(name);
+        group.setDescription(description);
+
+        groupRepository.save(group);
+        return group;
     }
 
     /*
@@ -170,12 +181,6 @@ public class GroupHandler {
         userRepository.save(user);
         groupRepository.save(group);
 
-        for (Group groups : user.groupList) {
-            System.out.println(groups);
-        }
-        for (User users : memberList) {
-            System.out.println(users);
-        }
         return user;
 
     }
