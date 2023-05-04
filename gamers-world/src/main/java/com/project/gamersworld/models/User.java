@@ -129,9 +129,6 @@ public class User {
         this.blockedUsers = blockedUsers;
     }
 
-    public void setBlockedUsers(List<User> blockedUsers) {
-        this.blockedUsers = blockedUsers;
-    }
     public List<Event> getEventList() {
         return this.eventList;
     }
