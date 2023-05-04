@@ -93,18 +93,13 @@ public class GroupHandler {
         creator.setGroupList(groupList);
 
         groupRepository.save(group);
-        userRepository.save(creator);
 
         return true;
 
     }
 
-    /*
-     * @param the User to remove
-     * Remove the given User from the member List
-     */
-    public boolean removeMember() {
-        return false;
+    public Group editGroup(int groupId) {
+        return null;
     }
 
     /*

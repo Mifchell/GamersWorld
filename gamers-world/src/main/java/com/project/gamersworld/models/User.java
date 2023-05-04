@@ -25,12 +25,12 @@ public class User {
      * do we need this? or should we just have databases representing them? Like
      * eventRegistration class
      */
-    @ManyToMany(fetch = FetchType.EAGER, cascade ={CascadeType.MERGE, CascadeType.REMOVE})
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "user_friend_uid"))
     @Fetch(value = FetchMode.SELECT)
     public List<User> friendsList;
-    
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable(name = "blocked", joinColumns = @JoinColumn(name = "UID"), inverseJoinColumns = @JoinColumn(name = "blocked_friend_uid"))
     @Fetch(value = FetchMode.SELECT)
     public List<User> blockedUsers;
@@ -53,7 +53,6 @@ public class User {
 
     @OneToMany(mappedBy = "requestReceiver", cascade = CascadeType.ALL)
     private List<FriendRequest> receivedFriendRequest;
-
 
     public User() {
         this.friendsList = new ArrayList<User>();
@@ -123,12 +122,13 @@ public class User {
     }
 
     public List<User> getBlockedUsers() {
-    return this.blockedUsers;
+        return this.blockedUsers;
     }
 
     public void setBlockedUsers(List<User> blockedUsers) {
         this.blockedUsers = blockedUsers;
     }
+
     public List<Event> getEventList() {
         return this.eventList;
     }
@@ -144,9 +144,11 @@ public class User {
     public Object thenReturn(User user1) {
         return null;
     }
+
     public List<Message> getReceivedMessages() {
         return receivedMessages;
     }
+
     public List<Message> getSentMessages() {
         return sentMessages;
     }
@@ -157,8 +159,7 @@ public class User {
 
     // for login test only
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         return this.uid == ((User) obj).uid;
     }
 }
