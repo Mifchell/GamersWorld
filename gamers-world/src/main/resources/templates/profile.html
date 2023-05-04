@@ -51,7 +51,18 @@
           </form>
           <h3><span th:text="${group.name}"></span></h3>
         </div>
-    </div>
+      </div>
+      <div class = "groups">
+        <h1>My Groups</h1>
+        <tr th:each="group: ${groupOwned}" >
+        <div class = "groups post" style="padding: 5px;">
+          
+          <form th:action="@{/managegroup/{id}(id = ${group.groupID})}" method="post">
+            <button type="submit" style="width: 100px; "    class="joingroup">Manage</button>
+          </form>
+          <h3><span th:text="${group.name}"></span></h3>
+        </div>
+      </div>
     </div>
 
     <h1>Profile</h1>

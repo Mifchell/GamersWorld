@@ -64,6 +64,16 @@ public class GroupHandler {
         return mygroups;
     }
 
+    public List<Group> groupOwned(User user) {
+        List<Group> groupOwned = new ArrayList<Group>();
+        for (Group group : myGroups(user)) {
+            if (group.getCreatorID() == user.getUserID()) {
+                groupOwned.add(group);
+            }
+        }
+        return groupOwned;
+    }
+
     public boolean createGroup(String name, String description, User user) {
 
         User creator = new User(user);
@@ -83,18 +93,13 @@ public class GroupHandler {
         creator.setGroupList(groupList);
 
         groupRepository.save(group);
-        userRepository.save(creator);
 
         return true;
 
     }
 
-    /*
-     * @param the User to remove
-     * Remove the given User from the member List
-     */
-    public boolean removeMember() {
-        return false;
+    public Group editGroup(int groupId) {
+        return null;
     }
 
     /*
