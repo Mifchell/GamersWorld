@@ -63,8 +63,7 @@ public class GroupControler {
 
     @GetMapping("/mygroups")
     public String myGroups(Model model, HttpServletRequest request) {
-        model.addAttribute("mygroups", groupHandler.myGroups(retrieveCurrentUser(request)));
-        return "profile";
+        return "redirect:/profile";
     }
 
     @PostMapping("/managegroup/{id}")

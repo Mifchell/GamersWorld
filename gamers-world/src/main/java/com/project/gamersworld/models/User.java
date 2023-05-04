@@ -124,7 +124,7 @@ public class User {
     public List<User> getBlockedUsers() {
         return this.blockedUsers;
     }
-
+    
     public void setBlockedUsers(List<User> blockedUsers) {
         this.blockedUsers = blockedUsers;
     }
