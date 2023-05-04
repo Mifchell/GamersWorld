@@ -85,7 +85,7 @@
     <h1><a th:href="@{/gamers}">Gamers</a></h1>
     <tr th:each="gamer, iterStat : ${gamers}" th:if="${iterStat.index} lt 3">
     <div class = "gamers post">
-      <h2><a href=""><span th:text="${gamer.profile.username}"></span></a></h2>
+      <h it2><a href=""><span th:text="${gamer.profile.username}"></span></a></h2>
       <p class="tab"><span th:text="${gamer.profile.description}"></span></p>
       <p>Games: </p>
       <div th:each="game : ${gamer.profile.games}">

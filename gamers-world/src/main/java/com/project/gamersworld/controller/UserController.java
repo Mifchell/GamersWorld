@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -55,6 +56,7 @@ public class UserController {
     @GetMapping("/messages")
     public String viewMessages(Model model, HttpServletRequest request) {
         model.addAttribute("gamers", retrieveCurrentUser(request).getFriendList());
+        model.addAttribute("groups", retrieveCurrentUser(request).getGroupList());
         return "messages";
     }
 

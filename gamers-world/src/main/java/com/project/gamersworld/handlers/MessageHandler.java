@@ -47,9 +47,7 @@ public class MessageHandler {
         mess.setRecievers(list);
         ///end overide
 
-        messageRepo.save(mess);
-
-        
+        messageRepo.save(mess); 
     }
 }
 

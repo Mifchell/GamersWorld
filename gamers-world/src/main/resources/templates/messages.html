@@ -24,56 +24,28 @@
 
         <div class = "messagescontainer">
 			
-	<div class="box-group2"> 		
+	<div class="box-group3"> 		
 		<!-- Friends -->
 		<div class="gamers">
 			<h1><a th:href="@{/gamers}">Gamers</a></h1>
-			<tr th:each="gamer, iterStat : ${gamers}" th:if="${iterStat.index} lt 3">
-			<div class = "gamers post">
-			<h2><a href=""><span th:text="${gamer.profile.username}"></span></a></h2>
-			<p class="tab"><span th:text="${gamer.profile.description}"></span></p>
-			<p>Games: </p>
-			<div th:each="game : ${gamer.profile.games}">
-				<p th:text="${game}"></p>
-			</div>
-			</div>
+				<tr th:each="gamer, iterStat : ${gamers}" th:if="${iterStat.index} lt 100" >
+					<div class = "gamers post">
+					<h2><a th:href="@{/messages/user/{uid}(uid=${gamer.getUserID()})}"><span th:text="${gamer.profile.username}"></span></a></h2>
+					</div>
+				</tr>
 		</div>
-		</tr>
 
 		<!-- Groups -->
 		<div class="gamers">
 			<h1><a th:href="@{/gamers}">Groups</a></h1>
-			<tr th:each="gamer, iterStat : ${gamers}" th:if="${iterStat.index} lt 3">
+			<tr th:each="group, iterStat : ${groups}" th:if="${iterStat.index}">
 			<div class = "gamers post">
-			<h2><a href=""><span th:text="${gamer.profile.username}"></span></a></h2>
-			<p class="tab"><span th:text="${gamer.profile.description}"></span></p>
-			<p>Games: </p>
-			<div th:each="game : ${gamer.profile.games}">
-				<p th:text="${game}"></p>
-			</div>
+			<h2><a th:href="@{/messages/group/{gid}(gid=${group.group})}"><span th:text="${group.name}"></span></a></h2>
 			</div>
 		</div>
 		</tr>
 	</div>
-
-	<!-- messages section -->
-	<div class="box-group">
-	  <!-- Messages -->
-	<div class="gamers">
-	  <h1><a th:href="@{/gamers}">Messages</a></h1>
-	  <tr th:each="gamer, iterStat : ${gamers}" th:if="${iterStat.index} lt 3">
-	  <div class = "gamers post">
-		<h2><a href=""><span th:text="${gamer.profile.username}"></span></a></h2>
-		<p class="tab"><span th:text="${gamer.profile.description}"></span></p>
-		<p>Games: </p>
-		<div th:each="game : ${gamer.profile.games}">
-		  <p th:text="${game}"></p>
-		</div>
-	  </div>
-	</div>
-  </tr>
-  </div>
-        </div>
+    </div>
 
 
 

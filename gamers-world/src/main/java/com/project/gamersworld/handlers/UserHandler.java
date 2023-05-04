@@ -10,6 +10,7 @@ import java.util.HashSet;
 
 import com.project.gamersworld.models.Game;
 import com.project.gamersworld.models.Profile;
+import com.project.gamersworld.models.Message;
 import com.project.gamersworld.models.User;
 import com.project.gamersworld.repo.UserRepo;
 
@@ -138,6 +139,26 @@ public class UserHandler {
         userRepo.save(user);
 
         return true;
+    }
+
+    public List<Message> getConversation(int UID, int otherUID)
+    {
+        User user = userRepo.findByUid(UID);
+        List<Message> finalMessages = new ArrayList<Message>();
+
+        for(Message m: user.getSentMessages())
+            for(User u: m.getRecievers())
+                if(u.getUserID() == otherUID)
+                    finalMessages.add(m);
+        for(Message m: user.getReceivedMessages())
+            if(m.getSender().getUserID() == otherUID)
+                finalMessages.add(m);
+
+        //sort here
+        
+        //end sort
+
+        return finalMessages;
     }
 
     public UserRepo getUserRepo() {

@@ -129,6 +129,10 @@
     flex-direction: column;
     width: 30%;
   }
+  .box-group3{
+    flex-direction: column;
+    width: 100%;
+  }
 
   .sub{
     padding: 20px;
