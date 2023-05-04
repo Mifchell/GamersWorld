@@ -24,6 +24,11 @@ public class GroupControler {
     @Autowired
     UserHandler userHandler;
 
+    public GroupControler(GroupHandler groupHandler, UserHandler userHandler) {
+        this.groupHandler = groupHandler;
+        this.userHandler = userHandler;
+    }
+
     @GetMapping("/creategroup")
     public String viewCreateGroup() {
 
@@ -64,7 +69,7 @@ public class GroupControler {
     }
 
     @PostMapping("/editgroup/{id}")
-    public String editProfile(@PathVariable int id, @RequestParam(value = "name") String name,
+    public String editGroup(@PathVariable int id, @RequestParam(value = "name") String name,
             @RequestParam(value = "desc") String description,
             HttpServletRequest request, Model model) {
 
@@ -81,7 +86,7 @@ public class GroupControler {
     }
 
     @PostMapping("/addmember/{id}")
-    public String editProfile(@PathVariable int id, @RequestParam(value = "filter") String filter,
+    public String addMember(@PathVariable int id, @RequestParam(value = "filter") String filter,
             HttpServletRequest request, Model model) {
 
         if (userHandler.getUserRepo().findByProfileUsername(filter) != null) {
