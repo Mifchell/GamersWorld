@@ -4,6 +4,9 @@
 		<title>Messages</title>
         <meta charset="UTF-8">
 		<link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+		<link rel="stylesheet" th:href="@{/css/event.css}" href="../css/event.css">
+		<link rel="stylesheet" th:href="@{/css/profile.css}" href="../css/profile.css">
+
 	</head>
 
 	<body>
@@ -19,13 +22,60 @@
               </div>
 		</header>
 
-        <div class = "container">
+        <div class = "messagescontainer">
+			
+	<div class="box-group2"> 		
+		<!-- Friends -->
+		<div class="gamers">
+			<h1><a th:href="@{/gamers}">Gamers</a></h1>
+			<tr th:each="gamer, iterStat : ${gamers}" th:if="${iterStat.index} lt 3">
+			<div class = "gamers post">
+			<h2><a href=""><span th:text="${gamer.profile.username}"></span></a></h2>
+			<p class="tab"><span th:text="${gamer.profile.description}"></span></p>
+			<p>Games: </p>
+			<div th:each="game : ${gamer.profile.games}">
+				<p th:text="${game}"></p>
+			</div>
+			</div>
+		</div>
+		</tr>
 
-		<!-- put messages here -->
+		<!-- Groups -->
+		<div class="gamers">
+			<h1><a th:href="@{/gamers}">Groups</a></h1>
+			<tr th:each="gamer, iterStat : ${gamers}" th:if="${iterStat.index} lt 3">
+			<div class = "gamers post">
+			<h2><a href=""><span th:text="${gamer.profile.username}"></span></a></h2>
+			<p class="tab"><span th:text="${gamer.profile.description}"></span></p>
+			<p>Games: </p>
+			<div th:each="game : ${gamer.profile.games}">
+				<p th:text="${game}"></p>
+			</div>
+			</div>
+		</div>
+		</tr>
+	</div>
 
+	<!-- messages section -->
+	<div class="box-group">
+	  <!-- Messages -->
+	<div class="gamers">
+	  <h1><a th:href="@{/gamers}">Messages</a></h1>
+	  <tr th:each="gamer, iterStat : ${gamers}" th:if="${iterStat.index} lt 3">
+	  <div class = "gamers post">
+		<h2><a href=""><span th:text="${gamer.profile.username}"></span></a></h2>
+		<p class="tab"><span th:text="${gamer.profile.description}"></span></p>
+		<p>Games: </p>
+		<div th:each="game : ${gamer.profile.games}">
+		  <p th:text="${game}"></p>
+		</div>
+	  </div>
+	</div>
+  </tr>
+  </div>
         </div>
 
-		<script src="js/index.js"></script>
+
 
 		<footer>
 			<!--Copyright information-->

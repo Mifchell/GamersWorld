@@ -54,6 +54,7 @@ public class UserController {
 
     @GetMapping("/messages")
     public String viewMessages(Model model, HttpServletRequest request) {
+        model.addAttribute("gamers", retrieveCurrentUser(request).getFriendList());
         return "messages";
     }
 
