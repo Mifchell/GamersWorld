@@ -82,18 +82,23 @@
 
     <h1>Events</h1>
     <div class="column">
-      <div class="groups">
+      <div class = "groups">
+        <h1>RSVP'd Events</h1>
+        <tr th:each="event: ${events}" >
+        <div class = "groups post" style="padding: 5px;">
+          <h3><a th:href="@{/event/{eventId}(eventId=${event.eventId})}" th:text="${event.eventName}"></a></h3>
+        </div>
+      </div>
+      <div class = "groups">
         <h1>My Events</h1>
-        <tr th:each="event : ${events}">
-          <div class = "groups post" style="padding: 5px;">
-            <a th:href="@{event/deleteEvent/{eventId}(eventId=${event.eventId})}"><button th:if="${event.attendeeList[0].profile.getUsername() == profile.getUsername()}" style="width: 100px; margin-left: 10px;" class="joingroup">Delete</button></a>
-            <form action="#" th:action="@{/event/editEvent}" method="post">
-              <button style="width: 100px;" class="joingroup" th:value="${event.eventId}" th:if="${event.attendeeList[0].profile.getUsername() == profile.getUsername()}" name="id" type="submit">Edit</button>
-            </form>
-            <p style="float: right" th:if="${event.attendeeList[0].profile.getUsername() == profile.getUsername()}">(Owner)</p>
-            <h3><a th:href="@{/event/{eventId}(eventId=${event.eventId})}" th:text="${event.eventName}"></a></h3>
-          </div>
-        </tr>
+        <tr th:each="event: ${eventOwned}" >
+        <div class = "groups post" style="padding: 5px;">
+          <a onclick="return confirm('Are you sure you want to delete the event?')" th:href="@{event/deleteEvent/{eventId}(eventId=${event.eventId})}"><button style="width: 100px; margin-left: 10px;" class="joingroup">Delete</button></a>
+          <form action="#" th:action="@{/event/editEvent}" method="post">
+            <button style="width: 100px;" class="joingroup" th:value="${event.eventId}" name="id" type="submit">Edit</button>
+          </form>
+          <h3><span th:text="${event.eventName}"></span></h3>
+        </div>
       </div>
     </div>
     
