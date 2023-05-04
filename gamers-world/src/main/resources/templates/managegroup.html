@@ -72,7 +72,25 @@
                       </form>
                       <h3><span th:text="${user.profile.username}"></span></h3>
                 </div>
+
+               
         </div>
+        <div class="gamers">
+            <h1>Add member</h1>
+        <div class="search">
+            <form action="#" th:action="@{/addmember/{id}(id=${group.groupID})}" method="post">
+                <div style="display: flex">
+                    <input type="text" placeholder="username" name="filter">
+                    <button type="submit" style="width: 150px; "    class="joingroup">Add User </button>
+                    
+                </div>
+                <div th:if="${errorUser}" style="color:red">
+                    <p th:text="${errorUser}"></p>
+                  </div>
+            </form>
+        </div>
+    </div>
+        
     </div>
     </div>
     <footer>

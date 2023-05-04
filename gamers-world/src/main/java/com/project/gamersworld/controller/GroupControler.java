@@ -80,6 +80,23 @@ public class GroupControler {
         return "managegroup";
     }
 
+    @PostMapping("/addmember/{id}")
+    public String editProfile(@PathVariable int id, @RequestParam(value = "filter") String filter,
+            HttpServletRequest request, Model model) {
+
+        if (userHandler.getUserRepo().findByProfileUsername(filter) != null) {
+
+            groupHandler.join(id, userHandler.getUserRepo().findByProfileUsername(filter));
+            return "redirect:/profile";
+        }
+        model.addAttribute("errorUser", "No Gamer with this userName");
+        model.addAttribute("group", groupHandler.getGroupRepository().findByGroupID(id));
+        model.addAttribute("members",
+                groupHandler.getGroupRepository().findByGroupID(id).getMembers());
+
+        return "managegroup";
+    }
+
     @GetMapping("/groups")
     public String viewGroups(Model model, HttpServletRequest request) {
         model.addAttribute("groups", groupHandler.groupSearch("", retrieveCurrentUser(request)));
