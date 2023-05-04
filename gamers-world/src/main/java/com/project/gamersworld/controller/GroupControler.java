@@ -55,6 +55,31 @@ public class GroupControler {
         return "redirect:/profile";
     }
 
+    @PostMapping("/removefromgroup/{id}/{uid}")
+    public String lremoveFromGroup(@PathVariable int id, @PathVariable int uid, Model model,
+            HttpServletRequest request) {
+        groupHandler.leaveGroup(userHandler.getUserRepo().findByUid(uid), id);
+
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/editgroup/{id}")
+    public String editProfile(@PathVariable int id, @RequestParam(value = "name") String name,
+            @RequestParam(value = "desc") String description,
+            HttpServletRequest request, Model model) {
+
+        if (groupHandler.editGroup(id, name, description) != null) {
+
+            return "redirect:/profile";
+        }
+        model.addAttribute("errorMessage", "Group name is already taken. Please try again.");
+        model.addAttribute("group", groupHandler.getGroupRepository().findByGroupID(id));
+        model.addAttribute("members",
+                groupHandler.getGroupRepository().findByGroupID(id).getMembers());
+
+        return "managegroup";
+    }
+
     @GetMapping("/groups")
     public String viewGroups(Model model, HttpServletRequest request) {
         model.addAttribute("groups", groupHandler.groupSearch("", retrieveCurrentUser(request)));
