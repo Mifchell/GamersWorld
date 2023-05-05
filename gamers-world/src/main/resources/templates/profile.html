@@ -110,8 +110,8 @@
         <tr th:each="request, iterStat : ${requests}" th:if="${iterStat.index} lt 100">
           <div class="groups post" style="padding: 5px;">
             <p><span th:text="${request.getSender().profile.getUsername()}"></span> wants to be your friend.</p>
-            <button type="submit" style="width: 100px; " class="joingroup">Accept</button>
-            <button type="submit" style="width: 100px; " class="joingroup">Decline</button>
+            <a th:href="@{/user/accept/{request} (request = ${request.requestID})}"><button style="width: 100px; margin-left: 10px;" class="joingroup">Accept</button></a>
+            <a th:href="@{/user/decline/{request}(request = ${request.requestID})}"><button style="width: 100px; margin-left: 10px;" class="joingroup">Decline</button></a>
           </div>
         </tr>
       </div>

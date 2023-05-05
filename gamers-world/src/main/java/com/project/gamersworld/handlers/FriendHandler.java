@@ -25,6 +25,7 @@ public class FriendHandler {
         userList.add(ownerU);
         userU.setFriendList(userList);
         userRepo.save(userU);
+        userRepo.save(ownerU);
 
     }
     
@@ -76,14 +77,30 @@ public class FriendHandler {
 
     public void sendFriendRequest(int sender, int receiver)
     {
+        boolean check = true;
         User senderU = userRepo.findByUid(sender);
         User receiverU = userRepo.findByUid(receiver);
 
-        FriendRequest request = new FriendRequest(senderU, receiverU);
-        friendRequestRepo.save(request);
+        for(FriendRequest r: senderU.getreceivedFriendRequest())
+            if(r.getSender().getUserID() == receiver)
+            {
+                check = false;
+                friendRequestRepo.delete(r);
+                addFriend(sender, receiver);
+            }
+        if(check)
+        {
+            FriendRequest request = new FriendRequest(senderU, receiverU);
+            friendRequestRepo.save(request);
+        }
     }
     public void declineFriendRequest(FriendRequest request)
     {
+        friendRequestRepo.delete(request);
+    }
+    public void acceptFriendRequest(FriendRequest request)
+    {
+        addFriend(request.getSender().getUserID(), request.getReceiver().getUserID());
         friendRequestRepo.delete(request);
     }
  

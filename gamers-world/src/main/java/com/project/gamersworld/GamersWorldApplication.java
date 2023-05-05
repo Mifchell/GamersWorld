@@ -21,11 +21,17 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class GamersWorldApplication implements CommandLineRunner {
+	@Autowired
+	FriendHandler handler;
+	@Autowired
+	FriendRequestRepo frRepo;
 	public static void main(String[] args) {
 		SpringApplication.run(GamersWorldApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) {
+		handler.sendFriendRequest(16, 1);
+	
 	}
 }
