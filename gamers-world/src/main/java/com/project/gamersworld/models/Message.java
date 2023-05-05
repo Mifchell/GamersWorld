@@ -31,8 +31,8 @@ public class Message {
     String message;
     @Column(name = "groupID")
     int groupID;
-    @Column(name = "numOfLikes")
-    int numOfLikes = 0;
+    @Column(name = "numLikes")
+    int numLikes = 0;
 
     public Message() {
         this.receivers = new ArrayList<User>();

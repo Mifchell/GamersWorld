@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,11 @@ import com.project.gamersworld.handlers.FriendHandler;
 import com.project.gamersworld.handlers.GroupHandler;
 import com.project.gamersworld.handlers.UserHandler;
 import com.project.gamersworld.models.User;
+import com.project.gamersworld.repo.UserRepo;
 import com.project.gamersworld.models.Game;
+import com.project.gamersworld.repo.MessageRepo;
+import com.project.gamersworld.models.Message;
+
 
 @Controller
 public class UserController {
@@ -34,6 +39,9 @@ public class UserController {
     @Autowired
     FriendHandler friendHandler;
 
+    @Autowired 
+    private MessageRepo messageRepository;
+
     // show pages
     @GetMapping("/index")
     public String viewHome(Model model, HttpServletRequest request) {
@@ -41,6 +49,7 @@ public class UserController {
         model.addAttribute("groups", groupHandler.groupSearch("", retrieveCurrentUser(request)));
         model.addAttribute("gamers", userHandler.recommendGamer(retrieveCurrentUser(request).getUserID()));
         model.addAttribute("user", retrieveCurrentUser(request));
+        model.addAttribute("trends", userHandler.displayTrends());
         model.addAttribute("friends", retrieveCurrentUser(request).getFriendList());
         model.addAttribute("fRequest", friendHandler.getRequestSentUsers(retrieveCurrentUser(request).getUserID()));
         model.addAttribute("fSent", friendHandler.getRequestReceivedUsers(retrieveCurrentUser(request).getUserID()));
@@ -50,6 +59,7 @@ public class UserController {
     }
 
     @GetMapping("/events")
+
     public String viewEvents(Model model, HttpServletRequest request) {
         model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
         return "events";
@@ -163,25 +173,33 @@ public class UserController {
     // Edit profile
     @PostMapping("/editprofile")
     public String editProfile(@RequestParam(value = "username") String username,
-            @RequestParam(value = "description") String description,
-            @RequestParam(value = "preferredTime") String preferredTime,
-            @RequestParam(name = "selectedGames", required = false) List<Game> selectedGames,
-            @RequestParam(value = "email") String email, @RequestParam(value = "password") String password,
-            HttpServletRequest request, Model model) {
+        @RequestParam(value = "description") String description,
+        @RequestParam(value = "preferredTime") String preferredTime,
+        @RequestParam(name = "selectedGames", required = false) List<Game> selectedGames,
+        @RequestParam(value = "email") String email, @RequestParam(value = "password") String password,
+        HttpServletRequest request, Model model) {
+            
+            if(userHandler.editProfile(retrieveCurrentUser(request), username, description, preferredTime, selectedGames, email, password)){
+                
+                return "redirect:/profile";
+            }
+            model.addAttribute("errorMessage", "Username or email is already taken. Please try again.");
+            model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
 
-        if (userHandler.editProfile(retrieveCurrentUser(request), username, description, preferredTime, selectedGames,
-                email, password)) {
-
-            return "redirect:/profile";
+            return "editprofile";
         }
-        model.addAttribute("errorMessage", "Username or email is already taken. Please try again.");
-        model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
 
-        return "editprofile";
+    
+    //React Message
+    @PostMapping("reactMessage")
+    public void reactMessage(@RequestParam("message_id") int messageID)
+    {
+        Message message = messageRepository.findByMessageID(messageID);
+
+        message.setNumLikes(message.getNumLikes() + 1);
+        messageRepository.save(message);
     }
 
-    // // React Message
-    // @PostMapping("/react_message")
 
     // create profile
     @GetMapping("/createprofile")
