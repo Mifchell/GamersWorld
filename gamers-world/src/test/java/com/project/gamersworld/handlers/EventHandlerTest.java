@@ -251,6 +251,8 @@ public class EventHandlerTest {
     void testEditEventExistingName() {
         when(mockEventRepository.findByEventId(event6.getEventId())).thenReturn(event6);
         when(mockEventRepository.findByEventName("jeff")).thenReturn(event1);
+        event6.setEventId(16);
+        event1.setEventId(11);
         Boolean result = eventHandler.editEvent(event6.getEventId(), "jeff", "05/20/2023", "online", "yes", "MINECRAFT", "CASUAL");
         assertFalse(result);
     }
