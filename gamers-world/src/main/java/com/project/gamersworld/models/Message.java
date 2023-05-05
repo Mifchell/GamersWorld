@@ -67,8 +67,6 @@ public class Message {
     public Message(User sender, Group group, String message)
     {
         this.sender = sender;
-        List<User> list = group.getMembers();
-        this.receivers = list;
         this.message = message;
         this.date = LocalDateTime.now().toString();
         this.groupID = group.getGroupID();

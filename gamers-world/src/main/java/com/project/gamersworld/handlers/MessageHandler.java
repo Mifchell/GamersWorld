@@ -35,21 +35,12 @@ public class MessageHandler {
         User senderU = userRepo.findByUid(sender);
         Group group = groupRepo.findByGroupID(groupReceiver);
         Message mess = new Message(senderU, group, message);
-
-        //overide receivers
-        User u1 = userRepo.findByUid(2);
-        User u2 = userRepo.findByUid(3);
-        User u3 = userRepo.findByUid(4);
         List<User> list = new ArrayList<User>();
-        list.add(u1);
-        list.add(u2);
-        list.add(u3);
+        for(User u: group.getMembers())
+            if(u.getUserID() != sender)
+                list.add(u);
         mess.setRecievers(list);
-        ///end overide
-
-        messageRepo.save(mess);
-
-        
+        messageRepo.save(mess); 
     }
 }
 

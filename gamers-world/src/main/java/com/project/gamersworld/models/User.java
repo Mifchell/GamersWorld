@@ -54,6 +54,9 @@ public class User {
     @OneToMany(mappedBy = "requestReceiver", cascade = CascadeType.ALL)
     private List<FriendRequest> receivedFriendRequest;
 
+    @OneToMany(mappedBy = "requestSender",cascade = CascadeType.ALL)
+    private List<FriendRequest> sentFriendRequest;
+
     public User() {
         this.friendsList = new ArrayList<User>();
         this.groupList = new ArrayList<Group>();
@@ -62,6 +65,7 @@ public class User {
         this.sentMessages = new ArrayList<Message>();
         this.receivedMessages = new ArrayList<Message>();
         this.receivedFriendRequest = new ArrayList<FriendRequest>();
+        this.sentFriendRequest = new ArrayList<FriendRequest>();
     }
 
     public User(User user) {
@@ -74,6 +78,7 @@ public class User {
         this.receivedMessages = user.getReceivedMessages();
         this.sentMessages = user.getSentMessages();
         this.receivedFriendRequest = user.getreceivedFriendRequest();
+        this.sentFriendRequest = user.getSentFriendRequest();
     }
 
     public User(Profile profile) {
@@ -86,6 +91,7 @@ public class User {
         this.sentMessages = new ArrayList<Message>();
         this.receivedMessages = new ArrayList<Message>();
         this.receivedFriendRequest = new ArrayList<FriendRequest>();
+        this.sentFriendRequest = new ArrayList<FriendRequest>();
     }
 
     public int getUserID() {
@@ -161,5 +167,11 @@ public class User {
     @Override
     public boolean equals(Object obj) {
         return this.uid == ((User) obj).uid;
+    }
+    public List<FriendRequest> getSentFriendRequest() {
+        return sentFriendRequest;
+    }
+    public void setSentFriendRequest(List<FriendRequest> sentFriendRequest) {
+        this.sentFriendRequest = sentFriendRequest;
     }
 }

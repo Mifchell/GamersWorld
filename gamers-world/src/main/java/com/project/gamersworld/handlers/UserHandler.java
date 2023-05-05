@@ -1,6 +1,8 @@
 package com.project.gamersworld.handlers;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 
+import com.project.gamersworld.models.FriendRequest;
 import com.project.gamersworld.models.Game;
 import com.project.gamersworld.models.Profile;
+import com.project.gamersworld.models.Message;
 import com.project.gamersworld.models.User;
 import com.project.gamersworld.repo.UserRepo;
 
@@ -140,6 +144,53 @@ public class UserHandler {
         return true;
     }
 
+    public List<Message> getConversation(int UID, int otherUID)
+    {
+        User user = userRepo.findByUid(UID);
+        List<Message> finalMessages = new ArrayList<Message>();
+
+        for(Message m: user.getSentMessages())
+            for(User u: m.getRecievers())
+                if(u.getUserID() == otherUID)
+                    finalMessages.add(m);
+        for(Message m: user.getReceivedMessages())
+            if(m.getSender().getUserID() == otherUID)
+                finalMessages.add(m);
+
+        //sort here
+        Comparator<Message> comp = new Comparator<Message>(){
+            public int compare(Message m1, Message m2)
+            {
+                return m1.getDate().compareTo(m2.getDate());
+            }
+        };
+        Collections.sort(finalMessages, comp);
+        //end sort
+
+        return finalMessages;
+    }
+
+    public List<Message> getGroupConversation(int UID, int groupID)
+    {
+        User user = userRepo.findByUid(UID);
+        List<Message> messageList = new ArrayList<Message>();
+
+        for(Message m: user.getSentMessages())
+            if(m.getGroupID() == groupID)
+                messageList.add(m);
+        for(Message m: user.getReceivedMessages())
+            if(m.getGroupID() == groupID)
+                messageList.add(m);
+        
+        Comparator<Message> comp = new Comparator<Message>(){
+            public int compare(Message m1, Message m2)
+            {
+                return m1.getDate().compareTo(m2.getDate());
+            }
+        };
+        Collections.sort(messageList, comp);
+        return messageList;
+    }
     public UserRepo getUserRepo() {
         return userRepo;
     }
