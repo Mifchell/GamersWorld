@@ -8,7 +8,6 @@ import javax.persistence.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-
 @Entity
 @Table(name = "messages")
 public class Message {
@@ -23,9 +22,9 @@ public class Message {
     User sender;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "message_receivers", joinColumns = @JoinColumn(name = "message_id"),inverseJoinColumns = @JoinColumn(name = "receiverID"))
+    @JoinTable(name = "message_receivers", joinColumns = @JoinColumn(name = "message_id"), inverseJoinColumns = @JoinColumn(name = "receiverID"))
     List<User> receivers;
-    
+
     @Column(name = "date")
     String date;
     @Column(name = "message")
@@ -35,25 +34,23 @@ public class Message {
     @Column(name = "numOfLikes")
     int numOfLikes = 0;
 
-    public Message()
-    {
+    public Message() {
         this.receivers = new ArrayList<User>();
         this.date = LocalDateTime.now().toString();
     }
 
-    public Message(Message m)
-    {
+    public Message(Message m) {
         this.messageID = m.getMessageID();
         this.sender = m.getSender();
         this.receivers = m.getRecievers();
         this.date = m.getDate();
         this.message = m.getMessage();
         this.groupID = m.getGroupID();
-        
+        this.numOfLikes = m.getLikes();
+
     }
 
-    public Message(User sender, User receiver, String message)
-    {
+    public Message(User sender, User receiver, String message) {
         this.sender = sender;
         List<User> list = new ArrayList<User>();
         list.add(receiver);
@@ -61,49 +58,58 @@ public class Message {
         this.message = message;
         this.date = LocalDateTime.now().toString();
         this.groupID = -1;
+        this.numOfLikes = 0;
 
     }
 
-    public Message(User sender, Group group, String message)
-    {
+    public Message(User sender, Group group, String message) {
         this.sender = sender;
         this.message = message;
         this.date = LocalDateTime.now().toString();
         this.groupID = group.getGroupID();
+        // this.numOfLikes = 0;
     }
 
-    public String getDate()
-    {
+    public String getDate() {
         return this.date;
     }
+
     public String getMessage() {
         return message;
     }
+
     public int getMessageID() {
         return messageID;
     }
+
     public List<User> getRecievers() {
         return receivers;
     }
+
     public User getSender() {
         return sender;
     }
+
     public void setRecievers(List<User> recievers) {
         this.receivers = recievers;
     }
+
     public int getGroupID() {
         return groupID;
     }
+
     public void setMessage(String message) {
         this.message = message;
     }
+
     public void setSender(User sender) {
         this.sender = sender;
     }
+
     public void setGroupID(int groupID) {
         this.groupID = groupID;
     }
-        
+
     public void setLikes(int numOfLikes) {
         this.numOfLikes = numOfLikes;
     }
