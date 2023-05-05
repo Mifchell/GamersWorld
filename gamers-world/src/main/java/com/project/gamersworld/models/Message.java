@@ -31,7 +31,7 @@ public class Message {
     String message;
     @Column(name = "groupID")
     int groupID;
-    @Column(name = "numLikes")
+    @Column(name = "num_of_likes")
     int numLikes = 0;
 
     public Message() {
@@ -46,7 +46,7 @@ public class Message {
         this.date = m.getDate();
         this.message = m.getMessage();
         this.groupID = m.getGroupID();
-        this.numOfLikes = m.getLikes();
+        this.numLikes = m.getLikes();
 
     }
 
@@ -58,7 +58,7 @@ public class Message {
         this.message = message;
         this.date = LocalDateTime.now().toString();
         this.groupID = -1;
-        this.numOfLikes = 0;
+        this.numLikes = 0;
 
     }
 
@@ -110,11 +110,11 @@ public class Message {
         this.groupID = groupID;
     }
 
-    public void setLikes(int numOfLikes) {
-        this.numOfLikes = numOfLikes;
-    }
+   public void setNumLikes(int numLikes) {
+       this.numLikes = numLikes;
+   }
 
     public int getLikes() {
-        return numOfLikes;
+        return numLikes;
     }
 }
