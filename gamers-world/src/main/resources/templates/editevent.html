@@ -40,9 +40,6 @@
           <label for="location"><b>Location</b></label>
           <input type="text" placeholder="Enter Location" name="location" id="location" th:value="${event.location}" required>
 
-          <label for="game"><b>Game</b></label>
-          <input type="text" placeholder="Enter Game" name="game" id="game" th:value="${event.game}" required>
-
           <label for="games"><b>Select up to 1 game:</b></label>
           <div style="height: 150px; overflow-y: auto;">
             <div th:each="game : ${T(com.project.gamersworld.models.Game).values()}">
