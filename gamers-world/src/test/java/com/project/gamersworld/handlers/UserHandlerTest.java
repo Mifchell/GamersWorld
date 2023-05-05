@@ -1,173 +1,220 @@
 package com.project.gamersworld.handlers;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.description;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.aspectj.lang.annotation.Before;
-import org.assertj.core.api.Assert;
+import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import com.project.gamersworld.models.Event;
+
 import com.project.gamersworld.models.Game;
-import com.project.gamersworld.models.PlayLevel;
+import com.project.gamersworld.models.Group;
 import com.project.gamersworld.models.Profile;
 import com.project.gamersworld.models.User;
-import com.project.gamersworld.repo.EventRepo;
+import com.project.gamersworld.repo.GroupRepo;
 import com.project.gamersworld.repo.UserRepo;
 
 public class UserHandlerTest {
 
     @Mock
     private static UserRepo mockUserRepository;
-
     @InjectMocks
     private static UserHandler userHandler;
 
-    private User user1;
-    private User user2;
-    private boolean usernameGood;
-    private boolean emailGood;
+    ArrayList<User> userList;
+    ArrayList<User> expected;
+
+    User user1;
+    User user2;
+    User user3;
+    User user4;
+
+    String filter;
 
     @BeforeEach
     void setUp() {
-        // set up mocks
         mockUserRepository = Mockito.mock(UserRepo.class);
         userHandler = new UserHandler(mockUserRepository);
 
-        // set up users
-        Profile profile = new Profile("", "1234", "test1@test.com", "", "");
-        user1 = new User(profile);
-        user2 = new User();
+        userList = new ArrayList<>();
+        expected = new ArrayList<>();
 
-        usernameGood = false;
+        user1 = new User(new Profile("user1", "1234", "test1@test.com", "minecraft asd", "10:30PM"));
+        user2 = new User(new Profile("user2", "1234", "test2@test.com", "testz fgh", "1:00AM"));
+        user3 = new User(new Profile("user3", "1234", "test3@test.com", "I am jkl", "12:00PM"));
+        user4 = new User(new Profile("usser4", "1234", "test4@test.com", "qwe zxcmine", "10:30PM"));
+        user1.setUserId(0);
+        user2.setUserId(1);
+        user3.setUserId(2);
+        user4.setUserId(3);
+        user1.profile.setGames(Arrays.asList(Game.valueOf("MINECRAFT"), Game.valueOf("VALORANT")));
+        user2.profile.setGames(Arrays.asList(Game.valueOf("XCOM_2"), Game.valueOf("VALORANT")));
+        user3.profile.setGames(Arrays.asList(Game.valueOf("FORTNITE")));
+        user4.profile.setGames(Arrays.asList(Game.valueOf("MINECRAFT")));
+        userList.add(user1);
+        userList.add(user2);
+        userList.add(user3);
+        userList.add(user4);
 
-    }
-
-    // test - login
-    @Test
-    void testLoginHappyPath() {
-        // should return user
-        when(mockUserRepository.findByProfileEmailAddress("test1@test.com")).thenReturn(user1);
-
-        user2 = userHandler.login("test1@test.com", "1234");
-
-        assertEquals(user1, user2);
-    }
-
-    @Test
-    void testLoginIncorrectPassword() {
-
-        user1.getProfile().setPassword("1235");
-        // should return null
-        when(mockUserRepository.findByProfileEmailAddress("test1@test.com")).thenReturn(user1);
-
-        user2 = userHandler.login("test1@test.com", "1234");
-
-        assertNull(user2);
     }
 
     @Test
-    void testLoginIncorrectEmail() {
+    void testUserSearchNoFilter() {
+        when(mockUserRepository.findAll()).thenReturn(userList);
 
-        user1.getProfile().setEmail("test2@test.com");
-        // should return null
-        when(mockUserRepository.findByProfileEmailAddress("test1@test.com")).thenReturn(null);
+        List<User> users = userHandler.userSearch("");
+        //users.add(new User( new Profile("user5", "1234", "", "", "")));
 
-        user2 = userHandler.login("test1@test.com", "1234");
-
-        assertNull(user2);
-    }
-
-    // test sign up
-    @Test
-    void testSignUpHappyPath() {
-        // should return user
-        when(mockUserRepository.findByProfileEmailAddress("test1@test.com")).thenReturn(null);
-
-        user2 = userHandler.signUp("test1@test.com", "1234");
-
-        assertEquals(user1, user2);
+        assertThat(users).containsExactlyInAnyOrderElementsOf(userList);
     }
 
     @Test
-    void testSignUpExistingEmail() {
-        // should return user
-        when(mockUserRepository.findByProfileEmailAddress("test1@test.com")).thenReturn(user1);
+    void testUserSearchFilterUserName() {
+        filter = "user2";
+        when(mockUserRepository.findAll()).thenReturn(userList);
+        when(mockUserRepository.findByProfileDescriptionContains(filter))
+                .thenReturn(new ArrayList<>(Arrays.asList()));
+        when(mockUserRepository.findByProfilePreferredTimeContains(filter))
+                .thenReturn(new ArrayList<>(Arrays.asList()));
+        when(mockUserRepository.findByProfileUsernameContains(filter))
+                .thenReturn(new ArrayList<>(Arrays.asList(user2)));
 
-        user2 = userHandler.signUp("test1@test.com", "1234");
+        List<User> users = new ArrayList<User>(userHandler.userSearch(filter));
+        expected.add(user2);
 
-        assertNull(user2);
-    }
-
-    // test create profile
-    @Test
-    void testCreateProfileHappyPath() {
-        // should return true
-        when(mockUserRepository.findByProfileUsername("user1")).thenReturn(null);
-
-        usernameGood = userHandler.createProfile(user1, "user1", "", "",
-        new ArrayList<Game>());
-
-        assertTrue(usernameGood);
+        assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test
-    void testCreateProfileExistingUsername() {
-        // should return false
-        user1.getProfile().setUsername("user1");
-        when(mockUserRepository.findByProfileUsername("user1")).thenReturn(user1);
+    void testUserSearchFilterPrefferedTime() {
+        filter = "1:00";
+        when(mockUserRepository.findAll()).thenReturn(userList);
+        when(mockUserRepository.findByProfileDescriptionContains(filter))
+                .thenReturn(new ArrayList<>());
+        when(mockUserRepository.findByProfilePreferredTimeContains(filter))
+                .thenReturn(new ArrayList<>(Arrays.asList(user2)));
+        when(mockUserRepository.findByProfileUsernameContains(filter))
+                .thenReturn(new ArrayList<>());
 
-        usernameGood = userHandler.createProfile(user1, "user1", "", "",
-                new ArrayList<Game>());
+        List<User> users = userHandler.userSearch(filter);
+        expected.add(user2);
 
-        assertFalse(usernameGood);
-    }
-
-    //Logout
-    @Test
-    void testLogoutHappyPath(){
-        /*Has no handler */
-
-
-    }
-    
-    //editProfile
-    @Test
-    void testEditProfileHappyPath(){
-        when(mockUserRepository.findByProfileUsername("user1")).thenReturn(null);
-
-        usernameGood = userHandler.editProfile(user1, "user1", "", "", new ArrayList<Game>(), "", "");
-        assertTrue(usernameGood);
+        assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test
-    void testEditProfileExistingEmail(){
-        user1.getProfile().setEmail("email1");
-        when(mockUserRepository.findByProfileEmailAddress("email1")).thenReturn(user1);
+    void testUserSearchFilterDescription() {
+        filter = "minecraft";
+        when(mockUserRepository.findAll()).thenReturn(userList);
+        when(mockUserRepository.findByProfileDescriptionContains(filter))
+                .thenReturn(new ArrayList<>(Arrays.asList(user1)));
+        when(mockUserRepository.findByProfilePreferredTimeContains(filter))
+                .thenReturn(new ArrayList<>());
+        when(mockUserRepository.findByProfileUsernameContains(filter))
+                .thenReturn(new ArrayList<>());
 
-        emailGood = userHandler.editProfile(user1, "user1", "", "", new ArrayList<Game>(), "email1", "");
-        assertFalse(emailGood);
+        List<User> users = userHandler.userSearch(filter);
+        expected.add(user1);
 
+        assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
     }
 
-    //deleteAccount
-    
+    @Test
+    void testSearchUserFilterNoMatch() {
+        filter = "user5";
+        when(mockUserRepository.findAll()).thenReturn(userList);
+        when(mockUserRepository.findByProfileDescriptionContains(filter))
+                .thenReturn(new ArrayList<>());
+        when(mockUserRepository.findByProfilePreferredTimeContains(filter))
+                .thenReturn(new ArrayList<>());
+        when(mockUserRepository.findByProfileUsernameContains(filter))
+                .thenReturn(new ArrayList<>());
 
+        List<User> users = userHandler.userSearch(filter);
 
+        assertEquals(expected, users);
+    }
 
+    @Test
+    void testSearchUserFilterSpaces() {
+        String filter = " ";
+        when(mockUserRepository.findAll()).thenReturn(userList);
+        when(mockUserRepository.findByProfileDescriptionContains(filter))
+                .thenReturn(userList);
+        when(mockUserRepository.findByProfilePreferredTimeContains(filter))
+                .thenReturn(new ArrayList<>());
+        when(mockUserRepository.findByProfileUsernameContains(filter))
+                .thenReturn(new ArrayList<>());
+
+        List<User> users = userHandler.userSearch(filter);
+
+        assertThat(users).containsExactlyInAnyOrderElementsOf(userList);
+    }
+
+    @Test
+    void testSearchMultipleReturnsUserSearch() {
+        String filter = "user";
+        when(mockUserRepository.findAll()).thenReturn(userList);
+        when(mockUserRepository.findByProfileDescriptionContains(filter))
+                .thenReturn(new ArrayList<>());
+        when(mockUserRepository.findByProfilePreferredTimeContains(filter))
+                .thenReturn(new ArrayList<>());
+        when(mockUserRepository.findByProfileUsernameContains(filter))
+                .thenReturn(new ArrayList<>(Arrays.asList(user1, user2, user3)));
+
+        List<User> users = userHandler.userSearch(filter);
+        expected.add(user1);
+        expected.add(user2);
+        expected.add(user3);
+
+        assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @Test
+    void testUserSearchFilterMultiplePrefferedTimeSearch() {
+        filter = "10:30PM";
+        when(mockUserRepository.findAll()).thenReturn(userList);
+        when(mockUserRepository.findByProfileDescriptionContains(filter))
+                .thenReturn(new ArrayList<>());
+        when(mockUserRepository.findByProfilePreferredTimeContains(filter))
+                .thenReturn(new ArrayList<>(Arrays.asList(user1, user4)));
+        when(mockUserRepository.findByProfileUsernameContains(filter))
+                .thenReturn(new ArrayList<>());
+
+        List<User> users = userHandler.userSearch(filter);
+        expected.add(user1);
+        expected.add(user4);
+
+        assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @Test
+    void testSearchMultipleReturnsDescriptionSearch() {
+        String filter = "mine";
+        when(mockUserRepository.findAll()).thenReturn(userList);
+        when(mockUserRepository.findByProfileDescriptionContains(filter))
+                .thenReturn(Arrays.asList(user1, user4));
+        when(mockUserRepository.findByProfilePreferredTimeContains(filter))
+                .thenReturn(new ArrayList<>());
+        when(mockUserRepository.findByProfileUsernameContains(filter))
+                .thenReturn(new ArrayList<>());
+
+        List<User> users = userHandler.userSearch(filter);
+        expected.add(user1);
+        expected.add(user4);
+
+        assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
+    }
 
 }
