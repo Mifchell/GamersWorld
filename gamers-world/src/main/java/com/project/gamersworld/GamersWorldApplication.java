@@ -21,12 +21,6 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class GamersWorldApplication implements CommandLineRunner {
-	@Autowired
-	FriendHandler handler;
-	@Autowired
-	FriendRequestRepo frRepo;
-	@Autowired
-	UserRepo uRepo;
 	public static void main(String[] args) {
 		SpringApplication.run(GamersWorldApplication.class, args);
 	}
