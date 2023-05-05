@@ -21,6 +21,13 @@ public class MessageHandler {
     @Autowired
     GroupRepo groupRepo;
 
+    public MessageHandler(MessageRepo messageRepo,UserRepo userRepo, GroupRepo groupRepo)
+    {
+        this.messageRepo = messageRepo;
+        this.userRepo = userRepo;
+        this.groupRepo = groupRepo;
+    }
+
     public void sendMessage(int sender, int receiver, String message)
     {
         User senderU = userRepo.findByUid(sender);
