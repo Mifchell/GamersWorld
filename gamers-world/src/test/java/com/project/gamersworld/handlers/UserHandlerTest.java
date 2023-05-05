@@ -43,8 +43,7 @@ public class UserHandlerTest {
     private boolean emailGood;
 
     @BeforeEach
-    void setUp()
-    {
+    void setUp() {
         // set up mocks
         mockUserRepository = Mockito.mock(UserRepo.class);
         userHandler = new UserHandler(mockUserRepository);
@@ -81,7 +80,6 @@ public class UserHandlerTest {
         assertNull(user2);
     }
 
-    
     @Test
     void testLoginIncorrectEmail() {
 
@@ -134,7 +132,7 @@ public class UserHandlerTest {
         when(mockUserRepository.findByProfileUsername("user1")).thenReturn(user1);
 
         usernameGood = userHandler.createProfile(user1, "user1", "", "",
-        new ArrayList<Game>());
+                new ArrayList<Game>());
 
         assertFalse(usernameGood);
     }

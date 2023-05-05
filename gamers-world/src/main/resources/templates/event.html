@@ -38,10 +38,10 @@
               <button class="btn2" type="submit" th:if="${!#lists.contains(event.attendeeList, user)}" name="id" th:id="${event.eventId}" th:value="${event.eventId}">RSVP</button>
             </form>
             <button class="btn2" th:unless="${!#lists.contains(event.attendeeList, user)}" style="background-color: #712277">Attending</button>
-            <form action="#" th:action="@{/event/comment}" method="post">
+            <form action="#" th:if="${#lists.contains(event.attendeeList, user)}" th:action="@{/event/comment}" method="post">
               <input type="text" placeholder="Enter Comment" name="comment" id="comment" required>
               <br>
-              <button class="btn2" type="submit" th:if="${#lists.contains(event.attendeeList, user)}" name="eventId" th:id="eventId" th:value="${event.eventId}">Comment</button>
+              <button class="btn2" type="submit" name="eventId" th:id="eventId" th:value="${event.eventId}">Comment</button>
             </form>
             <tr th:each="comment, iterStat : ${event.comments}" th:if="${iterStat.index} lt 3">
               <p><span th:text="${comment}"></span></p>

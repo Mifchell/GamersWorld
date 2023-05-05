@@ -43,6 +43,10 @@ public class Group {
         return this.groupID;
     }
 
+    public void setGroupID(int id) {// for junit
+        this.groupID = id;
+    }
+
     public String getName() {
         return name;
     }

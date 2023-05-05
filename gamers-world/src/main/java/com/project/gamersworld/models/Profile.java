@@ -92,44 +92,4 @@ public class Profile {
         this.preferredTime = preferredTime;
     }
 
-    /*
-     * This function handle the process of getting the new password
-     * Not a setter*
-     */
-    public void updatePassword() {
-
-    }
-
-    /*
-     * This function handle the process of getting the new emailAdress
-     * Not a setter*
-     */
-    public void updateEmail() {
-
-    }
-
-    /*
-     * This function handle the process of getting the new description
-     * Not a setter*
-     */
-    public void updateDescription() {
-
-    }
-
-    /*
-     * This function handle the process of getting the new preferences
-     * Not a setter*
-     */
-    public void updatePreference() {
-
-    }
-
-    /*
-     * This function handle the process of getting the new preferred time
-     * Not a setter*
-     */
-    public void updateTime() {
-
-    }
-
 }

@@ -43,8 +43,8 @@ public class UserController {
 
     @GetMapping("/events")
     public String viewEvents(Model model, HttpServletRequest request) {
-            model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
-            return "events";
+        model.addAttribute("events", eventHandler.eventSearch(retrieveCurrentUser(request)));
+        return "events";
     }
 
     @GetMapping("/gamers")
@@ -62,6 +62,8 @@ public class UserController {
         model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
         model.addAttribute("mygroups", groupHandler.myGroups(retrieveCurrentUser(request)));
         model.addAttribute("events", eventHandler.myEvents(retrieveCurrentUser(request)));
+        model.addAttribute("groupOwned", groupHandler.groupOwned(retrieveCurrentUser(request)));
+        model.addAttribute("eventOwned", eventHandler.eventOwned(retrieveCurrentUser(request)));
         return "profile";
     }
 
@@ -146,24 +148,28 @@ public class UserController {
 
     }
 
-    //Edit profile
+    // Edit profile
     @PostMapping("/editprofile")
     public String editProfile(@RequestParam(value = "username") String username,
-        @RequestParam(value = "description") String description,
-        @RequestParam(value = "preferredTime") String preferredTime,
-        @RequestParam(name = "selectedGames", required = false) List<Game> selectedGames,
-        @RequestParam(value = "email") String email, @RequestParam(value = "password") String password,
-        HttpServletRequest request, Model model){
-            
-            if(userHandler.editProfile(retrieveCurrentUser(request), username, description, preferredTime, selectedGames, email, password)){
-                
-                return "redirect:/profile";
-            }
-            model.addAttribute("errorMessage", "Username or email is already taken. Please try again.");
-            model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
-            
-            return "editprofile";
+            @RequestParam(value = "description") String description,
+            @RequestParam(value = "preferredTime") String preferredTime,
+            @RequestParam(name = "selectedGames", required = false) List<Game> selectedGames,
+            @RequestParam(value = "email") String email, @RequestParam(value = "password") String password,
+            HttpServletRequest request, Model model) {
+
+        if (userHandler.editProfile(retrieveCurrentUser(request), username, description, preferredTime, selectedGames,
+                email, password)) {
+
+            return "redirect:/profile";
         }
+        model.addAttribute("errorMessage", "Username or email is already taken. Please try again.");
+        model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
+
+        return "editprofile";
+    }
+
+    // // React Message
+    // @PostMapping("/react_message")
 
     // create profile
     @GetMapping("/createprofile")

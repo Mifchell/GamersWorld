@@ -24,8 +24,14 @@ public class GroupControler {
     @Autowired
     UserHandler userHandler;
 
+    public GroupControler(GroupHandler groupHandler, UserHandler userHandler) {
+        this.groupHandler = groupHandler;
+        this.userHandler = userHandler;
+    }
+
     @GetMapping("/creategroup")
     public String viewCreateGroup() {
+
         return "creategroup";
     }
 
@@ -54,6 +60,48 @@ public class GroupControler {
         return "redirect:/profile";
     }
 
+    @PostMapping("/removefromgroup/{id}/{uid}")
+    public String lremoveFromGroup(@PathVariable int id, @PathVariable int uid, Model model,
+            HttpServletRequest request) {
+        groupHandler.leaveGroup(userHandler.getUserRepo().findByUid(uid), id);
+
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/editgroup/{id}")
+    public String editGroup(@PathVariable int id, @RequestParam(value = "name") String name,
+            @RequestParam(value = "desc") String description,
+            HttpServletRequest request, Model model) {
+
+        if (groupHandler.editGroup(id, name, description) != null) {
+
+            return "redirect:/profile";
+        }
+        model.addAttribute("errorMessage", "Group name is already taken. Please try again.");
+        model.addAttribute("group", groupHandler.getGroupRepository().findByGroupID(id));
+        model.addAttribute("members",
+                groupHandler.getGroupRepository().findByGroupID(id).getMembers());
+
+        return "managegroup";
+    }
+
+    @PostMapping("/addmember/{id}")
+    public String addMember(@PathVariable int id, @RequestParam(value = "filter") String filter,
+            HttpServletRequest request, Model model) {
+
+        if (userHandler.getUserRepo().findByProfileUsername(filter) != null) {
+
+            groupHandler.join(id, userHandler.getUserRepo().findByProfileUsername(filter));
+            return "redirect:/profile";
+        }
+        model.addAttribute("errorUser", "No Gamer with this userName");
+        model.addAttribute("group", groupHandler.getGroupRepository().findByGroupID(id));
+        model.addAttribute("members",
+                groupHandler.getGroupRepository().findByGroupID(id).getMembers());
+
+        return "managegroup";
+    }
+
     @GetMapping("/groups")
     public String viewGroups(Model model, HttpServletRequest request) {
         model.addAttribute("groups", groupHandler.groupSearch("", retrieveCurrentUser(request)));
@@ -62,8 +110,15 @@ public class GroupControler {
 
     @GetMapping("/mygroups")
     public String myGroups(Model model, HttpServletRequest request) {
-        model.addAttribute("mygroups", groupHandler.myGroups(retrieveCurrentUser(request)));
-        return "profile";
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/managegroup/{id}")
+    public String manageGroup(@PathVariable String id, Model model) {
+        model.addAttribute("group", groupHandler.getGroupRepository().findByGroupID(Integer.parseInt(id)));
+        model.addAttribute("members",
+                groupHandler.getGroupRepository().findByGroupID(Integer.parseInt(id)).getMembers());
+        return "managegroup";
     }
 
     @PostMapping("/groups")

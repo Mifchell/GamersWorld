@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gamer's World</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+	<link rel="stylesheet" th:href="@{/css/event.css}" href="../css/event.css"> 
+    <link rel="stylesheet" th:href="@{/css/form.css}" href="../css/form.css">
+    <style>
+        .joingroup {
+            padding: 10px 10px;
+            width: 100px;
+            height: 35px;
+            text-align: center;
+            float: right;
+		}
+    </style>
+
+</head>
+
+<body>
+
+    <a th:href="@{/index}"><div id="banner"></div></a>
+
+
+    
+    <!--Navigation Menu-->
+    <div class="nav">
+        <a th:href="@{/index}">Home</a>
+        <a th:href="@{/messages}">Messages</a>
+        <a th:href="@{/profile}">Profile</a>
+      </div>
+
+    <br>
+    <div class="container">
+        <form th:action="@{/deletegroup/{id}(id = ${group.groupID})}" method="post">
+            <button type="submit" style="width: 200px; "    class="joingroup">Delete Group</button>
+          </form>
+    <h1>          Manage Group</h1></div>
+    <div class = "indexcontainer">
+        
+        <div class="box-group">
+            <div class = "groups">
+      <h1>Edit Group</h1>
+        
+      <div class="inputform">
+        <form action="#" th:action="@{/editgroup/{id}(id = ${group.groupID})}" method="post">
+          <input th:value="${group.groupID}" name="id" id="id" type="hidden">
+        
+          <label for="name"><b>Group Name</b></label>
+          <input type="text" placeholder="Enter Group Name" name="name" id="name" th:value="${group.name}" required>
+
+          <div th:if="${errorMessage}" style="color:red">
+            <p th:text="${errorMessage}"></p>
+          </div>
+
+          <label for="desc"><b>Description</b></label>
+          <input type="text" placeholder="Enter Description" name="desc" id="desc" th:value="${group.description}" required>
+      
+          <button type="submit">Save</button>
+        </form>
+        </div>
+        </div>
+        </div>
+        <div class="box-group2">
+            
+            <div class="gamers">
+                <h1>Edit members</h1>
+                <tr th:each="user: ${members}" >
+                <div class = "gamers post" style="padding: 5px;">
+                    <form th:action="@{/removefromgroup/{id}/{uid}(id = ${group.groupID}, uid =  ${user.getUserID()})}" method="post">
+                        <button type="submit" style="width: 150px; "    class="joingroup">Remove</button>
+                      </form>
+                      <h3><span th:text="${user.profile.username}"></span></h3>
+                </div>
+
+               
+        </div>
+        <div class="gamers">
+            <h1>Add member</h1>
+        <div class="search">
+            <form action="#" th:action="@{/addmember/{id}(id=${group.groupID})}" method="post">
+                <div style="display: flex">
+                    <input type="text" placeholder="username" name="filter">
+                    <button type="submit" style="width: 150px; "    class="joingroup">Add User </button>
+                    
+                </div>
+                <div th:if="${errorUser}" style="color:red">
+                    <p th:text="${errorUser}"></p>
+                  </div>
+            </form>
+        </div>
+    </div>
+        
+    </div>
+    </div>
+    <footer>
+      <!--Copyright information-->
+      <br>
+      <p>&copy; 2023 All rights reserved</p>
+    </footer>
+
+</body>
+</html>
+
+
+
+
