@@ -191,13 +191,14 @@ public class UserController {
 
     
     //React Message
-    @PostMapping("reactMessage")
-    public void reactMessage(@RequestParam("message_id") int messageID)
+    @PostMapping("/reactMessage")
+    public String reactMessage(@RequestParam(value = "msg") int messageID, @RequestParam(value= "uid") int uid)
     {
         Message message = messageRepository.findByMessageID(messageID);
 
         message.setNumLikes(message.getLikes() + 1);
         messageRepository.save(message);
+        return "redirect:/messages/user/" + uid;
     }
 
 
