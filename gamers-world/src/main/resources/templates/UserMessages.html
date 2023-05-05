@@ -33,13 +33,21 @@
                 <div class="gamers post">
                     <h2><a href=""><span th:text="${message.sender.profile.username}"></span></a></h2>
                     <p class="tab"><span th:text="${message.message}"></span></p>
+                    <form action="#" th:action="@{/message/edit/${message.messageID}}" method="post">
+                        <input type="text" placeholder="Edit Message" name="message" id="editMessage" required>
+                        <button class="btn2" type="submit">Edit</button>
+                    </form>
+                    <form th:action="@{/message/delete/${message.messageID}}" method="post">
+                        <button class="btn2" type="submit">Delete</button>
+                    </form>
                 </div>
         </div>
         </tr>
         <form action="#" th:action="@{/message/send}" method="post">
             <input type="text" placeholder="Enter Message" name="message" id="message" required>
             <br>
-            <button class="btn2" type="submit" name="receiverID" th:id="receiverID" th:value="${gamer.getUserID()}">Send Message</button>
+            <button class="btn2" type="submit" name="receiverID" th:id="receiverID" th:value="${gamer.getUserID()}">Send
+                Message</button>
         </form>
     </div>
 

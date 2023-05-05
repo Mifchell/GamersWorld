@@ -20,8 +20,8 @@ import com.project.gamersworld.handlers.UserHandler;
 import com.project.gamersworld.models.User;
 import com.project.gamersworld.repo.GroupRepo;
 import com.project.gamersworld.repo.UserRepo;
+import com.project.gamersworld.repo.MessageRepo;
 import com.project.gamersworld.models.Game;
-
 
 @Controller
 public class MessageController {
@@ -36,33 +36,52 @@ public class MessageController {
     UserRepo uRepo;
     @Autowired
     GroupRepo gRepo;
+    @Autowired
+    MessageRepo mRepo;
 
     @GetMapping("/messages/user/{uid}")
-    public String viewMessages(Model model, HttpServletRequest request,@PathVariable("uid")int uid) {
+    public String viewMessages(Model model, HttpServletRequest request, @PathVariable("uid") int uid) {
         model.addAttribute("gamer", uRepo.findByUid(uid));
         model.addAttribute("user", userController.retrieveCurrentUser(request));
-        model.addAttribute("messages", uHandler.getConversation(userController.retrieveCurrentUser(request).getUserID(),uRepo.findByUid(uid).getUserID()));
+        model.addAttribute("messages", uHandler.getConversation(userController.retrieveCurrentUser(request).getUserID(),
+                uRepo.findByUid(uid).getUserID()));
         return "UserMessages";
     }
+
     @GetMapping("/messages/group/{gid}")
-    public String viewGroupMessages(Model model, HttpServletRequest request,@PathVariable("gid")int gid) {
-        model.addAttribute("group",gid);
-        model.addAttribute("messages",uHandler.getGroupConversation(userController.retrieveCurrentUser(request).getUserID(), gid));
+    public String viewGroupMessages(Model model, HttpServletRequest request, @PathVariable("gid") int gid) {
+        model.addAttribute("group", gid);
+        model.addAttribute("messages",
+                uHandler.getGroupConversation(userController.retrieveCurrentUser(request).getUserID(), gid));
         return "GroupMessages";
     }
 
     @PostMapping("/message/send")
-    public String sendUserMessage(HttpServletRequest request,@RequestParam(value = "message")String message,@RequestParam(value = "receiverID")int userID)
-    {
+    public String sendUserMessage(HttpServletRequest request, @RequestParam(value = "message") String message,
+            @RequestParam(value = "receiverID") int userID) {
         mHandler.sendMessage(userController.retrieveCurrentUser(request).getUserID(), userID, message);
-        return "redirect:/messages/user/"+ userID;
+        return "redirect:/messages/user/" + userID;
     }
 
-    
     @PostMapping("/message/group/send")
-    public String sendGroupMessage(HttpServletRequest request,@RequestParam(value = "message")String message,@RequestParam(value = "receiverID")int gid)
-    {
+    public String sendGroupMessage(HttpServletRequest request, @RequestParam(value = "message") String message,
+            @RequestParam(value = "receiverID") int gid) {
         mHandler.sendGroupMessage(userController.retrieveCurrentUser(request).getUserID(), gid, message);
-        return "redirect:/messages/group/"+ gid;
+        return "redirect:/messages/group/" + gid;
+    }
+
+    @PostMapping("/message/edit")
+    public String editMessage(HttpServletRequest request, @RequestParam(value = "message") String message,
+            @PathVariable("messageID") int messageID) {
+
+        mHandler.editMessage(messageID, message);
+        return "redirect:/messages/user/" + mRepo.findByMessageID(messageID).getSender().getUserID();
+    }
+
+    @PostMapping("/message/delete")
+    public String deleteMessage(HttpServletRequest request, @PathVariable("messageID") int messageID) {
+        int messSenderID = mRepo.findByMessageID(messageID).getSender().getUserID();
+        mHandler.deleteMessage(messageID);
+        return "redirect:/messages/user/" + messSenderID;
     }
 }

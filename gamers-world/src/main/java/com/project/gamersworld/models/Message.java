@@ -31,9 +31,11 @@ public class Message {
     String message;
     @Column(name = "groupID")
     int groupID;
-    @Column(name = "numOfLikes")
-    int numOfLikes = 0;
 
+    /*
+     * @Column(name = "numOfLikes")
+     * int numOfLikes = 0;
+     */
     public Message() {
         this.receivers = new ArrayList<User>();
         this.date = LocalDateTime.now().toString();
@@ -46,7 +48,7 @@ public class Message {
         this.date = m.getDate();
         this.message = m.getMessage();
         this.groupID = m.getGroupID();
-        this.numOfLikes = m.getLikes();
+        /* this.numOfLikes = m.getLikes(); */
 
     }
 
@@ -58,7 +60,7 @@ public class Message {
         this.message = message;
         this.date = LocalDateTime.now().toString();
         this.groupID = -1;
-        this.numOfLikes = 0;
+        /* this.numOfLikes = 0; */
 
     }
 
@@ -110,11 +112,13 @@ public class Message {
         this.groupID = groupID;
     }
 
-    public void setLikes(int numOfLikes) {
-        this.numOfLikes = numOfLikes;
-    }
-
-    public int getLikes() {
-        return numOfLikes;
-    }
+    /*
+     * public void setLikes(int numOfLikes) {
+     * this.numOfLikes = numOfLikes;
+     * }
+     * 
+     * public int getLikes() {
+     * return numOfLikes;
+     * }
+     */
 }
