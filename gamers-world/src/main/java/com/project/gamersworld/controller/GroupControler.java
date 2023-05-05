@@ -68,6 +68,13 @@ public class GroupControler {
         return "redirect:/profile";
     }
 
+    @PostMapping("/deletegroup/{id}")
+    public String deleteGroup(@PathVariable("id") String id, Model model, HttpServletRequest request) {
+        groupHandler.deleteGroup(Integer.parseInt(id));
+
+        return "redirect:/profile";
+    }
+
     @PostMapping("/editgroup/{id}")
     public String editGroup(@PathVariable int id, @RequestParam(value = "name") String name,
             @RequestParam(value = "desc") String description,

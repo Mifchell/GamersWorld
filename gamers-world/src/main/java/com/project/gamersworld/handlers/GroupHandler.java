@@ -115,7 +115,7 @@ public class GroupHandler {
 
     /*
      * @param the User joining
-     * 
+     *
      * @param the groupId of the group to join
      *
      */
@@ -148,9 +148,10 @@ public class GroupHandler {
      */
     public void deleteGroup(int groupID) {
         Group group = groupRepository.findByGroupID(groupID);
-
-        for (User member : group.getMembers()) {
+        List<User> groupMembers = group.getMembers();
+        for (User member : groupMembers) {
             member.getGroupList().remove(group);
+            groupMembers.remove(member);
             userRepository.save(member);
         }
 

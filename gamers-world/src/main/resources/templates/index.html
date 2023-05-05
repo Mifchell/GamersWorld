@@ -19,13 +19,10 @@
   <script src="/js/event.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 </head>
-
 <body>
   <a th:href="@{/index}">
     <div id="banner"></div>
   </a>
-
-
 
   <!--Navigation Menu-->
   <div class="nav">
@@ -86,22 +83,25 @@
       </div>
       </div>
 
-
       <!-- Gamers -->
       <div class="gamers">
         <h1><a th:href="@{/gamers}">Gamers</a></h1>
         <tr th:each="gamer, iterStat : ${gamers}" th:if="${iterStat.index} lt 3">
           <div class="gamers post">
-            <h2><a href=""><span th:text="${gamer.profile.username}"></span></a></h2>
-            <p class="tab"><span th:text="${gamer.profile.description}"></span></p>
-            <p>Games: </p>
-            <div th:each="game : ${gamer.profile.games}">
-              <p th:text="${game}"></p>
-            </div>
+            <h it2><a href=""><span th:text="${gamer.profile.username}"></span></a></h2>
+              <p class="tab"><span th:text="${gamer.profile.description}"></span></p>
+              <a th:href="@{/index/send/{id} (id = ${gamer.getUserID()})}"><button th:if="${!friends.contains(gamer) && !fRequest.contains(gamer) && !fSent.contains(gamer)}"
+                  style="width: 100px; height: 80px; margin-left: 10px;" class="joingroup">Add Friend</button></a>
+              <p>Games: </p>
+              <div th:each="game : ${gamer.profile.games}">
+                <p th:text="${game}"></p>
+              </div>
           </div>
+        </tr>
       </div>
       </tr>
     </div>
+
   </div>
 
   </div>

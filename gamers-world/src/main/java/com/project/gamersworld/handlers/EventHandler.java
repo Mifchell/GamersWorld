@@ -171,7 +171,8 @@ public class EventHandler {
     public boolean editEvent(int ID, String name, String date, String location, String description, String game,
             String playLevel) {
         // check if event name is unique
-        if ((eventRepo.findByEventName(name) != null) && (eventRepo.findByEventName(name).getEventId() != ID)) {
+        Event checkEvent = eventRepo.findByEventName(name);
+        if ((checkEvent != null) && (checkEvent.getEventId() != ID)) {
             return false;
         }
 

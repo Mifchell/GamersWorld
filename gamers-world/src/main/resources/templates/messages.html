@@ -4,6 +4,9 @@
 		<title>Messages</title>
         <meta charset="UTF-8">
 		<link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
+		<link rel="stylesheet" th:href="@{/css/event.css}" href="../css/event.css">
+		<link rel="stylesheet" th:href="@{/css/profile.css}" href="../css/profile.css">
+
 	</head>
 
 	<body>
@@ -19,13 +22,33 @@
               </div>
 		</header>
 
-        <div class = "container">
+        <div class = "messagescontainer">
+			
+	<div class="box-group3"> 		
+		<!-- Friends -->
+		<div class="gamers">
+			<h1><a th:href="@{/gamers}">Friends</a></h1>
+				<tr th:each="gamer, iterStat : ${gamers}" th:if="${iterStat.index} lt 100" >
+					<div class = "gamers post">
+					<h2><a th:href="@{/messages/user/{uid}(uid=${gamer.getUserID()})}"><span th:text="${gamer.profile.username}"></span></a></h2>
+					<a th:href="@{/user/block/{user} (user = ${gamer.getUserID()})}"><button style="width: 100px; margin-left: 10px;" class="joingroup">Block</button></a>
+					</div>
+				</tr>
+		</div>
 
-		<!-- put messages here -->
+		<!-- Groups -->
+		<div class="gamers">
+			<h1><a th:href="@{/gamers}">Groups</a></h1>
+			<tr th:each="group, iterStat : ${groups}" th:if="${iterStat.index} lt 100">
+			<div class = "gamers post">
+			<h2><a th:href="@{/messages/group/{gid}(gid=${group.groupID})}"><span th:text="${group.name}"></span></a></h2>
+			</div>
+		</div>
+		</tr>
+	</div>
+    </div>
 
-        </div>
 
-		<script src="js/index.js"></script>
 
 		<footer>
 			<!--Copyright information-->

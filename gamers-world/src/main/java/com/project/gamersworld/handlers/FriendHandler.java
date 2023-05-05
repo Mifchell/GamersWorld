@@ -2,6 +2,7 @@ package com.project.gamersworld.handlers;
 import com.project.gamersworld.models.*;
 import com.project.gamersworld.repo.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class FriendHandler {
         userList.add(ownerU);
         userU.setFriendList(userList);
         userRepo.save(userU);
+        userRepo.save(ownerU);
 
     }
     
@@ -60,7 +62,11 @@ public class FriendHandler {
         {
             userBlockedList.add(blockedU);
             userU.setBlockedUsers(userBlockedList);
-            userRepo.save(userU);   
+            userRepo.save(userU);
+            List<User> list = userU.getFriendList();
+            for(int i = 0; i < list.size();i++)
+                if(list.get(i).getUserID() == blocked)
+                    removeFriend(user, blocked);
         }
     }
 
@@ -76,15 +82,58 @@ public class FriendHandler {
 
     public void sendFriendRequest(int sender, int receiver)
     {
+        boolean check = true;
         User senderU = userRepo.findByUid(sender);
         User receiverU = userRepo.findByUid(receiver);
-
-        FriendRequest request = new FriendRequest(senderU, receiverU);
-        friendRequestRepo.save(request);
+        
+        List<User> blockedlist = receiverU.getBlockedUsers();
+        for(int i = 0; i < blockedlist.size();i++)
+            if(blockedlist.get(i).getUserID() == sender)
+                check = false;
+        
+        for(FriendRequest r: senderU.getreceivedFriendRequest())
+            if(r.getSender().getUserID() == receiver)
+            {
+                check = false;
+                friendRequestRepo.delete(r);
+                addFriend(sender, receiver);
+            }
+        if(check)
+        {
+            FriendRequest request = new FriendRequest(senderU, receiverU);
+            friendRequestRepo.save(request);
+        }
     }
     public void declineFriendRequest(FriendRequest request)
     {
         friendRequestRepo.delete(request);
     }
+    public void acceptFriendRequest(FriendRequest request)
+    {
+        addFriend(request.getSender().getUserID(), request.getReceiver().getUserID());
+        friendRequestRepo.delete(request);
+    }
+
+    public List<User> getRequestSentUsers(int uid)
+    {
+        List<FriendRequest> list = userRepo.findByUid(uid).getreceivedFriendRequest();
+        List<User> userList = new ArrayList<User>();
+
+        for(FriendRequest fr: list)
+            userList.add(fr.getSender());
+
+        return userList;
+    }
+    public List<User> getRequestReceivedUsers(int uid)
+    {
+        List<FriendRequest> list = userRepo.findByUid(uid).getSentFriendRequest();
+        List<User> userList = new ArrayList<User>();
+
+        for(FriendRequest fr: list)
+            userList.add(fr.getReceiver());
+
+        return userList;
+    }
+ 
  
 }
