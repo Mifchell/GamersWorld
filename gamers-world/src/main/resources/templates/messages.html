@@ -32,6 +32,7 @@
 					<div class = "gamers post">
 					<h2><a th:href="@{/messages/user/{uid}(uid=${gamer.getUserID()})}"><span th:text="${gamer.profile.username}"></span></a></h2>
 					<a th:href="@{/user/block/{user} (user = ${gamer.getUserID()})}"><button style="width: 100px; margin-left: 10px;" class="joingroup">Block</button></a>
+					<a th:href="@{/user/remove/{user} (user = ${gamer.getUserID()})}"><button style="width: 100px; margin-left: 10px;" class="joingroup">Remove Friend</button></a>
 					</div>
 				</tr>
 		</div>
