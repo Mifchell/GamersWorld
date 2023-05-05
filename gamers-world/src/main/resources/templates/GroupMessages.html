@@ -39,7 +39,7 @@
         <form action="#" th:action="@{/message/group/send}" method="post">
             <input type="text" placeholder="Enter Message" name="message" id="message" required>
             <br>
-            <button class="btn2" type="submit" name="receiverID" th:id="receiverID" th:value="${gamer.getUserID()}">Send Message</button>
+            <button class="btn2" type="submit" name="receiverID" th:id="receiverID" th:value="${group}">Send Message</button>
         </form>
     </div>
 

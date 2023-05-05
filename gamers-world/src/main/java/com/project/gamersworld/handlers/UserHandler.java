@@ -181,6 +181,13 @@ public class UserHandler {
             if(m.getGroupID() == groupID)
                 messageList.add(m);
         
+        Comparator<Message> comp = new Comparator<Message>(){
+            public int compare(Message m1, Message m2)
+            {
+                return m1.getDate().compareTo(m2.getDate());
+            }
+        };
+        Collections.sort(messageList, comp);
         return messageList;
     }
 

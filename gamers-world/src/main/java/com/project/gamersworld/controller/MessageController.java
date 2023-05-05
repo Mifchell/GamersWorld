@@ -46,8 +46,7 @@ public class MessageController {
     }
     @GetMapping("/messages/group/{gid}")
     public String viewGroupMessages(Model model, HttpServletRequest request,@PathVariable("gid")int gid) {
-        model.addAttribute("gamer", userController.retrieveCurrentUser(request));
-        model.addAttribute("group", gRepo.findByGroupID(gid));
+        model.addAttribute("group",gid);
         model.addAttribute("messages",uHandler.getGroupConversation(userController.retrieveCurrentUser(request).getUserID(), gid));
         return "GroupMessages";
     }

@@ -20,6 +20,7 @@ public class Group {
     String description;
 
     public Group() {
+        this.members = new ArrayList<User>();
 
     }
 

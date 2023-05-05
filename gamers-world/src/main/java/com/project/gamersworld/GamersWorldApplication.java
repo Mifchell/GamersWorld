@@ -4,6 +4,7 @@ import com.project.gamersworld.handlers.FriendHandler;
 import com.project.gamersworld.handlers.GroupHandler;
 import com.project.gamersworld.handlers.MessageHandler;
 import com.project.gamersworld.models.FriendRequest;
+import com.project.gamersworld.models.Group;
 import com.project.gamersworld.models.Message;
 
 import com.project.gamersworld.models.User;
@@ -26,6 +27,5 @@ public class GamersWorldApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		
 	}
 }
