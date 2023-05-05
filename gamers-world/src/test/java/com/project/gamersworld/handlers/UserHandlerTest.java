@@ -70,23 +70,23 @@ public class UserHandlerTest {
     }
 
     @Test
-    void testSearchUserNoFilter() {
+    void testUserSearchNoFilter() {
         when(mockUserRepository.findAll()).thenReturn(userList);
 
-        List<User> users = userHandler.userSearch(new String[0]);
+        List<User> users = userHandler.userSearch("");
         //users.add(new User( new Profile("user5", "1234", "", "", "")));
 
         assertThat(users).containsExactlyInAnyOrderElementsOf(userList);
     }
 
     @Test
-    void testSearchUserFilterUserName() {
+    void testUserSearchFilterUserName() {
         filter = "user2";
         when(mockUserRepository.findAll()).thenReturn(userList);
         when(mockUserRepository.findByProfileDescriptionContains(filter))
-                .thenReturn(new ArrayList<>(Arrays.asList(user2)));
+                .thenReturn(new ArrayList<>(Arrays.asList()));
         when(mockUserRepository.findByProfilePreferredTimeContains(filter))
-                .thenReturn(new ArrayList<>(Arrays.asList(user2)));
+                .thenReturn(new ArrayList<>(Arrays.asList()));
         when(mockUserRepository.findByProfileUsernameContains(filter))
                 .thenReturn(new ArrayList<>(Arrays.asList(user2)));
 
@@ -97,19 +97,36 @@ public class UserHandlerTest {
     }
 
     @Test
-    void testSearchUserFilterPrefferedTime() {
+    void testUserSearchFilterPrefferedTime() {
         filter = "10:30PM";
         when(mockUserRepository.findAll()).thenReturn(userList);
         when(mockUserRepository.findByProfileDescriptionContains(filter))
-                .thenReturn(new ArrayList<>(Arrays.asList(user1, user4)));
+                .thenReturn(new ArrayList<>());
         when(mockUserRepository.findByProfilePreferredTimeContains(filter))
                 .thenReturn(new ArrayList<>(Arrays.asList(user1, user4)));
         when(mockUserRepository.findByProfileUsernameContains(filter))
-                .thenReturn(new ArrayList<>(Arrays.asList(user1, user4)));
+                .thenReturn(new ArrayList<>());
 
         List<User> users = userHandler.userSearch(filter);
         expected.add(user1);
         expected.add(user4);
+
+        assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @Test
+    void testUserSearchFilterDescription() {
+        filter = "minecraft";
+        when(mockUserRepository.findAll()).thenReturn(userList);
+        when(mockUserRepository.findByProfileDescriptionContains(filter))
+                .thenReturn(new ArrayList<>(Arrays.asList(user1)));
+        when(mockUserRepository.findByProfilePreferredTimeContains(filter))
+                .thenReturn(new ArrayList<>());
+        when(mockUserRepository.findByProfileUsernameContains(filter))
+                .thenReturn(new ArrayList<>());
+
+        List<User> users = userHandler.userSearch(filter);
+        expected.add(user1);
 
         assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
     }
@@ -131,94 +148,19 @@ public class UserHandlerTest {
     }
 
     @Test
-    void testSearchUserFilterNull() {
-        when(mockUserRepository.findAll()).thenReturn(userList);
-
-        List<User> users = userHandler.userSearch(new String[] { null });
-
-        assertThat(users).containsExactlyInAnyOrderElementsOf(userList);
-    }
-
-    @Test
-    void testSearchUserFilterEmpty() {
-        when(mockUserRepository.findAll()).thenReturn(userList);
-
-        List<User> users = userHandler.userSearch(new String[] { "" });
-
-        assertThat(users).containsExactlyInAnyOrderElementsOf(userList);
-    }
-
-    @Test
     void testSearchUserFilterSpaces() {
+        String filter = " ";
         when(mockUserRepository.findAll()).thenReturn(userList);
+        when(mockUserRepository.findByProfileDescriptionContains(filter))
+                .thenReturn(new ArrayList<>());
+        when(mockUserRepository.findByProfilePreferredTimeContains(filter))
+                .thenReturn(new ArrayList<>());
+        when(mockUserRepository.findByProfileUsernameContains(filter))
+                .thenReturn(new ArrayList<>());
 
-        List<User> users = userHandler.userSearch( new String[] { " " });
+        List<User> users = userHandler.userSearch(filter);
 
         assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
     }
 
-    @Test
-    void testSearchUserFilterMultiple() {
-        when(mockUserRepository.findAll()).thenReturn(userList);
-
-        List<User> users = userHandler.userSearch(new String[] { "user1", "user2" });
-        expected.add(user1);
-        expected.add(user2);
-
-        assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
-    }
-
-    @Test
-    void testSearchUserFilterMultipleNoMatch() {
-        when(mockUserRepository.findAll()).thenReturn(userList);
-
-        List<User> users = userHandler.userSearch(new String[] { "user1", "user5" });
-
-        assertEquals(users, userList);
-    }
-
-    @Test
-    void testSearchUserFilterMultipleNull() {
-        when(mockUserRepository.findAll()).thenReturn(userList);
-
-        List<User> users = userHandler.userSearch(new String[] { null, null });
-
-        assertEquals(users, userList);
-    }
-
-    @Test
-    void testSearchUserFilterMultipleEmpty() {
-        when(mockUserRepository.findAll()).thenReturn(userList);
-
-        List<User> users = userHandler.userSearch(new String[] { "", "" });
-
-        assertEquals(users, userList);
-    }
-
-    @Test
-    void testSearchUserFilterMultipleSpaces() {
-        when(mockUserRepository.findAll()).thenReturn(userList);
-
-        List<User> users = userHandler.userSearch(new String[] { " ", " " });
-
-        assertEquals(expected, users);
-    }
-
-    @Test
-    void testSearchUserFilterMultipleSpacesAndNull() {
-        when(mockUserRepository.findAll()).thenReturn(userList);
-
-        List<User> users = userHandler.userSearch(new String[] { " ", null });
-
-        assertEquals(expected, users);
-    }
-
-    @Test
-    void testSearchUserFilterMultipleSpacesAndEmpty() {
-        when(mockUserRepository.findAll()).thenReturn(userList);
-
-        List<User> users = userHandler.userSearch(new String[] { " ", "" });
-
-        assertEquals(expected, users);
-    }
 }
