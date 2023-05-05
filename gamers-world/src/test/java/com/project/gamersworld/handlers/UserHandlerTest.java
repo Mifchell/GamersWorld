@@ -156,11 +156,11 @@ public class UserHandlerTest {
 
     @Test
     void testEditProfileExistingEmail(){
-        user1.getProfile().setEmail("email1");
-        when(mockUserRepository.findByProfileEmailAddress("email1")).thenReturn(user1);
+        user1.getProfile().setEmail("user1");
+        when(mockUserRepository.findByProfileEmailAddress("user1")).thenReturn(user1);
 
-        emailGood = userHandler.editProfile(user1, "user1", "", "", new ArrayList<Game>(), "email1", "");
-        assertFalse(emailGood);
+        usernameGood = userHandler.editProfile(user1, "user1", "", "", new ArrayList<Game>(), "email1", "");
+        assertFalse(usernameGood);
 
     }
 

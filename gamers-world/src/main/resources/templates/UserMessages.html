@@ -8,6 +8,15 @@
     <link rel="stylesheet" th:href="@{/css/event.css}" href="../css/event.css">
     <link rel="stylesheet" th:href="@{/css/profile.css}" href="../css/profile.css">
     <link rel="stylesheet" th:href="@{/css/form.css}" href="../css/form.css">
+    <style>
+        .like {
+          padding: 10px 10px;
+          width: 100px;
+          height: 40px;
+          float: right;
+          text-align: center;
+        }
+      </style>
 </head>
 
 <body>
@@ -33,6 +42,11 @@
                 <div class="gamers post">
                     <h2><a href=""><span th:text="${message.sender.profile.username}"></span></a></h2>
                     <p class="tab"><span th:text="${message.message}"></span></p>
+                    <form th:action="@{/reactMessage}" method="post">
+                        <button type="submit" class="like">Like</button>
+                        <input type="hidden" name="msg" id="msg" th:value="${message.messageID}"></input>
+                        <input type="hidden" name="uid" id="uid" th:value="${gamer.getUserID()}"></input>
+                    </form>
                 </div>
         </div>
         </tr>
