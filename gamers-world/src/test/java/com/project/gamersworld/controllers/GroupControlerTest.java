@@ -121,7 +121,6 @@ public class GroupControlerTest {
 
     @Test
     void testAddMember_badRequest() {
-        User user = new User();
 
         when(mockUserHandler.getUserRepo()).thenReturn(mockUserRepo);
         when(mockUserRepo.findByProfileUsername("")).thenReturn(null);

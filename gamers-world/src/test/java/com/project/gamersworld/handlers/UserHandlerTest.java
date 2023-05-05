@@ -1,32 +1,21 @@
 package com.project.gamersworld.handlers;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.description;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.aspectj.lang.annotation.Before;
-import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import com.project.gamersworld.models.Event;
 import com.project.gamersworld.models.Game;
-import com.project.gamersworld.models.PlayLevel;
 import com.project.gamersworld.models.Profile;
 import com.project.gamersworld.models.User;
-import com.project.gamersworld.repo.EventRepo;
 import com.project.gamersworld.repo.UserRepo;
 
 public class UserHandlerTest {
@@ -40,7 +29,6 @@ public class UserHandlerTest {
     private User user1;
     private User user2;
     private boolean usernameGood;
-    private boolean emailGood;
 
     @BeforeEach
     void setUp() {
