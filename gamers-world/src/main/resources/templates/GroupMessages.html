@@ -1,16 +1,55 @@
-<div class="box-group">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Messages</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css">
+    <link rel="stylesheet" th:href="@{/css/event.css}" href="../css/event.css">
+    <link rel="stylesheet" th:href="@{/css/profile.css}" href="../css/profile.css">
+    <link rel="stylesheet" th:href="@{/css/form.css}" href="../css/form.css">
+</head>
+
+<body>
+    <a th:href="@{/index}">
+        <div id="banner"></div>
+    </a>
+    <header>
+        <div class="nav">
+            <a th:href="@{/index}">Home</a>
+            <a th:href="@{/messages}">Messages</a>
+            <a th:href="@{/profile}">Profile</a>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit"> Logout</button>
+            </form>
+        </div>
+    </header>
+
     <!-- Messages -->
-  <div class="gamers">
-    <h1><a th:href="@{/gamers}">Messages</a></h1>
-    <tr th:each="gamer, iterStat : ${gamers}" th:if="${iterStat.index} lt 3">
-    <div class = "gamers post">
-      <h2><a href=""><span th:text="${gamer.profile.username}"></span></a></h2>
-      <p class="tab"><span th:text="${gamer.profile.description}"></span></p>
-      <p>Games: </p>
-      <div th:each="game : ${gamer.profile.games}">
-        <p th:text="${game}"></p>
-      </div>
+    <div class="box-group3">
+        <div class="gamers">
+            <h1><a th:href="@{/gamers}">Messages</a></h1>
+            <tr th:each="message, iterStat : ${messages}" th:if="${iterStat.index} lt 100">
+                <div class="gamers post">
+                    <h2><a href=""><span th:text="${message.sender.profile.username}"></span></a></h2>
+                    <p class="tab"><span th:text="${message.message}"></span></p>
+                </div>
+        </div>
+        </tr>
+        <form action="#" th:action="@{/message/group/send}" method="post">
+            <input type="text" placeholder="Enter Message" name="message" id="message" required>
+            <br>
+            <button class="btn2" type="submit" name="receiverID" th:id="receiverID" th:value="${gamer.getUserID()}">Send Message</button>
+        </form>
     </div>
-  </div>
-</tr>
-</div>
+
+    <!-- END--Messages -->
+    <footer>
+        <!--Copyright information-->
+        <br>
+        <p class="whitetext">&copy; 2023 All rights reserved</p>
+    </footer>
+
+</body>
+
+</html>

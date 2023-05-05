@@ -38,9 +38,9 @@
 		<!-- Groups -->
 		<div class="gamers">
 			<h1><a th:href="@{/gamers}">Groups</a></h1>
-			<tr th:each="group, iterStat : ${groups}" th:if="${iterStat.index}">
+			<tr th:each="group, iterStat : ${groups}" th:if="${iterStat.index} lt 100">
 			<div class = "gamers post">
-			<h2><a th:href="@{/messages/group/{gid}(gid=${group.group})}"><span th:text="${group.name}"></span></a></h2>
+			<h2><a th:href="@{/messages/group/{gid}(gid=${group.groupID})}"><span th:text="${group.name}"></span></a></h2>
 			</div>
 		</div>
 		</tr>

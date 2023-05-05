@@ -1,6 +1,8 @@
 package com.project.gamersworld.handlers;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,10 +157,31 @@ public class UserHandler {
                 finalMessages.add(m);
 
         //sort here
-        
+        Comparator<Message> comp = new Comparator<Message>(){
+            public int compare(Message m1, Message m2)
+            {
+                return m1.getDate().compareTo(m2.getDate());
+            }
+        };
+        Collections.sort(finalMessages, comp);
         //end sort
 
         return finalMessages;
+    }
+
+    public List<Message> getGroupConversation(int UID, int groupID)
+    {
+        User user = userRepo.findByUid(UID);
+        List<Message> messageList = new ArrayList<Message>();
+
+        for(Message m: user.getSentMessages())
+            if(m.getGroupID() == groupID)
+                messageList.add(m);
+        for(Message m: user.getReceivedMessages())
+            if(m.getGroupID() == groupID)
+                messageList.add(m);
+        
+        return messageList;
     }
 
     public UserRepo getUserRepo() {

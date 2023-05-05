@@ -46,7 +46,9 @@ public class MessageController {
     }
     @GetMapping("/messages/group/{gid}")
     public String viewGroupMessages(Model model, HttpServletRequest request,@PathVariable("gid")int gid) {
-        model.addAttribute("gamer", gRepo.findByGroupID(gid));
+        model.addAttribute("gamer", userController.retrieveCurrentUser(request));
+        model.addAttribute("group", gRepo.findByGroupID(gid));
+        model.addAttribute("messages",uHandler.getGroupConversation(userController.retrieveCurrentUser(request).getUserID(), gid));
         return "GroupMessages";
     }
 
@@ -57,4 +59,11 @@ public class MessageController {
         return "redirect:/messages/user/"+ userID;
     }
 
+    
+    @PostMapping("/message/group/send")
+    public String sendGroupMessage(HttpServletRequest request,@RequestParam(value = "message")String message,@RequestParam(value = "receiverID")int gid)
+    {
+        mHandler.sendGroupMessage(userController.retrieveCurrentUser(request).getUserID(), gid, message);
+        return "redirect:/messages/group/"+ gid;
+    }
 }
