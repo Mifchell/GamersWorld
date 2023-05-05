@@ -167,8 +167,8 @@ public class UserController {
         return "editprofile";
     }
 
-    // React Message
-    @PostMapping("/react_message")
+    // // React Message
+    // @PostMapping("/react_message")
 
     // create profile
     @GetMapping("/createprofile")
