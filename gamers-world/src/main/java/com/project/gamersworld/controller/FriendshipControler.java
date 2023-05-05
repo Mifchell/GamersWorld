@@ -57,4 +57,11 @@ public class FriendshipControler {
         fHandler.blockUser(uController.retrieveCurrentUser(request).getUserID(), user);
         return "redirect:/messages";
     }
+    @GetMapping("/user/remove/{user}")
+    public String removeFriend(Model model, HttpServletRequest request,@PathVariable("user")int user)
+    {
+        fHandler.removeFriend(uController.retrieveCurrentUser(request).getUserID(), user);
+        return "redirect:/messages";
+    }
+
 }
