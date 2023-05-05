@@ -25,13 +25,14 @@ public class GamersWorldApplication implements CommandLineRunner {
 	FriendHandler handler;
 	@Autowired
 	FriendRequestRepo frRepo;
+	@Autowired
+	UserRepo uRepo;
 	public static void main(String[] args) {
 		SpringApplication.run(GamersWorldApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) {
-		handler.sendFriendRequest(16, 1);
-	
+
 	}
 }

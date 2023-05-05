@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.gamersworld.handlers.EventHandler;
+import com.project.gamersworld.handlers.FriendHandler;
 import com.project.gamersworld.handlers.GroupHandler;
 import com.project.gamersworld.handlers.UserHandler;
 import com.project.gamersworld.models.User;
@@ -30,6 +31,8 @@ public class UserController {
 
     @Autowired
     GroupHandler groupHandler;
+    @Autowired
+    FriendHandler friendHandler;
 
     // show pages
     @GetMapping("/index")
@@ -38,6 +41,10 @@ public class UserController {
         model.addAttribute("groups", groupHandler.groupSearch("", retrieveCurrentUser(request)));
         model.addAttribute("gamers", userHandler.recommendGamer(retrieveCurrentUser(request).getUserID()));
         model.addAttribute("user", retrieveCurrentUser(request));
+        model.addAttribute("friends", retrieveCurrentUser(request).getFriendList());
+        model.addAttribute("fRequest", friendHandler.getRequestSentUsers(retrieveCurrentUser(request).getUserID()));
+        model.addAttribute("fSent", friendHandler.getRequestReceivedUsers(retrieveCurrentUser(request).getUserID()));
+
 
         return "index";
     }

@@ -2,6 +2,7 @@ package com.project.gamersworld.handlers;
 import com.project.gamersworld.models.*;
 import com.project.gamersworld.repo.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,5 +104,27 @@ public class FriendHandler {
         addFriend(request.getSender().getUserID(), request.getReceiver().getUserID());
         friendRequestRepo.delete(request);
     }
+
+    public List<User> getRequestSentUsers(int uid)
+    {
+        List<FriendRequest> list = userRepo.findByUid(uid).getreceivedFriendRequest();
+        List<User> userList = new ArrayList<User>();
+
+        for(FriendRequest fr: list)
+            userList.add(fr.getSender());
+
+        return userList;
+    }
+    public List<User> getRequestReceivedUsers(int uid)
+    {
+        List<FriendRequest> list = userRepo.findByUid(uid).getSentFriendRequest();
+        List<User> userList = new ArrayList<User>();
+
+        for(FriendRequest fr: list)
+            userList.add(fr.getReceiver());
+
+        return userList;
+    }
+ 
  
 }

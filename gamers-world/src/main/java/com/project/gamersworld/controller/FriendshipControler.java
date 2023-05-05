@@ -29,6 +29,8 @@ public class FriendshipControler {
     FriendRequestRepo fRReop;
     @Autowired
     FriendHandler fHandler;
+    @Autowired
+    UserController uController;
     @GetMapping("/user/accept/{request}")
     public String acceptFriend(Model model, HttpServletRequest request,@PathVariable("request")int fRequest)
     {
@@ -44,5 +46,12 @@ public class FriendshipControler {
         FriendRequest theRequest = fRReop.findByRequestID(fRequest);
         fHandler.declineFriendRequest(theRequest);
         return "redirect:/profile";
+    }
+
+    @GetMapping("/index/send/{id}")
+    public String sendFriendRequest(Model model, HttpServletRequest request,@PathVariable("id")int id)
+    {
+        fHandler.sendFriendRequest(uController.retrieveCurrentUser(request).getUserID(), id);
+        return "redirect:/index";
     }
 }
