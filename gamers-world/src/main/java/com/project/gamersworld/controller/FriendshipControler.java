@@ -54,4 +54,18 @@ public class FriendshipControler {
         fHandler.sendFriendRequest(uController.retrieveCurrentUser(request).getUserID(), id);
         return "redirect:/index";
     }
+    
+    @GetMapping("/user/unblock/{user}")
+    public String unblockUser(Model model, HttpServletRequest request,@PathVariable("user")int user)
+    {
+        fHandler.unblockUser(uController.retrieveCurrentUser(request).getUserID(), user);
+        return "redirect:/profile";
+    }
+
+    @GetMapping("/user/block/{user}")
+    public String blockUser(Model model, HttpServletRequest request,@PathVariable("user")int user)
+    {
+        fHandler.blockUser(uController.retrieveCurrentUser(request).getUserID(), user);
+        return "redirect:/messages";
+    }
 }

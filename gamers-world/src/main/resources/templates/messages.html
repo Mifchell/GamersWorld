@@ -27,10 +27,11 @@
 	<div class="box-group3"> 		
 		<!-- Friends -->
 		<div class="gamers">
-			<h1><a th:href="@{/gamers}">Gamers</a></h1>
+			<h1><a th:href="@{/gamers}">Friends</a></h1>
 				<tr th:each="gamer, iterStat : ${gamers}" th:if="${iterStat.index} lt 100" >
 					<div class = "gamers post">
 					<h2><a th:href="@{/messages/user/{uid}(uid=${gamer.getUserID()})}"><span th:text="${gamer.profile.username}"></span></a></h2>
+					<a th:href="@{/user/block/{user} (user = ${gamer.getUserID()})}"><button style="width: 100px; margin-left: 10px;" class="joingroup">Block</button></a>
 					</div>
 				</tr>
 		</div>

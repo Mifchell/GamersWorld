@@ -75,6 +75,7 @@ public class UserController {
         model.addAttribute("requests", retrieveCurrentUser(request).getreceivedFriendRequest());
         model.addAttribute("groupOwned", groupHandler.groupOwned(retrieveCurrentUser(request)));
         model.addAttribute("eventOwned", eventHandler.eventOwned(retrieveCurrentUser(request)));
+        model.addAttribute("blocked", retrieveCurrentUser(request).getBlockedUsers());
         return "profile";
     }
 

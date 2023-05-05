@@ -62,7 +62,11 @@ public class FriendHandler {
         {
             userBlockedList.add(blockedU);
             userU.setBlockedUsers(userBlockedList);
-            userRepo.save(userU);   
+            userRepo.save(userU);
+            List<User> list = userU.getFriendList();
+            for(int i = 0; i < list.size();i++)
+                if(list.get(i).getUserID() == blocked)
+                    removeFriend(user, blocked);
         }
     }
 
@@ -81,7 +85,12 @@ public class FriendHandler {
         boolean check = true;
         User senderU = userRepo.findByUid(sender);
         User receiverU = userRepo.findByUid(receiver);
-
+        
+        List<User> blockedlist = receiverU.getBlockedUsers();
+        for(int i = 0; i < blockedlist.size();i++)
+            if(blockedlist.get(i).getUserID() == sender)
+                check = false;
+        
         for(FriendRequest r: senderU.getreceivedFriendRequest())
             if(r.getSender().getUserID() == receiver)
             {
