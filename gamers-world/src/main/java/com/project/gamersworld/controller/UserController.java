@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.gamersworld.handlers.EventHandler;
+import com.project.gamersworld.handlers.FriendHandler;
 import com.project.gamersworld.handlers.GroupHandler;
 import com.project.gamersworld.handlers.UserHandler;
 import com.project.gamersworld.models.User;
@@ -29,6 +31,8 @@ public class UserController {
 
     @Autowired
     GroupHandler groupHandler;
+    @Autowired
+    FriendHandler friendHandler;
 
     // show pages
     @GetMapping("/index")
@@ -37,6 +41,10 @@ public class UserController {
         model.addAttribute("groups", groupHandler.groupSearch("", retrieveCurrentUser(request)));
         model.addAttribute("gamers", userHandler.recommendGamer(retrieveCurrentUser(request).getUserID()));
         model.addAttribute("user", retrieveCurrentUser(request));
+        model.addAttribute("friends", retrieveCurrentUser(request).getFriendList());
+        model.addAttribute("fRequest", friendHandler.getRequestSentUsers(retrieveCurrentUser(request).getUserID()));
+        model.addAttribute("fSent", friendHandler.getRequestReceivedUsers(retrieveCurrentUser(request).getUserID()));
+
 
         return "index";
     }
@@ -54,6 +62,8 @@ public class UserController {
 
     @GetMapping("/messages")
     public String viewMessages(Model model, HttpServletRequest request) {
+        model.addAttribute("gamers", retrieveCurrentUser(request).getFriendList());
+        model.addAttribute("groups", retrieveCurrentUser(request).getGroupList());
         return "messages";
     }
 
@@ -62,6 +72,7 @@ public class UserController {
         model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
         model.addAttribute("mygroups", groupHandler.myGroups(retrieveCurrentUser(request)));
         model.addAttribute("events", eventHandler.myEvents(retrieveCurrentUser(request)));
+        model.addAttribute("requests", retrieveCurrentUser(request).getreceivedFriendRequest());
         model.addAttribute("groupOwned", groupHandler.groupOwned(retrieveCurrentUser(request)));
         model.addAttribute("eventOwned", eventHandler.eventOwned(retrieveCurrentUser(request)));
         return "profile";
