@@ -35,7 +35,8 @@ public class User {
     @Fetch(value = FetchMode.SELECT)
     public List<User> blockedUsers;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @Fetch(value = FetchMode.SELECT)
     @JoinTable(name = "group_registration", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns = {
             @JoinColumn(name = "groupID") })
     public List<Group> groupList;
@@ -54,7 +55,7 @@ public class User {
     @OneToMany(mappedBy = "requestReceiver", cascade = CascadeType.ALL)
     private List<FriendRequest> receivedFriendRequest;
 
-    @OneToMany(mappedBy = "requestSender",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "requestSender", cascade = CascadeType.ALL)
     private List<FriendRequest> sentFriendRequest;
 
     public User() {
@@ -130,7 +131,7 @@ public class User {
     public List<User> getBlockedUsers() {
         return this.blockedUsers;
     }
-    
+
     public void setBlockedUsers(List<User> blockedUsers) {
         this.blockedUsers = blockedUsers;
     }
@@ -168,9 +169,11 @@ public class User {
     public boolean equals(Object obj) {
         return this.uid == ((User) obj).uid;
     }
+
     public List<FriendRequest> getSentFriendRequest() {
         return sentFriendRequest;
     }
+
     public void setSentFriendRequest(List<FriendRequest> sentFriendRequest) {
         this.sentFriendRequest = sentFriendRequest;
     }
