@@ -65,6 +65,7 @@ public class UserController {
         model.addAttribute("profile", retrieveCurrentUser(request).getProfile());
         model.addAttribute("mygroups", groupHandler.myGroups(retrieveCurrentUser(request)));
         model.addAttribute("events", eventHandler.myEvents(retrieveCurrentUser(request)));
+        model.addAttribute("requests", retrieveCurrentUser(request).getreceivedFriendRequest());
         return "profile";
     }
 

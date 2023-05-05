@@ -20,7 +20,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class GamersWorldApplication implements CommandLineRunner {
 	@Autowired
-	MessageHandler handler;
+	FriendHandler handler;
 
 	@Autowired
 	MessageRepo mRepo;
@@ -33,6 +33,6 @@ public class GamersWorldApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-	
+		handler.sendFriendRequest(13, 16);
 	}
 }
