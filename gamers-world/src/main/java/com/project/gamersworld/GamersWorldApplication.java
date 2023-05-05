@@ -1,19 +1,5 @@
 package com.project.gamersworld;
 
-import com.project.gamersworld.handlers.FriendHandler;
-import com.project.gamersworld.handlers.GroupHandler;
-import com.project.gamersworld.handlers.MessageHandler;
-import com.project.gamersworld.models.FriendRequest;
-import com.project.gamersworld.models.Group;
-import com.project.gamersworld.models.Message;
-
-import com.project.gamersworld.models.User;
-import com.project.gamersworld.repo.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

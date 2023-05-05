@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 
-import com.project.gamersworld.models.FriendRequest;
 import com.project.gamersworld.models.Game;
 import com.project.gamersworld.models.Profile;
 import com.project.gamersworld.models.Message;

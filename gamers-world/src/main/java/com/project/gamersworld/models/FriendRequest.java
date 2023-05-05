@@ -1,11 +1,6 @@
 package com.project.gamersworld.models;
 
-import java.util.*;
-
 import javax.persistence.*;
-
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name = "friend_request")
