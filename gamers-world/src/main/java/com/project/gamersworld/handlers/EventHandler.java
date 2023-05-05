@@ -100,6 +100,16 @@ public class EventHandler {
         return myevents;
     }
 
+    public List<Event> eventOwned(User user) {
+        List<Event> myevents = new ArrayList<Event>();
+        for (Event event : myEvents(user)) {
+            if (event.getAttendeeList().get(0).getUserID() == user.getUserID()) {
+                myevents.add(event);
+            }
+        }
+        return myevents;
+    }
+
     /*
      * do a filter search on the repositary
      */
@@ -161,7 +171,7 @@ public class EventHandler {
     public boolean editEvent(int ID, String name, String date, String location, String description, String game,
             String playLevel) {
         // check if event name is unique
-        if (eventRepo.findByEventName(name) != eventRepo.findByEventId(ID)) {
+        if ((eventRepo.findByEventName(name) != null) && (eventRepo.findByEventName(name).getEventId() != ID)) {
             return false;
         }
 

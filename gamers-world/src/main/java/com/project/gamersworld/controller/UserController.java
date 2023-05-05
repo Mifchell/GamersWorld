@@ -63,6 +63,7 @@ public class UserController {
         model.addAttribute("mygroups", groupHandler.myGroups(retrieveCurrentUser(request)));
         model.addAttribute("events", eventHandler.myEvents(retrieveCurrentUser(request)));
         model.addAttribute("groupOwned", groupHandler.groupOwned(retrieveCurrentUser(request)));
+        model.addAttribute("eventOwned", eventHandler.eventOwned(retrieveCurrentUser(request)));
         return "profile";
     }
 
