@@ -196,7 +196,7 @@ public class UserController {
     {
         Message message = messageRepository.findByMessageID(messageID);
 
-        message.setNumLikes(message.getNumLikes() + 1);
+        message.setNumLikes(message.getLikes() + 1);
         messageRepository.save(message);
     }
 
