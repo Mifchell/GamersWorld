@@ -1,9 +1,5 @@
 package com.project.gamersworld.handlers;
 
-import com.project.gamersworld.models.*;
-
-import com.project.gamersworld.repo.*;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +8,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.project.gamersworld.models.Group;
+import com.project.gamersworld.models.User;
+import com.project.gamersworld.repo.GroupRepo;
+import com.project.gamersworld.repo.UserRepo;
 
 @Service
 public class GroupHandler {
@@ -64,6 +65,16 @@ public class GroupHandler {
         return mygroups;
     }
 
+    public List<Group> groupOwned(User user) {
+        List<Group> groupOwned = new ArrayList<Group>();
+        for (Group group : myGroups(user)) {
+            if (group.getCreatorID() == user.getUserID()) {
+                groupOwned.add(group);
+            }
+        }
+        return groupOwned;
+    }
+
     public boolean createGroup(String name, String description, User user) {
 
         User creator = new User(user);
@@ -83,18 +94,23 @@ public class GroupHandler {
         creator.setGroupList(groupList);
 
         groupRepository.save(group);
-        userRepository.save(creator);
 
         return true;
 
     }
 
-    /*
-     * @param the User to remove
-     * Remove the given User from the member List
-     */
-    public boolean removeMember() {
-        return false;
+    public Group editGroup(int groupId, String name, String description) {
+
+        if (groupRepository.findByName(name) != null && groupRepository.findByGroupID(groupId).getName() != name) {
+            return null;
+        }
+
+        Group group = new Group(groupRepository.findByGroupID(groupId));
+        group.setName(name);
+        group.setDescription(description);
+
+        groupRepository.save(group);
+        return group;
     }
 
     /*
@@ -165,12 +181,6 @@ public class GroupHandler {
         userRepository.save(user);
         groupRepository.save(group);
 
-        for (Group groups : user.groupList) {
-            System.out.println(groups);
-        }
-        for (User users : memberList) {
-            System.out.println(users);
-        }
         return user;
 
     }

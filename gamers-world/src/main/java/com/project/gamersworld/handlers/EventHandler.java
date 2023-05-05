@@ -30,7 +30,7 @@ public class EventHandler {
     }
 
     public EventHandler(EventRepo eventRepository, UserRepo userRepo) {
-        this.eventRepo  = eventRepository;
+        this.eventRepo = eventRepository;
         this.userRepo = userRepo;
     }
 
@@ -52,42 +52,38 @@ public class EventHandler {
             userEventList = user.getEventList();
         if (user.getProfile().getGames() != null)
             userGames = user.getProfile().getGames();
-        
-        if (userGames != null && !userGames.isEmpty())
-        {
+
+        if (userGames != null && !userGames.isEmpty()) {
 
             // match event game to user's games, if it's not already in there
-            for (int i = 0; i < userGames.size(); i++)
-            {   
+            for (int i = 0; i < userGames.size(); i++) {
                 // Multiple events can share the same game, so it can return 2+ events
                 curEvents = eventRepo.findAllByGame(userGames.get(i));
                 // Adds each event returned individually
-                for(Event event: curEvents){
+                for (Event event : curEvents) {
                     if (event != null && !returnEvents.contains(event))
                         returnEvents.add(event);
                 }
             }
 
             // if there are matched events, sort and return them
-            if (!returnEvents.isEmpty())
-            {
-                if (userEventList != null)
-                {
+            if (!returnEvents.isEmpty()) {
+                if (userEventList != null) {
                     for (Event events : userEventList) {
                         returnEvents.remove(events);
                     }
                 }
                 return sortEvents(returnEvents);
             }
-                
+
         }
 
-        // if there are no matched events after going thru, then return all events sorted
+        // if there are no matched events after going thru, then return all events
+        // sorted
         // OR if user does not have a game then return all sorted
 
         returnEvents = eventRepo.findAll();
-        if (userEventList != null)
-        {
+        if (userEventList != null) {
             for (Event events : userEventList) {
                 returnEvents.remove(events);
             }
@@ -109,7 +105,7 @@ public class EventHandler {
      */
     public List<Event> filterEvent(String filter, User user) {
         Set<Event> returnList = new HashSet<Event>();
-        
+
         if (filter.equals("")) {
             returnList = eventRepo.findAll().stream().collect(Collectors.toSet());
         } else {
@@ -121,11 +117,10 @@ public class EventHandler {
         if (user.getEventList() != null) {
             userList = user.getEventList();
         }
-        
+
         for (Event events : userList) {
             returnList.remove(events);
         }
-        
 
         return sortEvents(returnList.stream().collect(Collectors.toList()));
     }
@@ -133,25 +128,27 @@ public class EventHandler {
     /*
      * Create an event
      */
-    public boolean createEvent(String name, String date, String location, String description, String game, String playLevel, int user) {
+    public boolean createEvent(String name, String date, String location, String description, String game,
+            String playLevel, int user) {
         // check if event name is unique
         if (eventRepo.findByEventName(name) != null) {
             return false;
         }
 
-        //Retreive Game and PlayLevel objects
+        // Retreive Game and PlayLevel objects
         Game gameObject = Game.valueOf(game.toUpperCase());
         PlayLevel playLevelObject = PlayLevel.valueOf(playLevel.toUpperCase());
-        //find active user info: id, name, object, idc
+        // find active user info: id, name, object, idc
         User creator = new User(userRepo.findByUid(user));
 
-        //create new attendeelist to quickly add to created event
+        // create new attendeelist to quickly add to created event
         List<User> attendeeList1 = new ArrayList<User>();
         attendeeList1.add(creator);
 
         Event event = new Event(name, date, location, description, gameObject, playLevelObject, creator);
         event.setAttendeeList(attendeeList1);
-        //MUST add event to users eventlist and save both for many to many relation to work
+        // MUST add event to users eventlist and save both for many to many relation to
+        // work
         creator.getEventList().add(event);
         eventRepo.save(event);
         userRepo.save(creator);
@@ -159,24 +156,27 @@ public class EventHandler {
     }
 
     /*
-     * Edit event 
+     * Edit event
      */
-    public boolean editEvent(int ID, String name, String date, String location, String description, String game, String playLevel) {
+    public boolean editEvent(int ID, String name, String date, String location, String description, String game,
+            String playLevel) {
         // check if event name is unique
         if (eventRepo.findByEventName(name) != eventRepo.findByEventId(ID)) {
             return false;
         }
 
-        //Retreive Game and PlayLevel objects
+        // Retreive Game and PlayLevel objects
         Game gameObject = Game.valueOf(game.toUpperCase());
         PlayLevel playLevelObject = PlayLevel.valueOf(playLevel.toUpperCase());
         Event oldVersion = new Event(eventRepo.findByEventId(ID));
 
-        //Create new event based on updated data
-        Event updatedEvent = new Event(name, date, location, description, gameObject, playLevelObject, oldVersion.getAttendeeList().get(0));
-        //Keep same ID and set attendeelist and comments
+        // Create new event based on updated data
+        Event updatedEvent = new Event(name, date, location, description, gameObject, playLevelObject,
+                oldVersion.getAttendeeList().get(0));
+        // Keep same ID and set attendeelist and comments
         updatedEvent.setEventId(ID);
-        //Comments and attendeelist not edited by creator, so retreived from old event version
+        // Comments and attendeelist not edited by creator, so retreived from old event
+        // version
         updatedEvent.setAttendeeList(oldVersion.getAttendeeList());
         updatedEvent.setComments(oldVersion.getComments());
         eventRepo.save(updatedEvent);
@@ -187,15 +187,16 @@ public class EventHandler {
      * Delete event from database
      */
     @Transactional // Don't remember why this was needed, but it stopped errors from occuring
+
     public boolean deleteEvent(int ID) {
         Event eventTemp = eventRepo.findByEventId(ID);
-        if(eventTemp == null) {
+        if (eventTemp == null) {
             return false;
         }
         Event event = new Event(eventTemp);
-        for(User attendee: event.getAttendeeList()) {
-            for(Event event2: attendee.getEventList()) {
-                if(event2.getEventId() == ID){
+        for (User attendee : event.getAttendeeList()) {
+            for (Event event2 : attendee.getEventList()) {
+                if (event2.getEventId() == ID) {
                     attendee.getEventList().remove(event2);
                     break;
                 }
@@ -209,22 +210,22 @@ public class EventHandler {
     /*
      * Mark user as attending event
      */
-    public boolean RSVPEvent(int ID, int eventID){
-        //Retreive event and user and add each other to each other's lists
+    public boolean RSVPEvent(int ID, int eventID) {
+        // Retreive event and user and add each other to each other's lists
         Event temp = eventRepo.findByEventId(eventID);
-        if(temp == null) {
+        if (temp == null) {
             return false;
         }
         Event event = new Event(temp);
-		List<User> attenList = event.getAttendeeList();
-        for(User user: attenList){
-            if(user.getUserID() == ID){
+        List<User> attenList = event.getAttendeeList();
+        for (User user : attenList) {
+            if (user.getUserID() == ID) {
                 return false;
             }
         }
         User user = new User(userRepo.findByUid(ID));
-		attenList.add(user);
-		event.setAttendeeList(attenList);
+        attenList.add(user);
+        event.setAttendeeList(attenList);
         user.getEventList().add(event);
         userRepo.save(user);
         eventRepo.save(event);
@@ -234,7 +235,7 @@ public class EventHandler {
     /*
      * Clear all RSVP related to given user
      */
-    public void ClearRSVP(int userId){
+    public void ClearRSVP(int userId) {
         User user = new User(userRepo.findByUid(userId));
         user.getEventList().clear();
         userRepo.save(user);
@@ -243,32 +244,28 @@ public class EventHandler {
     /*
      * User leaves a comment on the post
      */
-    public boolean commentEvent(String comment, int eventID){
+    public boolean commentEvent(String comment, int eventID) {
         // Retreive existing comment list
         Event temp = eventRepo.findByEventId(eventID);
-        if(temp == null) {
+        if (temp == null) {
             return false;
         }
         Event event = new Event(temp);
-		List<String> comments = event.getComments();
+        List<String> comments = event.getComments();
         // Add comment to list and save
-		comments.add(comment);
-		event.setComments(comments);
-		eventRepo.save(event);
+        comments.add(comment);
+        event.setComments(comments);
+        eventRepo.save(event);
         return true;
     }
 
-
-    public List<Event> getEventsSorted()
-    {
+    public List<Event> getEventsSorted() {
         List<Event> events = eventRepo.findAll();
         return sortEvents(events);
     }
 
-    protected List<Event> sortEvents(List<Event> events)
-    {
-        if (events != null && !events.isEmpty())
-        {
+    protected List<Event> sortEvents(List<Event> events) {
+        if (events != null && !events.isEmpty()) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
             Comparator<Event> byDate = Comparator.comparing(event -> LocalDate.parse(event.getDate(), formatter));
             Collections.sort(events, byDate);
