@@ -62,6 +62,10 @@ public class User {
         return this.uid;
     }
 
+    public void setUserID(int uid) {
+        this.uid = uid;
+    }
+
     public Profile getProfile() {
         return this.profile;
     }

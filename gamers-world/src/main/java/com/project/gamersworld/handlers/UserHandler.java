@@ -56,32 +56,31 @@ public class UserHandler {
         }
     }
 
-    public List<User> userSearch(String[] filters) {
+    public List<User> userSearch(String filter) {
         ArrayList<User> returnList = new ArrayList<User>();
         // make sure no duplicate users are added
         HashSet<Integer> addedUsers = new HashSet<Integer>();
 
-        if (filters.length == 0 || filters[0].equals("")) {
+        if (filter == null || filter.equals("")) {
             returnList = (ArrayList<User>) userRepo.findAll();
         } else {
-            for (String filter : filters) {
-                for (User user : userRepo.findByProfilePreferredTimeContains(filter)) {
-                    if (addedUsers.add(user.getUserID())) {
-                        returnList.add(user);
-                    }
+            for (User user : userRepo.findByProfilePreferredTimeContains(filter)) {
+                if (addedUsers.add(user.getUserID())) {
+                    returnList.add(user);
                 }
-                for (User user : userRepo.findByProfileDescriptionContains(filter)) {
-                    if (addedUsers.add(user.getUserID())) {
-                        returnList.add(user);
-                    }
+            }
+            for (User user : userRepo.findByProfileDescriptionContains(filter)) {
+                if (addedUsers.add(user.getUserID())) {
+                    returnList.add(user);
                 }
-                for (User user : userRepo.findByProfileUsernameContains(filter)) {
-                    if (addedUsers.add(user.getUserID())) {
-                        returnList.add(user);
-                    }
+            }
+            for (User user : userRepo.findByProfileUsernameContains(filter)) {
+                if (addedUsers.add(user.getUserID())) {
+                    returnList.add(user);
                 }
             }
         }
+
         return returnList;
     }
 

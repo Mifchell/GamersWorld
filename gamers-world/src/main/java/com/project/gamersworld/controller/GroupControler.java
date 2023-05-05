@@ -54,6 +54,13 @@ public class GroupControler {
         return "redirect:/profile";
     }
 
+    @PostMapping("/deletegroup/{id}")
+    public String deleteGroup(@PathVariable String id, Model model) {
+        groupHandler.deleteGroup(Integer.parseInt(id));
+
+        return "redirect:/profile";
+    }
+
     @GetMapping("/groups")
     public String viewGroups(Model model, HttpServletRequest request) {
         model.addAttribute("groups", groupHandler.groupSearch("", retrieveCurrentUser(request)));

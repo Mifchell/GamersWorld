@@ -40,6 +40,8 @@ public class UserHandlerTest {
     User user3;
     User user4;
 
+    String filter;
+
     @BeforeEach
     void setUp() {
         mockUserRepository = Mockito.mock(UserRepo.class);
@@ -52,6 +54,10 @@ public class UserHandlerTest {
         user2 = new User(new Profile("user2", "1234", "test2@test.com", "testz fgh", "1:00AM"));
         user3 = new User(new Profile("user3", "1234", "test3@test.com", "I am jkl", "12:00PM"));
         user4 = new User(new Profile("user4", "1234", "test4@test.com", "qwe zxc", "10:30PM"));
+        user1.setUserID(0);
+        user2.setUserID(1);
+        user3.setUserID(2);
+        user4.setUserID(3);
         user1.profile.setGames(Arrays.asList(Game.valueOf("MINECRAFT"), Game.valueOf("VALORANT")));
         user2.profile.setGames(Arrays.asList(Game.valueOf("XCOM_2"), Game.valueOf("VALORANT")));
         user3.profile.setGames(Arrays.asList(Game.valueOf("FORTNITE")));
@@ -75,9 +81,16 @@ public class UserHandlerTest {
 
     @Test
     void testSearchUserFilterUserName() {
+        filter = "user2";
         when(mockUserRepository.findAll()).thenReturn(userList);
+        when(mockUserRepository.findByProfileDescriptionContains(filter))
+                .thenReturn(new ArrayList<>(Arrays.asList(user2)));
+        when(mockUserRepository.findByProfilePreferredTimeContains(filter))
+                .thenReturn(new ArrayList<>(Arrays.asList(user2)));
+        when(mockUserRepository.findByProfileUsernameContains(filter))
+                .thenReturn(new ArrayList<>(Arrays.asList(user2)));
 
-        List<User> users = userHandler.userSearch(new  String[] { "user2" });
+        List<User> users = new ArrayList<User>(userHandler.userSearch(filter));
         expected.add(user2);
 
         assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
@@ -85,9 +98,16 @@ public class UserHandlerTest {
 
     @Test
     void testSearchUserFilterPrefferedTime() {
+        filter = "10:30PM";
         when(mockUserRepository.findAll()).thenReturn(userList);
+        when(mockUserRepository.findByProfileDescriptionContains(filter))
+                .thenReturn(new ArrayList<>(Arrays.asList(user1, user4)));
+        when(mockUserRepository.findByProfilePreferredTimeContains(filter))
+                .thenReturn(new ArrayList<>(Arrays.asList(user1, user4)));
+        when(mockUserRepository.findByProfileUsernameContains(filter))
+                .thenReturn(new ArrayList<>(Arrays.asList(user1, user4)));
 
-        List<User> users = userHandler.userSearch(new  String[] { "10:30PM" });
+        List<User> users = userHandler.userSearch(filter);
         expected.add(user1);
         expected.add(user4);
 
@@ -96,9 +116,16 @@ public class UserHandlerTest {
 
     @Test
     void testSearchUserFilterNoMatch() {
+        filter = "user5";
         when(mockUserRepository.findAll()).thenReturn(userList);
+        when(mockUserRepository.findByProfileDescriptionContains(filter))
+                .thenReturn(new ArrayList<>());
+        when(mockUserRepository.findByProfilePreferredTimeContains(filter))
+                .thenReturn(new ArrayList<>());
+        when(mockUserRepository.findByProfileUsernameContains(filter))
+                .thenReturn(new ArrayList<>());
 
-        List<User> users = userHandler.userSearch(new String[] { "user5" });
+        List<User> users = userHandler.userSearch(filter);
 
         assertEquals(expected, users);
     }

@@ -132,8 +132,9 @@ public class GroupHandler {
      */
     public void deleteGroup(int groupID) {
         Group group = groupRepository.findByGroupID(groupID);
+        List<User> membersList = group.getMembers();
 
-        for (User member : group.getMembers()) {
+        for (User member : membersList) {
             member.getGroupList().remove(group);
             userRepository.save(member);
         }
