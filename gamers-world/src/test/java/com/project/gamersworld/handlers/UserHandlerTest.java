@@ -5,11 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.description;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.annotation.Before;
 import org.assertj.core.api.Assert;
@@ -37,6 +40,7 @@ public class UserHandlerTest {
     private User user1;
     private User user2;
     private boolean usernameGood;
+    private boolean emailGood;
 
     @BeforeEach
     void setUp()
@@ -134,6 +138,37 @@ public class UserHandlerTest {
 
         assertFalse(usernameGood);
     }
+
+    //Logout
+    @Test
+    void testLogoutHappyPath(){
+        /*Has no handler */
+
+
+    }
+    
+    //editProfile
+    @Test
+    void testEditProfileHappyPath(){
+        when(mockUserRepository.findByProfileUsername("user1")).thenReturn(null);
+
+        usernameGood = userHandler.editProfile(user1, "user1", "", "", new ArrayList<Game>(), "", "");
+        assertTrue(usernameGood);
+    }
+
+    @Test
+    void testEditProfileExistingEmail(){
+        user1.getProfile().setEmail("email1");
+        when(mockUserRepository.findByProfileEmailAddress("email1")).thenReturn(user1);
+
+        emailGood = userHandler.editProfile(user1, "user1", "", "", new ArrayList<Game>(), "email1", "");
+        assertFalse(emailGood);
+
+    }
+
+    //deleteAccount
+    
+
 
 
 
