@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <!--Webpage made by Tabitha Ristoff, Justin Turziak, Joshua Lecik-->
 <html xmlns:th="http://www.thymeleaf.org">
@@ -22,8 +23,7 @@
   <body>
     <a th:href="@{/index}"><div id="banner"></div></a>
 
-    <!--Logout button-->
-    
+
 
     <!--Navigation Menu-->
     <div class="nav">
@@ -70,15 +70,38 @@
   </tr>
 </div>
 
+<!--
     <div class="box-group2">
-      <!-- Trends -->
-      <div class = "trends">
+      
+      
+      <div class = "trends-box"> 
         <h1>Trends</h1>
         <div class = "trends post">
           <h2>Trend Name</h2>
           <p class="tab">Description</p>
-        </div>
-    </div> 
+        
+
+      <div class="trends-box">
+      <h1>Trends</h1>
+      <div class = "trends post">
+        <ul>
+          <li th:each="game : ${trends}">
+              <a th:href="@{/games/details/{id}(id=${game.getId()})}" th:text="${game.getName()}"></a>
+          </li>
+      </ul>
+      </div>
+    </div>
+  -->
+
+  <div class="trends">
+    <h2>Trending</h2>
+    <ul>
+      <c:forEach items="${trends}" var="game">
+        <li>${game.name}</li>
+      </c:forEach>
+    </ul>
+  </div>
+
 
     <!-- Gamers -->
   <div class="gamers">

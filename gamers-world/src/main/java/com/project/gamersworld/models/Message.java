@@ -32,8 +32,8 @@ public class Message {
     String message;
     @Column(name = "groupID")
     int groupID;
-    @Column(name = "numOfLikes")
-    int numOfLikes = 0;
+    @Column(name = "numLikes")
+    int numLikes = 0;
 
     public Message()
     {
@@ -106,11 +106,10 @@ public class Message {
         this.groupID = groupID;
     }
         
-    public void setLikes(int numOfLikes) {
-        this.numOfLikes = numOfLikes;
-    }
-
-    public int getLikes() {
-        return numOfLikes;
-    }
+   public void setNumLikes(int numLikes) {
+       this.numLikes = numLikes;
+   }
+   public int getNumLikes() {
+       return numLikes;
+   }
 }

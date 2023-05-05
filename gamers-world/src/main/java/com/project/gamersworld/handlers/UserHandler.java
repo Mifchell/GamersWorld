@@ -1,6 +1,8 @@
 package com.project.gamersworld.handlers;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,6 +140,35 @@ public class UserHandler {
         userRepo.save(user);
 
         return true;
+    }
+
+    public List<Game> displayTrends(){
+        List<Game> games = new ArrayList<>();
+        HashMap<Game, Integer> numGames = new HashMap<>();
+        for(User user : userRepo.findAll()){
+            for(Game game : user.getProfile().getGames()){
+                if(numGames.containsKey(game)){
+                    numGames.put(game, numGames.get(game) + 1);
+                }
+                else{
+                    numGames.put(game, 1);
+                }
+            }
+        }
+
+        List<HashMap.Entry<Game, Integer>> gamesSorted = new ArrayList<>(numGames.entrySet());
+        gamesSorted.sort(Collections.reverseOrder(HashMap.Entry.comparingByValue()));
+
+        int counter = 0;
+        for(HashMap.Entry<Game, Integer> entry : gamesSorted){
+            games.add(entry.getKey());
+            counter++;
+            if(counter == 3){
+                break;
+            }
+        }
+
+        return games;
     }
 
     public UserRepo getUserRepo() {
