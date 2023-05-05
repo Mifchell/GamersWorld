@@ -90,10 +90,14 @@ public class GroupHandler {
             groupList = creator.getGroupList();
         }
         groupList.add(group);
+        List<User> members = new ArrayList<User>();
+        members.add(creator);
 
-        creator.setGroupList(groupList);
+        group.setMembers(members);
 
-        groupRepository.save(group);
+        userRepository.save(creator);
+
+        // groupRepository.save(group);
 
         return true;
 
@@ -149,10 +153,12 @@ public class GroupHandler {
     public void deleteGroup(int groupID) {
         Group group = groupRepository.findByGroupID(groupID);
         List<User> groupMembers = group.getMembers();
-        for (User member : groupMembers) {
-            member.getGroupList().remove(group);
-            groupMembers.remove(member);
-            userRepository.save(member);
+        for (int i = 0; i < groupMembers.size(); i++) {
+            User user = groupMembers.get(i);
+            user.getGroupList().remove(group);
+            groupMembers.remove(i);
+            userRepository.save(user);
+
         }
 
         groupRepository.delete(group);
