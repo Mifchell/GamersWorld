@@ -254,5 +254,71 @@ public class FriendHandlerTest {
     }
 
     @Test
+    void testGetRequestReceivedUsers()
+    {
+        User user1 = new User();
+        user1.setUserId(1);
+
+        User user2 = new User();
+        user2.setUserId(2);
+
+        User user3 = new User();
+        user3.setUserId(3);
+
+        User user4 = new User();
+        user4.setUserId(4);
+
+        FriendRequest fr1 = new FriendRequest(user2,user1);
+        FriendRequest fr2 = new FriendRequest(user3,user1);
+        FriendRequest fr3 = new FriendRequest(user4,user1);
+
+        List<FriendRequest> list = new ArrayList<FriendRequest>();
+
+        list.add(fr1);
+        list.add(fr2);
+        list.add(fr3);
+
+        user1.setReceivedFriendRequest(list);
+        when(mockUserRepo.findByUid(1)).thenReturn(user1);
+        List<User> userList = mockFriendHandler.getRequestReceivedUsers(1);
+
+        for(int i = 0; i < userList.size();i++)
+            assertTrue(userList.get(i).getUserID() == (i+1));
+    }
+
+    @Test
+    void testGetRequestSentUsers()
+    {
+        User user1 = new User();
+        user1.setUserId(1);
+
+        User user2 = new User();
+        user2.setUserId(2);
+
+        User user3 = new User();
+        user3.setUserId(3);
+
+        User user4 = new User();
+        user4.setUserId(4);
+
+        FriendRequest fr1 = new FriendRequest(user1,user2);
+        FriendRequest fr2 = new FriendRequest(user1,user3);
+        FriendRequest fr3 = new FriendRequest(user1,user4);
+
+        List<FriendRequest> list = new ArrayList<FriendRequest>();
+
+        list.add(fr1);
+        list.add(fr2);
+        list.add(fr3);
+
+        user1.setSentFriendRequest(list);
+        when(mockUserRepo.findByUid(1)).thenReturn(user1);
+        List<User> userList = mockFriendHandler.getRequestSentUsers(1);
+
+        for(int i = 0; i < userList.size();i++)
+            assertTrue(userList.get(i).getUserID() == (i+1));
+    }
+
     
+
 }

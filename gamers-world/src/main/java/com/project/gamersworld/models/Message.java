@@ -65,7 +65,7 @@ public class Message {
         this.message = message;
         this.date = LocalDateTime.now().toString();
         this.groupID = group.getGroupID();
-        // this.numOfLikes = 0;
+        this.numLikes = 0;
     }
 
     public String getDate() {
