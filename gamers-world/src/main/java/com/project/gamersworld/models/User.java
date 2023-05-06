@@ -155,13 +155,28 @@ public class User {
     public List<Message> getReceivedMessages() {
         return receivedMessages;
     }
+    public void setReceivedMessages(List<Message> receivedMessages) {
+        this.receivedMessages = receivedMessages;
+    }
 
     public List<Message> getSentMessages() {
         return sentMessages;
     }
+    public void setSentMessages(List<Message> sentMessages) {
+        this.sentMessages = sentMessages;
+    }
 
     public List<FriendRequest> getreceivedFriendRequest() {
         return receivedFriendRequest;
+    }
+    public void setReceivedFriendRequest(List<FriendRequest> receivedFriendRequest) {
+        this.receivedFriendRequest = receivedFriendRequest;
+    }
+    public void setSentFriendRequest(List<FriendRequest> sentFriendRequest) {
+        this.sentFriendRequest = sentFriendRequest;
+    }
+    public List<FriendRequest> getSentFriendRequest() {
+        return sentFriendRequest;
     }
 
     // for login test only
@@ -170,11 +185,4 @@ public class User {
         return this.uid == ((User) obj).uid;
     }
 
-    public List<FriendRequest> getSentFriendRequest() {
-        return sentFriendRequest;
-    }
-
-    public void setSentFriendRequest(List<FriendRequest> sentFriendRequest) {
-        this.sentFriendRequest = sentFriendRequest;
-    }
 }

@@ -101,13 +101,13 @@ public class EventHandler {
     }
 
     public List<Event> eventOwned(User user) {
-        List<Event> myevents = new ArrayList<Event>();
+        List<Event> eventList = new ArrayList<Event>();
         for (Event event : myEvents(user)) {
-            if (event.getAttendeeList().get(0).getUserID() == user.getUserID()) {
-                myevents.add(event);
+            if (event.getCreatorID() == user.getUserID()) {
+                eventList.add(event);
             }
         }
-        return myevents;
+        return eventList;
     }
 
     /*
@@ -151,12 +151,7 @@ public class EventHandler {
         // find active user info: id, name, object, idc
         User creator = new User(userRepo.findByUid(user));
 
-        // create new attendeelist to quickly add to created event
-        List<User> attendeeList1 = new ArrayList<User>();
-        attendeeList1.add(creator);
-
         Event event = new Event(name, date, location, description, gameObject, playLevelObject, creator);
-        event.setAttendeeList(attendeeList1);
         // MUST add event to users eventlist and save both for many to many relation to
         // work
         creator.getEventList().add(event);
@@ -182,8 +177,9 @@ public class EventHandler {
         Event oldVersion = new Event(eventRepo.findByEventId(ID));
 
         // Create new event based on updated data
+        User creatoor = new User(userRepo.findByUid(oldVersion.getCreatorID()));
         Event updatedEvent = new Event(name, date, location, description, gameObject, playLevelObject,
-                oldVersion.getAttendeeList().get(0));
+                creatoor);
         // Keep same ID and set attendeelist and comments
         updatedEvent.setEventId(ID);
         // Comments and attendeelist not edited by creator, so retreived from old event
