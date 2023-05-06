@@ -14,6 +14,8 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int eventId;
 
+    private int creatorID;
+
     private String eventName;
 
     private String date;
@@ -40,6 +42,7 @@ public class Event {
 
     public Event(Event event) {
         this.eventId = event.getEventId();
+        this.creatorID = event.getCreatorID();
         this.eventName = event.getEventName();
         this.date = event.getDate();
         this.location = event.getLocation();
@@ -58,6 +61,7 @@ public class Event {
         this.description = description;
         this.attendeeList = new ArrayList<User>();
         this.attendeeList.add(creator);
+        this.creatorID = creator.getUserID();
         this.playLevel = playLevel;
         this.game = game;
         this.comments = new ArrayList<String>();
@@ -69,6 +73,14 @@ public class Event {
 
     public void setEventId(int eventId) {
         this.eventId = eventId;
+    }
+
+    public int getCreatorID() {
+        return creatorID;
+    }
+
+    public void setCreatorID(int creatorID) {
+        this.creatorID = creatorID;
     }
 
     public String getEventName() {
