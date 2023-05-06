@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -13,6 +14,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -66,12 +68,12 @@ public class GroupHandlerTest {
     @Test
     void testSearchGroupNoFilter() {
         when(mockGroupRepository.findAll()).thenReturn(list2);
-        
+
         List<Group> groups = groupHandler.groupSearch("",user1);
 
         assertTrue(groups.size() == list2.size() && groups.containsAll(list2) && list2.containsAll(groups));
 
-        
+
     }
 
     @Test
@@ -82,7 +84,7 @@ public class GroupHandlerTest {
         List<Group> groups = groupHandler.groupSearch("p1",user1);
 
         assertTrue(groups.size() == list2.size() && groups.containsAll(list2) && list2.containsAll(groups));
-        //assertEquals(groups, list2); 
+        //assertEquals(groups, list2);
     }
 
     @Test
@@ -256,4 +258,20 @@ public class GroupHandlerTest {
 
     }
 
+    @Test
+    void testDeleteGroup() {
+        List<Group> user2GroupList = user2.getGroupList();
+        user2GroupList.add(group1);
+        user2.setGroupList(user2GroupList);
+
+        when(mockGroupRepository.findByGroupID(1)).thenReturn(group1);
+        when(mockUserRepository.save(user2)).thenReturn(user2);
+
+        groupHandler.deleteGroup(1);
+
+        user2GroupList.remove(group1);
+
+        verify(mockGroupRepository).delete(group1);
+        assertFalse(user2.getGroupList().contains(group1));
+    }
 }
