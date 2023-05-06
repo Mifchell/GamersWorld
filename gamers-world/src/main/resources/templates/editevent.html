@@ -1,73 +1,78 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Gamer's World</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css"> 
-    <link rel="stylesheet" th:href="@{/css/form.css}" href="../css/form.css">
+  <title>Gamer's World</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" href="../css/styles.css">
+  <link rel="stylesheet" th:href="@{/css/form.css}" href="../css/form.css">
+  <script src="/js/createevent.js"></script>
 
 </head>
 
 <body>
 
-    <a th:href="@{/index}"><div id="banner"></div></a>
+  <a th:href="@{/index}">
+    <div id="banner"></div>
+  </a>
 
-    <!--Navigation Menu-->
-    <div class="nav">
-      <a th:href="@{/index}">Home</a>
-      <a th:href="@{/messages}">Messages</a>
-      <a th:href="@{/profile}">Profile</a>
+  <!--Navigation Menu-->
+  <div class="nav">
+    <a th:href="@{/index}">Home</a>
+    <a th:href="@{/messages}">Messages</a>
+    <a th:href="@{/profile}">Profile</a>
+  </div>
+
+  <br>
+
+  <div class="container">
+    <h1>Edit Event</h1>
+
+    <div class="inputform">
+      <form onsubmit="return (checkSelectedGame() && checkDate());" action="/event/editedEvent">
+        <input th:value="${event.eventId}" name="id" id="id" type="hidden">
+
+        <label for="name"><b>Event Name</b></label>
+        <input type="text" placeholder="Enter Event Name" name="name" id="name" th:value="${event.eventName}" required>
+
+        <div th:if="${errorMessage}" style="color:red">
+          <p th:text="${errorMessage}"></p>
+        </div>
+
+        <label for="date"><b>Date</b></label>
+        <input type="text" placeholder="MM/DD/YYYY" name="date" id="date" th:value="${event.date}" required>
+
+        <label for="location"><b>Location</b></label>
+        <input type="text" placeholder="Enter Location" name="location" id="location" th:value="${event.location}"
+          required>
+
+        <label for="games"><b>Select up to 1 game:</b></label>
+        <div style="height: 150px; overflow-y: auto;">
+          <div th:each="game : ${T(com.project.gamersworld.models.Game).values()}">
+            <input type="checkbox" name="selectedGame" id="selectedGame" th:checked="${event.game == game}"
+              th:value="${game}">
+            <label for="${game}" th:text="${game}"></label>
+          </div>
+        </div>
+
+        <label for="playlevel"><b>Play Level</b></label>
+        <input type="text" placeholder="Enter Play Level" name="level" id="level" th:value="${event.playLevel}"
+          required>
+
+        <label for="desc"><b>Description</b></label>
+        <input type="text" placeholder="Enter Description" name="desc" id="desc" th:value="${event.description}"
+          required>
+
+        <button type="submit">Save</button>
+      </form>
     </div>
+  </div>
 
+  <footer>
+    <!--Copyright information-->
     <br>
-    
-    <div class="container">
-      <h1>Edit Event</h1>
-
-      <div class="inputform">
-        <form action="/event/editedEvent">
-          <input th:value="${event.eventId}" name="id" id="id" type="hidden">
-        
-          <label for="name"><b>Event Name</b></label>
-          <input type="text" placeholder="Enter Event Name" name="name" id="name" th:value="${event.eventName}" required>
-
-          <div th:if="${errorMessage}" style="color:red">
-            <p th:text="${errorMessage}"></p>
-          </div>
-
-          <label for="date"><b>Date</b></label>
-          <input type="text" placeholder="MM/DD/YYYY" name="date" id="date" th:value="${event.date}" required>
-
-          <label for="location"><b>Location</b></label>
-          <input type="text" placeholder="Enter Location" name="location" id="location" th:value="${event.location}" required>
-
-          <label for="games"><b>Select up to 1 game:</b></label>
-          <div style="height: 150px; overflow-y: auto;">
-            <div th:each="game : ${T(com.project.gamersworld.models.Game).values()}">
-              <input type="checkbox" name="selectedGame" id="selectedGame" th:checked="${event.game == game}" th:value="${game}">
-              <label for="${game}" th:text="${game}"></label>
-            </div>
-          </div>
-
-          <label for="playlevel"><b>Play Level</b></label>
-          <input type="text" placeholder="Enter Play Level" name="level" id="level" th:value="${event.playLevel}" required>
-
-          <label for="desc"><b>Description</b></label>
-          <input type="text" placeholder="Enter Description" name="desc" id="desc" th:value="${event.description}" required>
-      
-          <button type="submit">Save</button>
-        </form>
-      </div>
-    </div>
-
-    <footer>
-      <!--Copyright information-->
-      <br>
-      <p>&copy; 2023 All rights reserved</p>
-    </footer>
+    <p>&copy; 2023 All rights reserved</p>
+  </footer>
 
 </body>
+
 </html>
-
-
-
-
