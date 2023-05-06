@@ -71,6 +71,8 @@
                     <p class="tab"><span th:text="${message.message}"></span></p>
                     <form th:action="@{/reactMessage}" method="post">
                         <button type="submit" class="like">Like</button>
+                        <p>Number of Likes: </p>
+                        <p th:text="${message.getLikes()}"></p>
                         <input type="hidden" name="msg" id="msg" th:value="${message.messageID}"></input>
                         <input type="hidden" name="uid" id="uid" th:value="${gamer.getUserID()}"></input>
                     </form>

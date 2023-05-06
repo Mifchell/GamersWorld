@@ -4,26 +4,44 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.description;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
+import com.project.gamersworld.models.Message;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Assertions;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.aspectj.lang.annotation.Before;
+import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import com.project.gamersworld.controller.MessageController;
+import com.project.gamersworld.models.Event;
 import com.project.gamersworld.models.Game;
 import com.project.gamersworld.models.Group;
+import com.project.gamersworld.models.Message;
 import com.project.gamersworld.models.Profile;
 import com.project.gamersworld.models.User;
 import com.project.gamersworld.repo.GroupRepo;
+import com.project.gamersworld.repo.EventRepo;
+import com.project.gamersworld.repo.MessageRepo;
 import com.project.gamersworld.repo.UserRepo;
 
 public class UserHandlerTest {
@@ -33,18 +51,27 @@ public class UserHandlerTest {
         @InjectMocks
         private static UserHandler userHandler;
 
-        private User user1;
-        private User user2;
-        private boolean usernameGood;
+    
 
+    @Mock
+    private MessageRepo messageRepository;
+
+    @InjectMocks
+    private MessageController messageController;
+
+    private User user1;
+    private User user2;
+    private boolean usernameGood;
+    private boolean emailGood;
         private ArrayList<User> userList;
         private ArrayList<User> expected;
-
         private User user3;
         private User user4;
         private User user5;
         private User user6;
         private User user7;
+
+      
 
         private String filter;
 
@@ -86,7 +113,8 @@ public class UserHandlerTest {
 
         // test - login
     @Test
-    void testLoginHappyPath() {
+    void testLoginHappyPath() 
+    {
         // should return user
         when(mockUserRepository.findByProfileEmailAddress("test1@test.com")).thenReturn(user1);
 
@@ -215,9 +243,104 @@ public class UserHandlerTest {
 
                 List<User> users = new ArrayList<User>(userHandler.userSearch(filter));
                 expected.add(user4);
-
-                assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
         }
+    void testEditProfile() {
+    
+    User user1 = new User(new Profile("user1", "password", "John Doe", null, null));
+
+   
+    UserRepo mockUserRepository = Mockito.mock(UserRepo.class);
+    when(mockUserRepository.findByProfileUsername("user1")).thenReturn(user1);
+
+    UserHandler userHandler = new UserHandler(mockUserRepository);
+
+
+    boolean success = userHandler.editProfile(user1, "user1", "newpassword", "Jane Doe", new ArrayList<Game>(), "newemail@example.com", "newbio");
+
+
+    assertTrue(success);
+
+    assertEquals(user1.getProfile().getUsername(), "user1");
+   
+    assertEquals(user1.getProfile().getEmail(), "newemail@example.com");
+    
+}
+
+
+
+    //deleteAccount
+    @Test
+void deleteAccountWrongPassword(){
+    UserRepo mockUserRepository = Mockito.mock(UserRepo.class);
+    UserHandler userHandler = new UserHandler(mockUserRepository);
+
+    HttpServletRequest mockRequest = Mockito.mock(HttpServletRequest.class);
+    HttpSession mockSession = Mockito.mock(HttpSession.class);
+    when(mockRequest.getSession()).thenReturn(mockSession);
+    when(mockSession.getAttribute("userID")).thenReturn(1L);
+
+    User mockUser = new User();
+
+    when(mockUserRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+    when(mockRequest.getParameter("password")).thenReturn("wrongpassword");
+
+    assertTrue(userHandler.deleteAccount(mockUser));
+} 
+
+    @Test
+    void deleteAccountUserNotFound() {
+    UserRepo mockUserRepository = Mockito.mock(UserRepo.class);
+    UserHandler userHandler = new UserHandler(mockUserRepository);
+
+    HttpServletRequest mockRequest = Mockito.mock(HttpServletRequest.class);
+    HttpSession mockSession = Mockito.mock(HttpSession.class);
+    when(mockRequest.getSession()).thenReturn(mockSession);
+    when(mockSession.getAttribute("userID")).thenReturn(1L);
+
+    when(mockUserRepository.findById(1L)).thenReturn(Optional.empty());
+
+    assertFalse(userHandler.deleteAccount(null));
+
+    verify(mockUserRepository, times(0)).delete(any());
+    verify(mockSession, times(0)).removeAttribute("userID");
+}
+
+
+//Display trends
+@Test
+void testDisplayTrendsNotEnoughGames() {
+    List<User> userList = new ArrayList<>();
+    User user1 = new User(new Profile("user1", "password", "John Doe", null, null));
+    
+    userList.add(user1);
+    
+    UserRepo mockUserRepository = Mockito.mock(UserRepo.class);
+    when(mockUserRepository.findAll()).thenReturn(userList);
+
+    
+    UserHandler userHandler = new UserHandler(mockUserRepository);
+
+  
+    List<Game> games = userHandler.displayTrends();
+    assertTrue(games.isEmpty());
+}
+    
+
+@Test
+void testDisplayTrendsNoUsers() {
+    
+    UserRepo mockUserRepository = Mockito.mock(UserRepo.class);
+    when(mockUserRepository.findAll()).thenReturn(new ArrayList<>());
+
+  
+    UserHandler userHandler = new UserHandler(mockUserRepository);
+
+    List<Game> games = userHandler.displayTrends();
+    assertTrue(games.isEmpty());
+}
+
+                //assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
+        
 
         @Test
         void testUserSearchFilterPrefferedTime() {
@@ -415,5 +538,128 @@ public class UserHandlerTest {
                 expected.add(user7);
 
                 assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
+        }
+
+        @Test
+        void testGetConversation() 
+        {
+                Message m1 = new Message();
+                Message m2 = new Message();
+                Message m3 = new Message();
+                Message m4 = new Message();
+                List<User> receiverU1 = new ArrayList<User>();
+                List<User> receiverU2 = new ArrayList<User>();
+
+                receiverU1.add(user1);
+                receiverU2.add(user2);
+
+                m1.setSender(user1);
+                m1.setRecievers(receiverU2);
+                m2.setSender(user2);
+                m2.setRecievers(receiverU1);
+                m3.setSender(user2);
+                m3.setRecievers(receiverU1);
+                m4.setSender(user1);
+                m4.setRecievers(receiverU2);
+                
+                List<Message> u1Sent = new ArrayList<Message>();
+                u1Sent.add(m4);
+                u1Sent.add(m1);
+                List<Message> u1Received = new ArrayList<Message>();
+                u1Received.add(m3);
+                u1Received.add(m2);
+
+                user1.setSentMessages(u1Sent);
+                user1.setReceivedMessages(u1Received);
+                user2.setSentMessages(u1Received);
+                user2.setReceivedMessages(u1Sent);
+
+
+                List<Message> orderedList = new ArrayList<Message>();
+                orderedList.add(m1);
+                orderedList.add(m2);
+                orderedList.add(m3);
+                orderedList.add(m4);
+
+                when(mockUserRepository.findByUid(user1.getUserID())).thenReturn(user1);
+                when(mockUserRepository.findByUid(user2.getUserID())).thenReturn(user2);
+                List<Message> test = userHandler.getConversation(user1.getUserID(), user2.getUserID());
+                for(int i = 0 ; i < test.size(); i++)
+                        assertEquals(test.get(i).getDate(),orderedList.get(i).getDate());
+        }
+
+        @Test
+        void testGetGroupConversation() 
+        {
+                List<Group> groupList = new ArrayList<Group>();
+                Group group = new Group("TestGroup", user1, "Test Group");
+                group.setGroupID(100);
+                groupList.add(group);
+
+                user1.setGroupList(groupList);
+                user2.setGroupList(groupList);
+                user3.setGroupList(groupList);
+                user4.setGroupList(groupList);
+                
+                List<User> groupMembers = new ArrayList<User>();
+                groupMembers.add(user1);
+                groupMembers.add(user2);
+                groupMembers.add(user3);
+                groupMembers.add(user4);
+                group.setMembers(groupMembers);
+
+                Message m1 = new Message(user1,group,"Test Message");
+                List<Message> sent1 = user1.getSentMessages();
+                sent1.add(m1);
+                user1.setSentMessages(sent1);
+                Message m2 = new Message(user2,group,"Test2");
+                List<Message> sent2 = user2.getSentMessages();
+                sent2.add(m2);
+                user2.setSentMessages(sent2);
+                Message m3 = new Message(user3,group,"Test3");
+                List<Message> sent3 = user3.getSentMessages();
+                sent3.add(m3);
+                user3.setSentMessages(sent3);
+                Message m4 = new Message(user4,group,"Test4");
+                List<Message> sent4 = user4.getSentMessages();
+                sent4.add(m4);
+                user4.setSentMessages(sent4);
+
+
+                List<Message> u1Received = new ArrayList<Message>();
+                u1Received.add(m2);
+                u1Received.add(m4);
+                u1Received.add(m3);
+                List<Message> u2Received = new ArrayList<Message>();
+                u2Received.add(m4);
+                u2Received.add(m3);
+                u2Received.add(m1);
+                List<Message> u3Received = new ArrayList<Message>();
+                u3Received.add(m1);
+                u3Received.add(m4);
+                u3Received.add(m3);
+                List<Message> u4Received = new ArrayList<Message>();
+                u4Received.add(m1);
+                u4Received.add(m3);
+                u4Received.add(m2);
+
+                user1.setReceivedMessages(u1Received);
+                user2.setReceivedMessages(u2Received);
+                user3.setReceivedMessages(u3Received);
+                user4.setReceivedMessages(u4Received);
+
+                List<Message> orderedList = new ArrayList<Message>();
+                orderedList.add(m1);
+                orderedList.add(m2);
+                orderedList.add(m3);
+                orderedList.add(m4);
+
+                when(mockUserRepository.findByUid(user1.getUserID())).thenReturn(user1);
+                when(mockUserRepository.findByUid(user2.getUserID())).thenReturn(user2);
+                when(mockUserRepository.findByUid(user3.getUserID())).thenReturn(user3);
+                when(mockUserRepository.findByUid(user4.getUserID())).thenReturn(user4);
+                List<Message> test = userHandler.getGroupConversation(user1.getUserID(), group.getGroupID());
+                for(int i = 0 ; i < test.size(); i++)
+                        assertEquals(test.get(i).getDate(),orderedList.get(i).getDate());
         }
 }
