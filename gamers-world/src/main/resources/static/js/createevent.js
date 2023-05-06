@@ -4,7 +4,11 @@ function checkSelectedGame() {
         alert('You can only select 1 game!');
         return false;
     }
-
+    else if (selectedGames.length == 0)
+    {
+        alert('Please choose at least 1 game.');
+        return false;
+    }
     return true;
 }
 

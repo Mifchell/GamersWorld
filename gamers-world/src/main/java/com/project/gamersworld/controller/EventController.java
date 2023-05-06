@@ -61,9 +61,13 @@ public class EventController {
 
     // Submit event changes
     @GetMapping("/event/editedEvent")
-    public String editedEvent(Model model, @RequestParam(value = "id") int id, @RequestParam(value = "name") String name, @RequestParam(value = "date") String date, @RequestParam(value = "location") String location, @RequestParam(value = "game") String game, @RequestParam(value = "level") String level, @RequestParam(value = "desc") String desc) {
+    public String editedEvent(Model model, @RequestParam(value = "id") int id,
+            @RequestParam(value = "name") String name, @RequestParam(value = "date") String date,
+            @RequestParam(value = "location") String location,
+            @RequestParam(value = "selectedGame", required = false) List<Game> game,
+            @RequestParam(value = "level") String level, @RequestParam(value = "desc") String desc) {
         // check if new username is valid
-        if (eventHandler.editEvent(id, name, date, location, desc, game, level)) {
+        if (eventHandler.editEvent(id, name, date, location, desc, game.get(0).toString(), level)) {
             return "redirect:/profile";
         }
 
@@ -88,7 +92,10 @@ public class EventController {
 
     // Create new event
     @PostMapping("/createevent")
-    public String createEvent(Model model, HttpServletRequest request, @RequestParam(value = "name") String name, @RequestParam(value = "date") String date, @RequestParam(value = "location") String location, @RequestParam(name = "selectedGame", required = false) List<Game> selectedGame, @RequestParam(value = "level") String level, @RequestParam(value = "desc") String desc){
+    public String createEvent(Model model, HttpServletRequest request, @RequestParam(value = "name") String name,
+            @RequestParam(value = "date") String date, @RequestParam(value = "location") String location,
+            @RequestParam(name = "selectedGame", required = false) List<Game> selectedGame,
+            @RequestParam(value = "level") String level, @RequestParam(value = "desc") String desc) {
         int user = userController.retrieveCurrentUser(request).getUserID();
 
         if (eventHandler.createEvent(name, date, location, desc, selectedGame.get(0).toString(), level, user)) {
@@ -108,8 +115,9 @@ public class EventController {
     }
 
     @PostMapping("/event/comment")
-    public String commentEvent(@RequestParam(value = "eventId") int id, @RequestParam(value = "comment") String comment) {
+    public String commentEvent(@RequestParam(value = "eventId") int id,
+            @RequestParam(value = "comment") String comment) {
         eventHandler.commentEvent(comment, id);
-        return "redirect:/event/"+id;
+        return "redirect:/event/" + id;
     }
 }
