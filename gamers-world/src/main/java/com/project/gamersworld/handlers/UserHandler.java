@@ -60,29 +60,27 @@ public class UserHandler {
         }
     }
 
-    public List<User> userSearch(String[] filters) {
+    public List<User> userSearch(String filter) {
         ArrayList<User> returnList = new ArrayList<User>();
         // make sure no duplicate users are added
         HashSet<Integer> addedUsers = new HashSet<Integer>();
 
-        if (filters.length == 0 || filters[0].equals("")) {
+        if (filter.equals("")) {
             returnList = (ArrayList<User>) userRepo.findAll();
         } else {
-            for (String filter : filters) {
-                for (User user : userRepo.findByProfilePreferredTimeContains(filter)) {
-                    if (addedUsers.add(user.getUserID())) {
-                        returnList.add(user);
-                    }
+            for (User user : userRepo.findByProfilePreferredTimeContains(filter)) {
+                if (addedUsers.add(user.getUserID())) {
+                    returnList.add(user);
                 }
-                for (User user : userRepo.findByProfileDescriptionContains(filter)) {
-                    if (addedUsers.add(user.getUserID())) {
-                        returnList.add(user);
-                    }
+            }
+            for (User user : userRepo.findByProfileDescriptionContains(filter)) {
+                if (addedUsers.add(user.getUserID())) {
+                    returnList.add(user);
                 }
-                for (User user : userRepo.findByProfileUsernameContains(filter)) {
-                    if (addedUsers.add(user.getUserID())) {
-                        returnList.add(user);
-                    }
+            }
+            for (User user : userRepo.findByProfileUsernameContains(filter)) {
+                if (addedUsers.add(user.getUserID())) {
+                    returnList.add(user);
                 }
             }
         }
@@ -124,13 +122,14 @@ public class UserHandler {
     }
 
     public boolean editProfile(User user, String username, String description, String preferredTime,
-        List<Game> selectedGames, String email, String password) {
-        
-        if( (userRepo.findByProfileUsername(username) != null && !userRepo.findByProfileUsername(username).equals(user) ) || ( (userRepo.findByProfileEmailAddress(email) != null) && !userRepo.findByProfileEmailAddress(email).equals(user) )){
+            List<Game> selectedGames, String email, String password) {
+
+        if ((userRepo.findByProfileUsername(username) != null && !userRepo.findByProfileUsername(username).equals(user))
+                || ((userRepo.findByProfileEmailAddress(email) != null)
+                        && !userRepo.findByProfileEmailAddress(email).equals(user))) {
             return false;
         }
 
-        
         user.getProfile().setUsername(username); // username has to be unique
         user.getProfile().setDescription(description);
         user.getProfile().setTime(preferredTime);
@@ -144,15 +143,14 @@ public class UserHandler {
         return true;
     }
 
-    public List<Game> displayTrends(){
+    public List<Game> displayTrends() {
         List<Game> games = new ArrayList<>();
         HashMap<Game, Integer> numGames = new HashMap<>();
-        for(User user : userRepo.findAll()){
-            for(Game game : user.getProfile().getGames()){
-                if(numGames.containsKey(game)){
+        for (User user : userRepo.findAll()) {
+            for (Game game : user.getProfile().getGames()) {
+                if (numGames.containsKey(game)) {
                     numGames.put(game, numGames.get(game) + 1);
-                }
-                else{
+                } else {
                     numGames.put(game, 1);
                 }
             }
@@ -162,10 +160,10 @@ public class UserHandler {
         gamesSorted.sort(Collections.reverseOrder(HashMap.Entry.comparingByValue()));
 
         int counter = 0;
-        for(HashMap.Entry<Game, Integer> entry : gamesSorted){
+        for (HashMap.Entry<Game, Integer> entry : gamesSorted) {
             games.add(entry.getKey());
             counter++;
-            if(counter == 3){
+            if (counter == 3) {
                 break;
             }
         }
@@ -173,53 +171,50 @@ public class UserHandler {
         return games;
     }
 
-    public List<Message> getConversation(int UID, int otherUID)
-    {
+    public List<Message> getConversation(int UID, int otherUID) {
         User user = userRepo.findByUid(UID);
         List<Message> finalMessages = new ArrayList<Message>();
 
-        for(Message m: user.getSentMessages())
-            for(User u: m.getRecievers())
-                if(u.getUserID() == otherUID)
+        for (Message m : user.getSentMessages())
+            for (User u : m.getRecievers())
+                if (u.getUserID() == otherUID)
                     finalMessages.add(m);
-        for(Message m: user.getReceivedMessages())
-            if(m.getSender().getUserID() == otherUID)
+        for (Message m : user.getReceivedMessages())
+            if (m.getSender().getUserID() == otherUID)
                 finalMessages.add(m);
 
-        //sort here
-        Comparator<Message> comp = new Comparator<Message>(){
-            public int compare(Message m1, Message m2)
-            {
+        // sort here
+        Comparator<Message> comp = new Comparator<Message>() {
+            public int compare(Message m1, Message m2) {
                 return m1.getDate().compareTo(m2.getDate());
             }
         };
         Collections.sort(finalMessages, comp);
-        //end sort
+        // end sort
 
         return finalMessages;
     }
 
-    public List<Message> getGroupConversation(int UID, int groupID)
-    {
+    public List<Message> getGroupConversation(int UID, int groupID) {
         User user = userRepo.findByUid(UID);
         List<Message> messageList = new ArrayList<Message>();
 
-        for(Message m: user.getSentMessages())
-            if(m.getGroupID() == groupID)
+        for (Message m : user.getSentMessages())
+            if (m.getGroupID() == groupID)
                 messageList.add(m);
-        for(Message m: user.getReceivedMessages())
-            if(m.getGroupID() == groupID)
+        for (Message m : user.getReceivedMessages())
+            if (m.getGroupID() == groupID)
                 messageList.add(m);
-        
-        Comparator<Message> comp = new Comparator<Message>(){
-            public int compare(Message m1, Message m2)
-            {
+
+        Comparator<Message> comp = new Comparator<Message>() {
+            public int compare(Message m1, Message m2) {
                 return m1.getDate().compareTo(m2.getDate());
             }
         };
         Collections.sort(messageList, comp);
         return messageList;
     }
+
     public UserRepo getUserRepo() {
         return userRepo;
     }

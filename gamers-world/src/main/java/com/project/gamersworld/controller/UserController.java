@@ -51,7 +51,6 @@ public class UserController {
         model.addAttribute("fRequest", friendHandler.getRequestSentUsers(retrieveCurrentUser(request).getUserID()));
         model.addAttribute("fSent", friendHandler.getRequestReceivedUsers(retrieveCurrentUser(request).getUserID()));
 
-
         return "index";
     }
 
@@ -64,6 +63,23 @@ public class UserController {
 
     @GetMapping("/gamers")
     public String viewGamers(Model model, HttpServletRequest request) {
+        model.addAttribute("gamers", userHandler.userSearch(""));
+        model.addAttribute("user", retrieveCurrentUser(request));
+        model.addAttribute("friends", retrieveCurrentUser(request).getFriendList());
+        model.addAttribute("fRequest", friendHandler.getRequestSentUsers(retrieveCurrentUser(request).getUserID()));
+        model.addAttribute("fSent", friendHandler.getRequestReceivedUsers(retrieveCurrentUser(request).getUserID()));
+
+        return "gamers";
+    }
+
+    @PostMapping("/gamers")
+    public String filterGamer(@RequestParam(value = "filter") String filter, Model model, HttpServletRequest request) {
+        model.addAttribute("gamers", userHandler.userSearch(filter));
+        model.addAttribute("user", retrieveCurrentUser(request));
+        model.addAttribute("friends", retrieveCurrentUser(request).getFriendList());
+        model.addAttribute("fRequest", friendHandler.getRequestSentUsers(retrieveCurrentUser(request).getUserID()));
+        model.addAttribute("fSent", friendHandler.getRequestReceivedUsers(retrieveCurrentUser(request).getUserID()));
+
         return "gamers";
     }
 

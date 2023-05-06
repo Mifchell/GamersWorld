@@ -10,13 +10,35 @@
     <link rel="stylesheet" th:href="@{/css/form.css}" href="../css/form.css">
     <style>
         .like {
-          padding: 10px 10px;
-          width: 100px;
-          height: 40px;
-          float: right;
-          text-align: center;
+            padding: 10px 10px;
+            width: 100px;
+            height: 40px;
+            float: right;
+            text-align: center;
         }
-      </style>
+
+        .search {
+            padding: 10px 10px;
+            border: none;
+            margin-top: 10px;
+            margin-right: 16px;
+            font-size: 17px;
+            width: 500px;
+        }
+
+        .joingroup {
+            padding: 10px 10px;
+            width: 100px;
+            height: 40px;
+            float: right;
+            text-align: center;
+        }
+
+        button {
+            font-size: 17px;
+            padding: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -41,19 +63,42 @@
             <tr th:each="message, iterStat : ${messages}" th:if="${iterStat.index} lt 100">
                 <div class="gamers post">
                     <h2><a href=""><span th:text="${message.sender.profile.username}"></span></a></h2>
+                    <form th:if="${message.getSender().getUserID()} == ${user.getUserID()}"
+                        th:action="@{/message/delete/{id} (id=${message.messageID})}" method="post">
+                        <button th:if="${message.getSender().getUserID()}== ${user.getUserID()}" type="submit"
+                            class="joingroup">Delete</button>
+                    </form>
                     <p class="tab"><span th:text="${message.message}"></span></p>
-                    <form th:action="@{/reactMessage}" method="post">
+                    <<<<<<< Updated upstream <form th:action="@{/reactMessage}" method="post">
                         <button type="submit" class="like">Like</button>
                         <input type="hidden" name="msg" id="msg" th:value="${message.messageID}"></input>
                         <input type="hidden" name="uid" id="uid" th:value="${gamer.getUserID()}"></input>
-                    </form>
+                        </form>
+                        =======
+
+                        <div class="search">
+
+                            <form action="#" th:if="${message.getSender().getUserID()}== ${user.getUserID()}"
+                                th:action="@{/message/edit/{id} (id=${message.messageID})}" method="post">
+                                <div style="display: flex">
+                                    <input type="text" placeholder="Edit Message" name="message" id="editMessage"
+                                        required>
+                                    <button th:if="${message.getSender().getUserID()}== ${user.getUserID()}"
+                                        type="submit" style="width: 100px;height: 60px;">Edit</button>
+                                </div>
+                            </form>
+
+
+                        </div>
+                        >>>>>>> Stashed changes
                 </div>
         </div>
         </tr>
         <form action="#" th:action="@{/message/send}" method="post">
             <input type="text" placeholder="Enter Message" name="message" id="message" required>
             <br>
-            <button class="btn2" type="submit" name="receiverID" th:id="receiverID" th:value="${gamer.getUserID()}">Send Message</button>
+            <button class="btn2" type="submit" name="receiverID" th:id="receiverID" th:value="${gamer.getUserID()}">Send
+                Message</button>
         </form>
     </div>
 
