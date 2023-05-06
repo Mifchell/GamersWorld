@@ -178,10 +178,10 @@ public class UserHandler {
 
         for (Message m : user.getSentMessages())
             for (User u : m.getRecievers())
-                if (u.getUserID() == otherUID)
+                if (u.getUserID() == otherUID && m.getGroupID() == -1)
                     finalMessages.add(m);
         for (Message m : user.getReceivedMessages())
-            if (m.getSender().getUserID() == otherUID)
+            if (m.getSender().getUserID() == otherUID && m.getGroupID() == -1)
                 finalMessages.add(m);
 
         // sort here

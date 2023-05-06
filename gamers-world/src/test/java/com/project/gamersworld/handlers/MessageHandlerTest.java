@@ -5,6 +5,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -12,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import com.project.gamersworld.models.Group;
 import com.project.gamersworld.models.Message;
 import com.project.gamersworld.models.User;
 import com.project.gamersworld.repo.GroupRepo;
@@ -82,6 +86,25 @@ public class MessageHandlerTest {
         messageHandler.deleteMessage(message.getMessageID());
 
         verify(mockMessageRepo).delete(message);
+    }
+
+    @Test
+    void testSendGroupMessage() {
+        Message message = new Message();
+        User user1 = new User();
+        Group group = new Group();
+        List<User> userList = new ArrayList<User>();
+
+        userList.add(new User());
+        userList.add(new User());
+        group.setMembers(userList);
+
+        userList.add(new User());
+        when(mockUserRepo.findByUid(1)).thenReturn(user1);
+        when(mockGroupRepo.findByGroupID(5)).thenReturn(group);
+        when(mockMessageRepo.save(Mockito.any(Message.class))).thenReturn(message);
+        messageHandler.sendMessage(1, 5, "Test");
+        verify(mockMessageRepo, times(1)).save(Mockito.any(Message.class));
     }
 
 }
