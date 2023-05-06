@@ -67,6 +67,7 @@ public class UserHandler {
 
         if (filter.equals("")) {
             returnList = (ArrayList<User>) userRepo.findAll();
+
         } else {
             for (User user : userRepo.findByProfilePreferredTimeContains(filter)) {
                 if (addedUsers.add(user.getUserID())) {
