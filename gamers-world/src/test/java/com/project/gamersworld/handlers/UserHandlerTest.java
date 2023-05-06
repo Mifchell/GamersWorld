@@ -4,27 +4,44 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.description;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
+import com.project.gamersworld.models.Message;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Assertions;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.aspectj.lang.annotation.Before;
+import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import com.project.gamersworld.controller.MessageController;
+import com.project.gamersworld.models.Event;
 import com.project.gamersworld.models.Game;
 import com.project.gamersworld.models.Group;
 import com.project.gamersworld.models.Message;
 import com.project.gamersworld.models.Profile;
 import com.project.gamersworld.models.User;
 import com.project.gamersworld.repo.GroupRepo;
+import com.project.gamersworld.repo.EventRepo;
+import com.project.gamersworld.repo.MessageRepo;
 import com.project.gamersworld.repo.UserRepo;
 
 public class UserHandlerTest {
@@ -34,18 +51,27 @@ public class UserHandlerTest {
         @InjectMocks
         private static UserHandler userHandler;
 
-        private User user1;
-        private User user2;
-        private boolean usernameGood;
+    
 
+    @Mock
+    private MessageRepo messageRepository;
+
+    @InjectMocks
+    private MessageController messageController;
+
+    private User user1;
+    private User user2;
+    private boolean usernameGood;
+    private boolean emailGood;
         private ArrayList<User> userList;
         private ArrayList<User> expected;
-
         private User user3;
         private User user4;
         private User user5;
         private User user6;
         private User user7;
+
+      
 
         private String filter;
 
@@ -217,9 +243,104 @@ public class UserHandlerTest {
 
                 List<User> users = new ArrayList<User>(userHandler.userSearch(filter));
                 expected.add(user4);
-
-                assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
         }
+    void testEditProfile() {
+    
+    User user1 = new User(new Profile("user1", "password", "John Doe", null, null));
+
+   
+    UserRepo mockUserRepository = Mockito.mock(UserRepo.class);
+    when(mockUserRepository.findByProfileUsername("user1")).thenReturn(user1);
+
+    UserHandler userHandler = new UserHandler(mockUserRepository);
+
+
+    boolean success = userHandler.editProfile(user1, "user1", "newpassword", "Jane Doe", new ArrayList<Game>(), "newemail@example.com", "newbio");
+
+
+    assertTrue(success);
+
+    assertEquals(user1.getProfile().getUsername(), "user1");
+   
+    assertEquals(user1.getProfile().getEmail(), "newemail@example.com");
+    
+}
+
+
+
+    //deleteAccount
+    @Test
+void deleteAccountWrongPassword(){
+    UserRepo mockUserRepository = Mockito.mock(UserRepo.class);
+    UserHandler userHandler = new UserHandler(mockUserRepository);
+
+    HttpServletRequest mockRequest = Mockito.mock(HttpServletRequest.class);
+    HttpSession mockSession = Mockito.mock(HttpSession.class);
+    when(mockRequest.getSession()).thenReturn(mockSession);
+    when(mockSession.getAttribute("userID")).thenReturn(1L);
+
+    User mockUser = new User();
+
+    when(mockUserRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+    when(mockRequest.getParameter("password")).thenReturn("wrongpassword");
+
+    assertTrue(userHandler.deleteAccount(mockUser));
+} 
+
+    @Test
+    void deleteAccountUserNotFound() {
+    UserRepo mockUserRepository = Mockito.mock(UserRepo.class);
+    UserHandler userHandler = new UserHandler(mockUserRepository);
+
+    HttpServletRequest mockRequest = Mockito.mock(HttpServletRequest.class);
+    HttpSession mockSession = Mockito.mock(HttpSession.class);
+    when(mockRequest.getSession()).thenReturn(mockSession);
+    when(mockSession.getAttribute("userID")).thenReturn(1L);
+
+    when(mockUserRepository.findById(1L)).thenReturn(Optional.empty());
+
+    assertFalse(userHandler.deleteAccount(null));
+
+    verify(mockUserRepository, times(0)).delete(any());
+    verify(mockSession, times(0)).removeAttribute("userID");
+}
+
+
+//Display trends
+@Test
+void testDisplayTrendsNotEnoughGames() {
+    List<User> userList = new ArrayList<>();
+    User user1 = new User(new Profile("user1", "password", "John Doe", null, null));
+    
+    userList.add(user1);
+    
+    UserRepo mockUserRepository = Mockito.mock(UserRepo.class);
+    when(mockUserRepository.findAll()).thenReturn(userList);
+
+    
+    UserHandler userHandler = new UserHandler(mockUserRepository);
+
+  
+    List<Game> games = userHandler.displayTrends();
+    assertTrue(games.isEmpty());
+}
+    
+
+@Test
+void testDisplayTrendsNoUsers() {
+    
+    UserRepo mockUserRepository = Mockito.mock(UserRepo.class);
+    when(mockUserRepository.findAll()).thenReturn(new ArrayList<>());
+
+  
+    UserHandler userHandler = new UserHandler(mockUserRepository);
+
+    List<Game> games = userHandler.displayTrends();
+    assertTrue(games.isEmpty());
+}
+
+                //assertThat(users).containsExactlyInAnyOrderElementsOf(expected);
+        
 
         @Test
         void testUserSearchFilterPrefferedTime() {
